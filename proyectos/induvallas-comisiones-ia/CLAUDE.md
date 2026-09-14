@@ -30,15 +30,17 @@ proyectos/induvallas-comisiones-ia/
 └── dist/                ComisionesIA_Induvallas_V.1.0.html · Plantilla_Datos_Induvallas.xlsx
 ```
 
-Solo existen hoy los archivos de gobierno (Fase 0). El resto se crea por fases según `PLAN.md`.
+Existen hoy: gobierno (Fase 0), `src/engine/` y `tests/` (Fase 1). El resto se crea por fases según `PLAN.md`.
 
-## 3. Comandos (a partir de la Fase 1)
+## 3. Comandos
 
 ```
-npm test         # node --test tests/           casos de oro del motor
-npm run build    # node build.mjs               genera dist/ComisionesIA_Induvallas_V.1.0.html
-npm run e2e      # playwright test tests/e2e    humo sobre dist/ (Chromium preinstalado)
+npm test         # node --test "tests/**/*.test.mjs"   casos de oro del motor (37 en verde)
+npm run build    # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (Fase 5)
+npm run e2e      # playwright test tests/e2e             humo sobre dist/ (Fase 5; Chromium preinstalado)
 ```
+
+Sin dependencias npm hasta la Fase 5 (esbuild y Playwright). El motor corre con Node 22 sin instalar nada.
 
 Regla: nunca cerrar una sesión con `dist/` roto. Si el build falla, se corrige o se revierte antes de terminar.
 
@@ -47,7 +49,8 @@ Regla: nunca cerrar una sesión con `dist/` roto. Si el build falla, se corrige 
 - JavaScript ES2022 con módulos nativos. Sin frameworks, sin TypeScript; tipos documentados con JSDoc.
 - `src/engine/` es puro y determinista: recibe datos y parámetros, devuelve resultados. "Hoy" y la fecha de corte llegan como argumentos.
 - Dinero: enteros en centavos. Porcentajes: decimales con hasta 4 decimales de porcentaje (0.01125 = 1,125 %). Redondeo a centavos al cierre de cada línea del ledger (D-05, D-06).
-- Fechas en datos: cadenas ISO `YYYY-MM-DD`; períodos `YYYY-MM`. Nunca objetos `Date` persistidos.
+- Fechas en datos: cadenas ISO `YYYY-MM-DD`; períodos `YYYY-MM`. Nunca objetos `Date` persistidos. La antigüedad de una factura no se persiste: se calcula al vuelo.
+- Entrada del motor: `computeTodo(dataset, { hoy, hastaPeriodo, diaCorte })`. Importes de entrada en USD con 2 decimales; toda salida en centavos enteros. Los períodos aprobados entran como `dataset.cierres[periodo].snapshot` (salida del propio motor) y no se recalculan.
 - Formato de salida solo en `src/ui/format.js`: `es-EC` con `Intl.NumberFormat`, "USD 45.230,50", "108,4 %", fechas `dd-mmm-aaaa`.
 - Ninguna constante de negocio en el código. Tasas, tramos, factores, bonos y tope viven en `EsquemaComisiones` y `PoliticaCobranza` versionados; los defaults de la demo viven en `src/seed/`.
 - Toda regla tiene código (R-00 a R-07) y se cita en ledger, tooltips, bitácora y nombres de tests.
@@ -78,4 +81,7 @@ Ledger por vendedor y período, en este orden: (1) facturación y base, (2) tram
 
 ## 7. Estado
 
-Fase 0 cerrada el 14-sep-2026. Bloqueos abiertos antes de la Fase 1: (a) demo de referencia ausente en `ref/`; (b) respuesta de Pablo a las tres preguntas bloqueantes (`PLAN.md` §5) y a la resolución propuesta del hallazgo P-02.
+- Fase 0 cerrada el 14-sep-2026. Respuestas de Pablo: Q1 default, Q2 "variable, entre 0,5 % y 2 %" (S-26), Q3 default. P-02 opción A aplicada como default sin objeción.
+- Fase 1 cerrada el 14-sep-2026: motor puro en `src/engine/` con 37 casos de oro en verde y 5.000 facturas en ≈ 70 ms en caliente.
+- Bloqueo abierto: demo de referencia ausente en `ref/` (P-01); afecta a la Fase 3.
+- Siguiente: Fase 2 (datos, plantilla Excel, importador, seed con la narrativa de agosto 2026 y la matriz de 0,5 % a 2 %).

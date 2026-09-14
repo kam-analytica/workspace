@@ -6,8 +6,8 @@ Fuente de alcance: `PROMPT.md`. Este plan lo operacionaliza; no lo sustituye.
 ## 1. Síntesis ejecutiva
 
 - Objetivo: entregar `dist/ComisionesIA_Induvallas_V.1.0.html`, herramienta local de un solo archivo que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS con reglas versionadas R-00 a R-07, evolucionando la demo aprobada.
-- Estado: Fase 0 cerrada. Documentos de gobierno creados (`CLAUDE.md`, `PLAN.md`, `ASSUMPTIONS.md`, `DECISIONS.md`). Sin código de producto, conforme a `<first_action>` punto 3.
-- Bloqueos antes de la Fase 1: (1) la demo de referencia no está en el repositorio ni se localizó en Drive/Gmail de kam (P-01); (2) las tres preguntas bloqueantes de `<open_questions>` no tienen respuesta en el repositorio (§5).
+- Estado: Fase 0 y Fase 1 cerradas el 14-sep-2026. Motor puro con 37 casos de oro en verde (`npm test`). Respuestas de Pablo a Q1 a Q3 registradas en §5.
+- Bloqueo vigente: la demo de referencia no está en el repositorio ni se localizó en Drive/Gmail de kam (P-01); afecta a la Fase 3, no a las fases 1 y 2.
 - Hallazgo material: con la política v2.0 vigente desde 01-sep-2026 y la regla de transición por fecha de emisión (default del prompt), el cierre de agosto 2026 no mostraría retención ni caducidad, en contradicción con los casos exigidos en `<demo_data>` (P-02). Resolución propuesta en §6; requiere decisión de Pablo.
 - Esfuerzo estimado: 82 h senior en total (4 h ya consumidas en Fase 0), más 4 h opcionales para el modo API del asistente y 6 h de contingencia si la demo no aparece. Cabe en la ventana de 3 semanas.
 
@@ -78,8 +78,9 @@ Interfaz (`src/ui/`): `app.js` (pestañas, rol, toasts), `format.js`, `component
 Hecho: lectura íntegra del prompt; búsqueda de la demo en repo, Drive y Gmail; creación de `CLAUDE.md`, `PLAN.md`, `ASSUMPTIONS.md`, `DECISIONS.md`, `ref/README.md`; identificación de hallazgos P-01 a P-10; preguntas bloqueantes con default propuesto.
 Pendiente: punto 1 de `<first_action>` (lectura de la demo) hasta que el archivo exista.
 
-### Fase 1 · Motor · 16 h
-Tareas: `money`, `dates`, `versiones`; R-00 con NC y anulaciones; R-01 con ambos criterios de tramo y generador; R-02; R-04 completo (factor, parcial, caducidad, dos reglas de transición, anticipo, liberación de cartera); R-03 con saldo trasladado; ledger de 9 líneas; R-05; R-06; R-07 con snapshots; alertas; `computeTodo`.
+### Fase 1 · Motor · 16 h · cerrada 14-sep-2026
+Hecho: `src/engine/` (money, dates, parametros, versiones, base, tramos, cobranza, bonos, alertas, liquidacion, index) y `tests/engine.test.mjs` con 37 casos (los T-01 a T-20 previstos más T-21 a T-32). Rendimiento 5.000 facturas: ≈ 70 ms en caliente, 170 ms en frío. Decisiones D-15 a D-21; supuestos S-26 a S-31.
+Tareas previstas: `money`, `dates`, `versiones`; R-00 con NC y anulaciones; R-01 con ambos criterios de tramo y generador; R-02; R-04 completo (factor, parcial, caducidad, dos reglas de transición, anticipo, liberación de cartera); R-03 con saldo trasladado; ledger de 9 líneas; R-05; R-06; R-07 con snapshots; alertas; `computeTodo`.
 Casos de oro (`tests/engine.test.mjs`, ≥ 15):
 
 | Test | Regla | Caso |
@@ -147,7 +148,7 @@ Aceptación: `npm run build && npm test && npm run e2e` en verde; el archivo abr
 | Q2 | ¿El % de comisión se determina por tramos de cumplimiento de cuota, por tramos de facturación absoluta o es un % fijo por línea y canal? | Cumplimiento de cuota (S-03). | Default del prompt y única lectura compatible con la narrativa de la demo (Carolina 240 %, Diego 64 %, Juan Pablo a 0,5 puntos). El % fijo es un caso degenerado de la matriz (una sola fila), sin código adicional. |
 | Q3 | ¿La política v2.0 aplica a las facturas emitidas desde su vigencia o a toda la cartera pendiente a esa fecha? | Por fecha de emisión (S-04), con la alternativa "cartera no cobrada" seleccionable. | Menor riesgo laboral: las comisiones integran la remuneración y aplicar una política menos favorable a comisiones ya devengadas puede ser cuestionado (S-24; INDUVALLAS debe validarlo con su asesor laboral). Tiene un efecto colateral sobre la demo que se resuelve en P-02. |
 
-Formato de respuesta sugerido: "Q1 default / Q2 default / Q3 default / P-02 opción A" o las variantes que correspondan.
+Respuestas de Pablo (14-sep-2026): Q1 "Ok" (default confirmado, S-02). Q2 "Variable, entre el 0,5 % y el 2 %": se interpreta como matriz por tramos con celdas entre 0,50 % y 2,00 % (S-26, pendiente de confirmar la interpretación). Q3 "Ok" (default por fecha de emisión, S-04). P-02 sin respuesta explícita: se aplica la opción A como default (S-05).
 
 ## 6. Hallazgos sobre el prompt y el entorno (P-nn)
 
