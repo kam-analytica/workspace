@@ -9,7 +9,8 @@
     "plantilla": "node scripts/generar-plantilla.mjs",
     "build": "node build.mjs",
     "e2e": "playwright test",
-    "anonimizar": "node scripts/anonimizar.mjs"
+    "anonimizar": "node scripts/anonimizar.mjs",
+    "prueba": "node scripts/generar-prueba.mjs"
   },
   "license": "UNLICENSED",
   "author": "kam-Analytica S.A.S.",

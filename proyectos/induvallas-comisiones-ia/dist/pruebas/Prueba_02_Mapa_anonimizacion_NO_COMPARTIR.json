@@ -1,0 +1,2898 @@
+{
+  "tipo": "kam.comisiones-ia.mapa-anonimizacion",
+  "version": 1,
+  "escala": 1,
+  "entidades": {
+    "vendedores": {
+      "V01": {
+        "seudonimo": "V-HKGGMK",
+        "nombre": "María Fernanda Salazar"
+      },
+      "V02": {
+        "seudonimo": "V-7JKDU2",
+        "nombre": "Andrés Villacís"
+      },
+      "V03": {
+        "seudonimo": "V-VFX82P",
+        "nombre": "Gabriela Torres"
+      },
+      "V04": {
+        "seudonimo": "V-E4EU3Q",
+        "nombre": "Diego Cárdenas"
+      },
+      "V05": {
+        "seudonimo": "V-Q5JAHE",
+        "nombre": "Valeria Espinoza"
+      },
+      "V06": {
+        "seudonimo": "V-NJZQES",
+        "nombre": "Juan Pablo Ortiz"
+      },
+      "V07": {
+        "seudonimo": "V-AVQXKZ",
+        "nombre": "Carolina Mera"
+      },
+      "V08": {
+        "seudonimo": "V-MSWDXF",
+        "nombre": "Sebastián Andrade"
+      }
+    },
+    "agencias": {
+      "AG01": {
+        "seudonimo": "AG-62JVD6",
+        "nombre": "Agencia Cóndor"
+      },
+      "AG02": {
+        "seudonimo": "AG-7E98DE",
+        "nombre": "Central de Medios Pichincha"
+      },
+      "AG03": {
+        "seudonimo": "AG-KK6GYX",
+        "nombre": "Ideas 593"
+      },
+      "AG04": {
+        "seudonimo": "AG-4HC8FG",
+        "nombre": "Nexo Publicidad"
+      },
+      "AG05": {
+        "seudonimo": "AG-6EZKWB",
+        "nombre": "Andes Media"
+      },
+      "AG06": {
+        "seudonimo": "AG-HTG9F7",
+        "nombre": "Estudio Guayas"
+      },
+      "AG07": {
+        "seudonimo": "AG-S5VGNT",
+        "nombre": "Ruta Creativa"
+      },
+      "AG08": {
+        "seudonimo": "AG-BRE9BN",
+        "nombre": "Puntoclave"
+      },
+      "AG09": {
+        "seudonimo": "AG-PFBLP3",
+        "nombre": "Marca Sur"
+      },
+      "AG10": {
+        "seudonimo": "AG-YYLHE7",
+        "nombre": "Orbe Comunicación"
+      },
+      "AG11": {
+        "seudonimo": "AG-XWN96T",
+        "nombre": "Vértice Medios"
+      },
+      "AG12": {
+        "seudonimo": "AG-S99P42",
+        "nombre": "Pixel & Papel"
+      }
+    },
+    "clientes": {
+      "C01": {
+        "seudonimo": "C-JKDJWD",
+        "nombre": "Lácteos San Isidro"
+      },
+      "C02": {
+        "seudonimo": "C-HXNNLN",
+        "nombre": "Constructora Horizonte"
+      },
+      "C03": {
+        "seudonimo": "C-6DX4W8",
+        "nombre": "Cadena Farma Salud"
+      },
+      "C04": {
+        "seudonimo": "C-7CHJ2K",
+        "nombre": "Bebidas Tropical"
+      },
+      "C05": {
+        "seudonimo": "C-AH8PZ8",
+        "nombre": "Cooperativa Sierra Central"
+      },
+      "C06": {
+        "seudonimo": "C-G5G28F",
+        "nombre": "Automotriz Andina"
+      },
+      "C07": {
+        "seudonimo": "C-56DMB4",
+        "nombre": "Inmobiliaria Cumbre"
+      },
+      "C08": {
+        "seudonimo": "C-8MGDK7",
+        "nombre": "Moda Urbana"
+      },
+      "C09": {
+        "seudonimo": "C-R5MQV6",
+        "nombre": "Clínica Los Andes"
+      },
+      "C10": {
+        "seudonimo": "C-X833PA",
+        "nombre": "Retail La Cesta"
+      },
+      "C11": {
+        "seudonimo": "C-Y6268T",
+        "nombre": "Telecom Andina"
+      },
+      "C12": {
+        "seudonimo": "C-DNG8DY",
+        "nombre": "Aseguradora Sol"
+      },
+      "C13": {
+        "seudonimo": "C-TAEGYB",
+        "nombre": "Universidad del Litoral Ficticia"
+      },
+      "C14": {
+        "seudonimo": "C-4RV63J",
+        "nombre": "Electrodomésticos Norte"
+      },
+      "C15": {
+        "seudonimo": "C-GC8JX7",
+        "nombre": "Restaurantes El Fogón"
+      },
+      "C16": {
+        "seudonimo": "C-SLP8YS",
+        "nombre": "Banca Ficticia del Río"
+      },
+      "C17": {
+        "seudonimo": "C-JDHKKV",
+        "nombre": "Turismo Cuenca Viva"
+      },
+      "C18": {
+        "seudonimo": "C-GKKZGS",
+        "nombre": "Cerámicas del Azuay"
+      },
+      "C19": {
+        "seudonimo": "C-22Y44Z",
+        "nombre": "Panificadora Tomebamba"
+      },
+      "C20": {
+        "seudonimo": "C-MUF699",
+        "nombre": "Tecnología Nube 593"
+      },
+      "C21": {
+        "seudonimo": "C-8ZT9EW",
+        "nombre": "Supermercados La Rueda"
+      },
+      "C22": {
+        "seudonimo": "C-5BF26W",
+        "nombre": "Gimnasios Vital"
+      },
+      "C23": {
+        "seudonimo": "C-A6USJM",
+        "nombre": "Editorial Páramo"
+      },
+      "C24": {
+        "seudonimo": "C-RYHY9W",
+        "nombre": "Cosméticos Aurora"
+      },
+      "C25": {
+        "seudonimo": "C-XPGWYC",
+        "nombre": "Snacks Andinos"
+      },
+      "C26": {
+        "seudonimo": "C-L4P9J9",
+        "nombre": "Hogar & Deco"
+      },
+      "C27": {
+        "seudonimo": "C-ZGYPST",
+        "nombre": "Bebés y Más"
+      },
+      "C28": {
+        "seudonimo": "C-N9F4HB",
+        "nombre": "Ferretería El Tornillo"
+      },
+      "C29": {
+        "seudonimo": "C-H9AM6J",
+        "nombre": "Óptica Mirador"
+      },
+      "C30": {
+        "seudonimo": "C-M5YAVK",
+        "nombre": "Transporte Rápido Express"
+      },
+      "C31": {
+        "seudonimo": "C-AAK87W",
+        "nombre": "Helados Glaciar"
+      },
+      "C32": {
+        "seudonimo": "C-AJBJVL",
+        "nombre": "Librería Cordillera"
+      }
+    },
+    "facturas": {
+      "001-001-000000001": {
+        "seudonimo": "F-BEX5M8"
+      },
+      "001-001-000000002": {
+        "seudonimo": "F-G39FGE"
+      },
+      "001-001-000000003": {
+        "seudonimo": "F-X6SQLE"
+      },
+      "001-001-000000004": {
+        "seudonimo": "F-MBFS24"
+      },
+      "001-001-000000005": {
+        "seudonimo": "F-ZJ2MBP"
+      },
+      "001-001-000000006": {
+        "seudonimo": "F-976WLD"
+      },
+      "001-001-000000007": {
+        "seudonimo": "F-J8J2XS"
+      },
+      "001-001-000000008": {
+        "seudonimo": "F-QEAP44"
+      },
+      "001-001-000000009": {
+        "seudonimo": "F-P5RH6N"
+      },
+      "001-001-000000010": {
+        "seudonimo": "F-HH8HGQ"
+      },
+      "001-001-000000011": {
+        "seudonimo": "F-347SXD"
+      },
+      "001-001-000000012": {
+        "seudonimo": "F-FJKLPC"
+      },
+      "001-001-000000013": {
+        "seudonimo": "F-MTX5J6"
+      },
+      "001-001-000000014": {
+        "seudonimo": "F-4VTC9A"
+      },
+      "001-001-000000015": {
+        "seudonimo": "F-HXN5SG"
+      },
+      "001-001-000000016": {
+        "seudonimo": "F-72LTTF"
+      },
+      "001-001-000000017": {
+        "seudonimo": "F-L8P6ED"
+      },
+      "001-001-000000018": {
+        "seudonimo": "F-ML9L7K"
+      },
+      "001-001-000000019": {
+        "seudonimo": "F-7JMM8U"
+      },
+      "001-001-000000020": {
+        "seudonimo": "F-VM927D"
+      },
+      "001-001-000000021": {
+        "seudonimo": "F-NVN8QC"
+      },
+      "001-001-000000022": {
+        "seudonimo": "F-RSST58"
+      },
+      "001-001-000000023": {
+        "seudonimo": "F-AHCJN6"
+      },
+      "001-001-000000024": {
+        "seudonimo": "F-4HVUA2"
+      },
+      "001-001-000000025": {
+        "seudonimo": "F-3BZGRF"
+      },
+      "001-001-000000026": {
+        "seudonimo": "F-ZUBQ7F"
+      },
+      "001-001-000000027": {
+        "seudonimo": "F-GYGAQW"
+      },
+      "001-001-000000028": {
+        "seudonimo": "F-L9AFYV"
+      },
+      "001-001-000000029": {
+        "seudonimo": "F-3PXZZR"
+      },
+      "001-001-000000030": {
+        "seudonimo": "F-ET3Q6F"
+      },
+      "001-001-000000031": {
+        "seudonimo": "F-3RPFES"
+      },
+      "001-001-000000032": {
+        "seudonimo": "F-ZLUVRX"
+      },
+      "001-001-000000033": {
+        "seudonimo": "F-XE5HQL"
+      },
+      "001-001-000000034": {
+        "seudonimo": "F-PCVVN3"
+      },
+      "001-001-000000035": {
+        "seudonimo": "F-E8PJB7"
+      },
+      "001-001-000000036": {
+        "seudonimo": "F-BT8SPN"
+      },
+      "001-001-000000037": {
+        "seudonimo": "F-NL58NF"
+      },
+      "001-001-000000038": {
+        "seudonimo": "F-K78L3A"
+      },
+      "001-001-000000039": {
+        "seudonimo": "F-CWG5XM"
+      },
+      "001-001-000000040": {
+        "seudonimo": "F-J9SBR2"
+      },
+      "001-001-000000041": {
+        "seudonimo": "F-QLZ8GT"
+      },
+      "001-001-000000042": {
+        "seudonimo": "F-5PLH9U"
+      },
+      "001-001-000000043": {
+        "seudonimo": "F-4U9DLS"
+      },
+      "001-001-000000044": {
+        "seudonimo": "F-6M9T5L"
+      },
+      "001-001-000000045": {
+        "seudonimo": "F-G84P4R"
+      },
+      "001-001-000000046": {
+        "seudonimo": "F-ZM2K37"
+      },
+      "001-001-000000047": {
+        "seudonimo": "F-NXHYP9"
+      },
+      "001-001-000000048": {
+        "seudonimo": "F-7XM5US"
+      },
+      "001-001-000000049": {
+        "seudonimo": "F-B82QNS"
+      },
+      "001-001-000000050": {
+        "seudonimo": "F-XJS8RD"
+      },
+      "001-001-000000051": {
+        "seudonimo": "F-PBFN8B"
+      },
+      "001-001-000000052": {
+        "seudonimo": "F-27JXQE"
+      },
+      "001-001-000000053": {
+        "seudonimo": "F-F623BS"
+      },
+      "001-001-000000054": {
+        "seudonimo": "F-B5JNW3"
+      },
+      "001-001-000000055": {
+        "seudonimo": "F-QW2CAS"
+      },
+      "001-001-000000056": {
+        "seudonimo": "F-BL8EHQ"
+      },
+      "001-001-000000057": {
+        "seudonimo": "F-G7RZ7S"
+      },
+      "001-001-000000058": {
+        "seudonimo": "F-VKMNSQ"
+      },
+      "001-001-000000059": {
+        "seudonimo": "F-FACESR"
+      },
+      "001-001-000000060": {
+        "seudonimo": "F-9LX69C"
+      },
+      "001-001-000000061": {
+        "seudonimo": "F-GAG88Y"
+      },
+      "001-001-000000062": {
+        "seudonimo": "F-QTPHU8"
+      },
+      "001-001-000000063": {
+        "seudonimo": "F-3LSJJN"
+      },
+      "001-001-000000064": {
+        "seudonimo": "F-EZZ558"
+      },
+      "001-001-000000065": {
+        "seudonimo": "F-43U9RE"
+      },
+      "001-001-000000066": {
+        "seudonimo": "F-K8ZNPG"
+      },
+      "001-001-000000067": {
+        "seudonimo": "F-TAS947"
+      },
+      "001-001-000000068": {
+        "seudonimo": "F-7AB2K5"
+      },
+      "001-001-000000069": {
+        "seudonimo": "F-SKH59J"
+      },
+      "001-001-000000070": {
+        "seudonimo": "F-TFEK9M"
+      },
+      "001-001-000000071": {
+        "seudonimo": "F-JCB9B8"
+      },
+      "001-001-000000072": {
+        "seudonimo": "F-RGK8EF"
+      },
+      "001-001-000000073": {
+        "seudonimo": "F-8Q8LMD"
+      },
+      "001-001-000000074": {
+        "seudonimo": "F-4A35M4"
+      },
+      "001-001-000000075": {
+        "seudonimo": "F-8JAMCE"
+      },
+      "001-001-000000076": {
+        "seudonimo": "F-D3ZMJY"
+      },
+      "001-001-000000077": {
+        "seudonimo": "F-YZKN6F"
+      },
+      "001-001-000000078": {
+        "seudonimo": "F-7KLEZ3"
+      },
+      "001-001-000000079": {
+        "seudonimo": "F-639LJ4"
+      },
+      "001-001-000000080": {
+        "seudonimo": "F-F8JXW3"
+      },
+      "001-001-000000081": {
+        "seudonimo": "F-2XJQ59"
+      },
+      "001-001-000000082": {
+        "seudonimo": "F-M9PY5D"
+      },
+      "001-001-000000083": {
+        "seudonimo": "F-VJY3HY"
+      },
+      "001-001-000000084": {
+        "seudonimo": "F-YX3KBQ"
+      },
+      "001-001-000000085": {
+        "seudonimo": "F-76DKLL"
+      },
+      "001-001-000000086": {
+        "seudonimo": "F-LH75JU"
+      },
+      "001-001-000000087": {
+        "seudonimo": "F-436YVU"
+      },
+      "001-001-000000088": {
+        "seudonimo": "F-HFVX8X"
+      },
+      "001-001-000000089": {
+        "seudonimo": "F-P3YTVH"
+      },
+      "001-001-000000090": {
+        "seudonimo": "F-3CFAH8"
+      },
+      "001-001-000000091": {
+        "seudonimo": "F-7HZUXK"
+      },
+      "001-001-000000092": {
+        "seudonimo": "F-949UMX"
+      },
+      "001-001-000000093": {
+        "seudonimo": "F-BR36MQ"
+      },
+      "001-001-000000094": {
+        "seudonimo": "F-YSL4WE"
+      },
+      "001-001-000000095": {
+        "seudonimo": "F-JAZQSJ"
+      },
+      "001-001-000000096": {
+        "seudonimo": "F-FHHMST"
+      },
+      "001-001-000000097": {
+        "seudonimo": "F-KS23MV"
+      },
+      "001-001-000000098": {
+        "seudonimo": "F-W9NXVW"
+      },
+      "001-001-000000099": {
+        "seudonimo": "F-4H2MCG"
+      },
+      "001-001-000000100": {
+        "seudonimo": "F-J9JNWJ"
+      },
+      "001-001-000000101": {
+        "seudonimo": "F-NFFLNK"
+      },
+      "001-001-000000102": {
+        "seudonimo": "F-UZZZDX"
+      },
+      "001-001-000000103": {
+        "seudonimo": "F-CVF844"
+      },
+      "001-001-000000104": {
+        "seudonimo": "F-3VV4S3"
+      },
+      "001-001-000000105": {
+        "seudonimo": "F-CBTS3R"
+      },
+      "001-001-000000106": {
+        "seudonimo": "F-SC9XQU"
+      },
+      "001-001-000000107": {
+        "seudonimo": "F-56P422"
+      },
+      "001-001-000000108": {
+        "seudonimo": "F-5J656K"
+      },
+      "001-001-000000109": {
+        "seudonimo": "F-MZJHCW"
+      },
+      "001-001-000000110": {
+        "seudonimo": "F-AQEZ5C"
+      },
+      "001-001-000000111": {
+        "seudonimo": "F-RBFLQW"
+      },
+      "001-001-000000112": {
+        "seudonimo": "F-J3T5EJ"
+      },
+      "001-001-000000113": {
+        "seudonimo": "F-JF5HK8"
+      },
+      "001-001-000000114": {
+        "seudonimo": "F-PBR982"
+      },
+      "001-001-000000115": {
+        "seudonimo": "F-CJCTGP"
+      },
+      "001-001-000000116": {
+        "seudonimo": "F-FUZW3S"
+      },
+      "001-001-000000117": {
+        "seudonimo": "F-F79E2K"
+      },
+      "001-001-000000118": {
+        "seudonimo": "F-PHX3H4"
+      },
+      "001-001-000000119": {
+        "seudonimo": "F-GVEE7J"
+      },
+      "001-001-000000120": {
+        "seudonimo": "F-M25Y9Q"
+      },
+      "001-001-000000121": {
+        "seudonimo": "F-9ABLFY"
+      },
+      "001-001-000000122": {
+        "seudonimo": "F-VZ2N5R"
+      },
+      "001-001-000000123": {
+        "seudonimo": "F-AKADKY"
+      },
+      "001-001-000000124": {
+        "seudonimo": "F-RLDGB8"
+      },
+      "001-001-000000125": {
+        "seudonimo": "F-MMSXH4"
+      },
+      "001-001-000000126": {
+        "seudonimo": "F-PGAT2G"
+      },
+      "001-001-000000127": {
+        "seudonimo": "F-YXJ5R6"
+      },
+      "001-001-000000128": {
+        "seudonimo": "F-N2ZE3U"
+      },
+      "001-001-000000129": {
+        "seudonimo": "F-EBKV23"
+      },
+      "001-001-000000130": {
+        "seudonimo": "F-W693Y9"
+      },
+      "001-001-000000131": {
+        "seudonimo": "F-P39L29"
+      },
+      "001-001-000000132": {
+        "seudonimo": "F-R5JRD2"
+      },
+      "001-001-000000133": {
+        "seudonimo": "F-Q8DT4K"
+      },
+      "001-001-000000134": {
+        "seudonimo": "F-9A8872"
+      },
+      "001-001-000000135": {
+        "seudonimo": "F-YNUV7A"
+      },
+      "001-001-000000136": {
+        "seudonimo": "F-TBR8MD"
+      },
+      "001-001-000000137": {
+        "seudonimo": "F-PF9W6Z"
+      },
+      "001-001-000000138": {
+        "seudonimo": "F-B7RZK9"
+      },
+      "001-001-000000139": {
+        "seudonimo": "F-9ET5XH"
+      },
+      "001-001-000000140": {
+        "seudonimo": "F-JA54PL"
+      },
+      "001-001-000000141": {
+        "seudonimo": "F-RJKKAF"
+      },
+      "001-001-000000142": {
+        "seudonimo": "F-72REDR"
+      },
+      "001-001-000000143": {
+        "seudonimo": "F-HQJNAC"
+      },
+      "001-001-000000144": {
+        "seudonimo": "F-WDZ98M"
+      },
+      "001-001-000000145": {
+        "seudonimo": "F-9M93PQ"
+      },
+      "001-001-000000146": {
+        "seudonimo": "F-6B28UA"
+      },
+      "001-001-000000147": {
+        "seudonimo": "F-BS4GTW"
+      },
+      "001-001-000000148": {
+        "seudonimo": "F-AQNJP2"
+      },
+      "001-001-000000149": {
+        "seudonimo": "F-J5XG2N"
+      },
+      "001-001-000000150": {
+        "seudonimo": "F-3QDDA5"
+      },
+      "001-001-000000151": {
+        "seudonimo": "F-692VYF"
+      },
+      "001-001-000000152": {
+        "seudonimo": "F-XDKQB2"
+      },
+      "001-001-000000153": {
+        "seudonimo": "F-DXF7JV"
+      },
+      "001-001-000000154": {
+        "seudonimo": "F-T4CVZS"
+      },
+      "001-001-000000155": {
+        "seudonimo": "F-R2LDKN"
+      },
+      "001-001-000000156": {
+        "seudonimo": "F-Y8G8XF"
+      },
+      "001-001-000000157": {
+        "seudonimo": "F-2VH2JV"
+      },
+      "001-001-000000158": {
+        "seudonimo": "F-Z6W6MM"
+      },
+      "001-001-000000159": {
+        "seudonimo": "F-RJTZZS"
+      },
+      "001-001-000000160": {
+        "seudonimo": "F-B49JBB"
+      },
+      "001-001-000000161": {
+        "seudonimo": "F-T3RWQB"
+      },
+      "001-001-000000162": {
+        "seudonimo": "F-F695U2"
+      },
+      "001-001-000000163": {
+        "seudonimo": "F-S523WM"
+      },
+      "001-001-000000164": {
+        "seudonimo": "F-BKBQY4"
+      },
+      "001-001-000000165": {
+        "seudonimo": "F-XP9J7W"
+      },
+      "001-001-000000166": {
+        "seudonimo": "F-RU6GEH"
+      },
+      "001-001-000000167": {
+        "seudonimo": "F-92AQ55"
+      },
+      "001-001-000000168": {
+        "seudonimo": "F-DE59F8"
+      },
+      "001-001-000000169": {
+        "seudonimo": "F-6Y9D9Q"
+      },
+      "001-001-000000170": {
+        "seudonimo": "F-X9TUHR"
+      },
+      "001-001-000000171": {
+        "seudonimo": "F-YRPUWK"
+      },
+      "001-001-000000172": {
+        "seudonimo": "F-Q7D77K"
+      },
+      "001-001-000000173": {
+        "seudonimo": "F-9SW23F"
+      },
+      "001-001-000000174": {
+        "seudonimo": "F-DV7XHY"
+      },
+      "001-001-000000175": {
+        "seudonimo": "F-MLMXPQ"
+      },
+      "001-001-000000176": {
+        "seudonimo": "F-BG49E7"
+      },
+      "001-001-000000177": {
+        "seudonimo": "F-P8KK5R"
+      },
+      "001-001-000000178": {
+        "seudonimo": "F-DM46YK"
+      },
+      "001-001-000000179": {
+        "seudonimo": "F-ZBDRUM"
+      },
+      "001-001-000000180": {
+        "seudonimo": "F-TWB8AX"
+      },
+      "001-001-000000181": {
+        "seudonimo": "F-CSAEPF"
+      },
+      "001-001-000000182": {
+        "seudonimo": "F-BH5GMC"
+      },
+      "001-001-000000183": {
+        "seudonimo": "F-TTLNZC"
+      },
+      "001-001-000000184": {
+        "seudonimo": "F-DC8UQX"
+      },
+      "001-001-000000185": {
+        "seudonimo": "F-EL64XK"
+      },
+      "001-001-000000186": {
+        "seudonimo": "F-K3YVB2"
+      },
+      "001-001-000000187": {
+        "seudonimo": "F-JS4K5A"
+      },
+      "001-001-000000188": {
+        "seudonimo": "F-XGNWMK"
+      },
+      "001-001-000000189": {
+        "seudonimo": "F-R7Q2N7"
+      },
+      "001-001-000000190": {
+        "seudonimo": "F-LVU9RM"
+      },
+      "001-001-000000191": {
+        "seudonimo": "F-EEGTGQ"
+      },
+      "001-001-000000192": {
+        "seudonimo": "F-8ELLZ5"
+      },
+      "001-001-000000193": {
+        "seudonimo": "F-KVZEKP"
+      },
+      "001-001-000000194": {
+        "seudonimo": "F-Q8Q3UV"
+      },
+      "001-001-000000195": {
+        "seudonimo": "F-PGZDEX"
+      },
+      "001-001-000000196": {
+        "seudonimo": "F-RXCYFX"
+      },
+      "001-001-000000197": {
+        "seudonimo": "F-LE92GF"
+      },
+      "001-001-000000198": {
+        "seudonimo": "F-S5FPWQ"
+      },
+      "001-001-000000199": {
+        "seudonimo": "F-6D8EXS"
+      },
+      "001-001-000000200": {
+        "seudonimo": "F-6S7KZV"
+      },
+      "001-001-000000201": {
+        "seudonimo": "F-G5STQ2"
+      },
+      "001-001-000000202": {
+        "seudonimo": "F-TEXXAG"
+      },
+      "001-001-000000203": {
+        "seudonimo": "F-KFRCN3"
+      },
+      "001-001-000000204": {
+        "seudonimo": "F-4NJ669"
+      },
+      "001-001-000000205": {
+        "seudonimo": "F-KJDEG9"
+      },
+      "001-001-000000206": {
+        "seudonimo": "F-2WBY8F"
+      },
+      "001-001-000000207": {
+        "seudonimo": "F-L524FC"
+      },
+      "001-001-000000208": {
+        "seudonimo": "F-NKPVRU"
+      },
+      "001-001-000000209": {
+        "seudonimo": "F-63SQE7"
+      },
+      "001-001-000000210": {
+        "seudonimo": "F-RUCEAD"
+      },
+      "001-001-000000211": {
+        "seudonimo": "F-KXQ8QQ"
+      },
+      "001-001-000000212": {
+        "seudonimo": "F-833P4E"
+      },
+      "001-001-000000213": {
+        "seudonimo": "F-XG7V3D"
+      },
+      "001-001-000000214": {
+        "seudonimo": "F-HNLB6Y"
+      },
+      "001-001-000000215": {
+        "seudonimo": "F-7GVQ9Q"
+      },
+      "001-001-000000216": {
+        "seudonimo": "F-HQYMWF"
+      },
+      "001-001-000000217": {
+        "seudonimo": "F-BX8FCU"
+      },
+      "001-001-000000218": {
+        "seudonimo": "F-6BK2GR"
+      },
+      "001-001-000000219": {
+        "seudonimo": "F-A8URAH"
+      },
+      "001-001-000000220": {
+        "seudonimo": "F-HKZGPW"
+      },
+      "001-001-000000221": {
+        "seudonimo": "F-U5XGTM"
+      },
+      "001-001-000000222": {
+        "seudonimo": "F-ZYLZTX"
+      },
+      "001-001-000000223": {
+        "seudonimo": "F-SMAYZY"
+      },
+      "001-001-000000224": {
+        "seudonimo": "F-RAPDAH"
+      },
+      "001-001-000000225": {
+        "seudonimo": "F-JEB9TA"
+      },
+      "001-001-000000226": {
+        "seudonimo": "F-8GCLLB"
+      },
+      "001-001-000000227": {
+        "seudonimo": "F-EEDV7S"
+      },
+      "001-001-000000228": {
+        "seudonimo": "F-QB9CQ3"
+      },
+      "001-001-000000229": {
+        "seudonimo": "F-4WAJ4K"
+      },
+      "001-001-000000230": {
+        "seudonimo": "F-BE7N4F"
+      },
+      "001-001-000000231": {
+        "seudonimo": "F-A784EA"
+      },
+      "001-001-000000232": {
+        "seudonimo": "F-R6SNJG"
+      },
+      "001-001-000000233": {
+        "seudonimo": "F-N6D3PG"
+      },
+      "001-001-000000234": {
+        "seudonimo": "F-RECPPG"
+      },
+      "001-001-000000235": {
+        "seudonimo": "F-7MEWUW"
+      },
+      "001-001-000000236": {
+        "seudonimo": "F-V5R336"
+      },
+      "001-001-000000237": {
+        "seudonimo": "F-9WP7JJ"
+      },
+      "001-001-000000238": {
+        "seudonimo": "F-YLQ6F3"
+      },
+      "001-001-000000239": {
+        "seudonimo": "F-H3E3XJ"
+      },
+      "001-001-000000240": {
+        "seudonimo": "F-K8EA76"
+      },
+      "001-001-000000241": {
+        "seudonimo": "F-GAT446"
+      },
+      "001-001-000000242": {
+        "seudonimo": "F-U49388"
+      },
+      "001-001-000000243": {
+        "seudonimo": "F-ZDYX5S"
+      },
+      "001-001-000000244": {
+        "seudonimo": "F-XL4RFY"
+      },
+      "001-001-000000245": {
+        "seudonimo": "F-ZH9E8C"
+      },
+      "001-001-000000246": {
+        "seudonimo": "F-RSFSCR"
+      },
+      "001-001-000000247": {
+        "seudonimo": "F-2UNFSL"
+      },
+      "001-001-000000248": {
+        "seudonimo": "F-V9N3FY"
+      },
+      "001-001-000000249": {
+        "seudonimo": "F-93GPYK"
+      },
+      "001-001-000000250": {
+        "seudonimo": "F-KULVW7"
+      },
+      "001-001-000000251": {
+        "seudonimo": "F-FUD7B5"
+      },
+      "001-001-000000252": {
+        "seudonimo": "F-K4RPDV"
+      },
+      "001-001-000000253": {
+        "seudonimo": "F-R24FLW"
+      },
+      "001-001-000000254": {
+        "seudonimo": "F-G9RHRN"
+      },
+      "001-001-000000255": {
+        "seudonimo": "F-LUUG8J"
+      },
+      "001-001-000000256": {
+        "seudonimo": "F-8K3NUU"
+      },
+      "001-001-000000257": {
+        "seudonimo": "F-22WMBJ"
+      },
+      "001-001-000000258": {
+        "seudonimo": "F-ENY3CG"
+      },
+      "001-001-000000259": {
+        "seudonimo": "F-NYGHPK"
+      },
+      "001-001-000000260": {
+        "seudonimo": "F-DRY52X"
+      },
+      "001-001-000000261": {
+        "seudonimo": "F-5LFYK2"
+      },
+      "001-001-000000262": {
+        "seudonimo": "F-C9MVYF"
+      },
+      "001-001-000000263": {
+        "seudonimo": "F-HXBGTL"
+      },
+      "001-001-000000264": {
+        "seudonimo": "F-MLY23F"
+      },
+      "001-001-000000265": {
+        "seudonimo": "F-3T8MBE"
+      },
+      "001-001-000000266": {
+        "seudonimo": "F-EPFFU3"
+      },
+      "001-001-000000267": {
+        "seudonimo": "F-GDKLLZ"
+      },
+      "001-001-000000268": {
+        "seudonimo": "F-6Z5ESS"
+      },
+      "001-001-000000269": {
+        "seudonimo": "F-SPGSHX"
+      },
+      "001-001-000000270": {
+        "seudonimo": "F-GX24TL"
+      },
+      "001-001-000000271": {
+        "seudonimo": "F-YK5TGS"
+      },
+      "001-001-000000272": {
+        "seudonimo": "F-7BEYCU"
+      },
+      "001-001-000000273": {
+        "seudonimo": "F-E84VWE"
+      },
+      "001-001-000000274": {
+        "seudonimo": "F-RTTQA4"
+      },
+      "001-001-000000275": {
+        "seudonimo": "F-Y7NR5S"
+      },
+      "001-001-000000276": {
+        "seudonimo": "F-4HJ23H"
+      },
+      "001-001-000000277": {
+        "seudonimo": "F-RR6G7N"
+      },
+      "001-001-000000278": {
+        "seudonimo": "F-Z3K87U"
+      },
+      "001-001-000000279": {
+        "seudonimo": "F-D4U7CN"
+      },
+      "001-001-000000280": {
+        "seudonimo": "F-LHTJRZ"
+      },
+      "001-001-000000281": {
+        "seudonimo": "F-RNJTR7"
+      },
+      "001-001-000000282": {
+        "seudonimo": "F-L97MMD"
+      },
+      "001-001-000000283": {
+        "seudonimo": "F-UAWXFD"
+      },
+      "001-001-000000284": {
+        "seudonimo": "F-55PJXQ"
+      },
+      "001-001-000000285": {
+        "seudonimo": "F-NNMNKH"
+      },
+      "001-001-000000286": {
+        "seudonimo": "F-HYE4CZ"
+      },
+      "001-001-000000287": {
+        "seudonimo": "F-XLXK5G"
+      },
+      "001-001-000000288": {
+        "seudonimo": "F-VSSY4S"
+      },
+      "001-001-000000289": {
+        "seudonimo": "F-249N93"
+      },
+      "001-001-000000290": {
+        "seudonimo": "F-WCRRAX"
+      },
+      "001-001-000000291": {
+        "seudonimo": "F-QDJGKN"
+      },
+      "001-001-000000292": {
+        "seudonimo": "F-AMYSGT"
+      },
+      "001-001-000000293": {
+        "seudonimo": "F-Q9KGZ6"
+      },
+      "001-001-000000294": {
+        "seudonimo": "F-MQ2YCP"
+      },
+      "001-001-000000295": {
+        "seudonimo": "F-WDWLRY"
+      },
+      "001-001-000000296": {
+        "seudonimo": "F-YRYPWT"
+      },
+      "001-001-000000297": {
+        "seudonimo": "F-6LFWB4"
+      },
+      "001-001-000000298": {
+        "seudonimo": "F-Z8Y7NQ"
+      },
+      "001-001-000000299": {
+        "seudonimo": "F-Y9QR4X"
+      },
+      "001-001-000000300": {
+        "seudonimo": "F-97T9LL"
+      },
+      "001-001-000000301": {
+        "seudonimo": "F-T7ABM5"
+      },
+      "001-001-000000302": {
+        "seudonimo": "F-MRXJ5J"
+      },
+      "001-001-000000303": {
+        "seudonimo": "F-U8ZC3P"
+      },
+      "001-001-000000304": {
+        "seudonimo": "F-ECUHQC"
+      },
+      "001-001-000000305": {
+        "seudonimo": "F-EKUJP7"
+      },
+      "001-001-000000306": {
+        "seudonimo": "F-2D43QH"
+      },
+      "001-001-000000307": {
+        "seudonimo": "F-4ZZMKP"
+      },
+      "001-001-000000308": {
+        "seudonimo": "F-9X44YM"
+      },
+      "001-001-000000309": {
+        "seudonimo": "F-8VHHWW"
+      },
+      "001-001-000000310": {
+        "seudonimo": "F-BKYCDH"
+      },
+      "001-001-000000311": {
+        "seudonimo": "F-HD6622"
+      },
+      "001-001-000000312": {
+        "seudonimo": "F-RTHPAZ"
+      },
+      "001-001-000000313": {
+        "seudonimo": "F-CZLPKN"
+      },
+      "001-001-000000314": {
+        "seudonimo": "F-39KNSN"
+      },
+      "001-001-000000315": {
+        "seudonimo": "F-KPQWTC"
+      },
+      "001-001-000000316": {
+        "seudonimo": "F-8VYB9V"
+      },
+      "001-001-000000317": {
+        "seudonimo": "F-P89G86"
+      },
+      "001-001-000000318": {
+        "seudonimo": "F-ADP9HV"
+      },
+      "001-001-000000319": {
+        "seudonimo": "F-C3EA5S"
+      },
+      "001-001-000000320": {
+        "seudonimo": "F-U6KEKD"
+      },
+      "001-001-000000321": {
+        "seudonimo": "F-DEHH6N"
+      },
+      "001-001-000000322": {
+        "seudonimo": "F-4QTC3V"
+      },
+      "001-001-000000323": {
+        "seudonimo": "F-PKB289"
+      },
+      "001-001-000000324": {
+        "seudonimo": "F-KBQ4V4"
+      },
+      "001-001-000000325": {
+        "seudonimo": "F-FKP5KJ"
+      },
+      "001-001-000000326": {
+        "seudonimo": "F-YD22AG"
+      },
+      "001-001-000000327": {
+        "seudonimo": "F-TAFFB5"
+      },
+      "001-001-000000328": {
+        "seudonimo": "F-3SNGQW"
+      },
+      "001-001-000000329": {
+        "seudonimo": "F-7KQYVW"
+      },
+      "001-001-000000330": {
+        "seudonimo": "F-LHETAZ"
+      },
+      "001-001-000000331": {
+        "seudonimo": "F-WFBC94"
+      },
+      "001-001-000000332": {
+        "seudonimo": "F-94Z5TP"
+      },
+      "001-001-000000333": {
+        "seudonimo": "F-7ABBBN"
+      },
+      "001-001-000000334": {
+        "seudonimo": "F-8GFVJX"
+      },
+      "001-001-000000335": {
+        "seudonimo": "F-VKDQ77"
+      },
+      "001-001-000000336": {
+        "seudonimo": "F-AYBHSG"
+      },
+      "001-001-000000337": {
+        "seudonimo": "F-XU3W9Z"
+      },
+      "001-001-000000338": {
+        "seudonimo": "F-AXCBMU"
+      },
+      "001-001-000000339": {
+        "seudonimo": "F-PRMLSY"
+      },
+      "001-001-000000340": {
+        "seudonimo": "F-Y2EN8H"
+      },
+      "001-001-000000341": {
+        "seudonimo": "F-YLLX3J"
+      },
+      "001-001-000000342": {
+        "seudonimo": "F-B74N2U"
+      },
+      "001-001-000000343": {
+        "seudonimo": "F-NTHXT4"
+      },
+      "001-001-000000344": {
+        "seudonimo": "F-T2WP4G"
+      },
+      "001-001-000000345": {
+        "seudonimo": "F-EQNLCZ"
+      },
+      "001-001-000000346": {
+        "seudonimo": "F-VKKJ5E"
+      },
+      "001-001-000000347": {
+        "seudonimo": "F-J79BW3"
+      },
+      "001-001-000000348": {
+        "seudonimo": "F-8N5LB7"
+      },
+      "001-001-000000349": {
+        "seudonimo": "F-LE5JCR"
+      },
+      "001-001-000000350": {
+        "seudonimo": "F-NJVCJX"
+      },
+      "001-001-000000351": {
+        "seudonimo": "F-FTMSSB"
+      },
+      "001-001-000000352": {
+        "seudonimo": "F-GKXH5F"
+      },
+      "001-001-000000353": {
+        "seudonimo": "F-3VB776"
+      },
+      "001-001-000000354": {
+        "seudonimo": "F-9A6YWK"
+      },
+      "001-001-000000355": {
+        "seudonimo": "F-KFF8PQ"
+      },
+      "001-001-000000356": {
+        "seudonimo": "F-GA5LSP"
+      },
+      "001-001-000000357": {
+        "seudonimo": "F-U834V6"
+      },
+      "001-001-000000358": {
+        "seudonimo": "F-VVUEXJ"
+      },
+      "001-001-000000359": {
+        "seudonimo": "F-7GC3A6"
+      },
+      "001-001-000000360": {
+        "seudonimo": "F-CFAF2A"
+      },
+      "001-001-000000361": {
+        "seudonimo": "F-JZWQ69"
+      },
+      "001-001-000000362": {
+        "seudonimo": "F-6ZQHJE"
+      },
+      "001-001-000000363": {
+        "seudonimo": "F-FWMY42"
+      },
+      "001-001-000000364": {
+        "seudonimo": "F-HSEW6A"
+      },
+      "001-001-000000365": {
+        "seudonimo": "F-J76TA9"
+      },
+      "001-001-000000366": {
+        "seudonimo": "F-V6K7XH"
+      },
+      "001-001-000000367": {
+        "seudonimo": "F-KYN9N6"
+      },
+      "001-001-000000368": {
+        "seudonimo": "F-4Y2QT9"
+      },
+      "001-001-000000369": {
+        "seudonimo": "F-UN42TJ"
+      },
+      "001-001-000000370": {
+        "seudonimo": "F-XLFEWJ"
+      },
+      "001-001-000000371": {
+        "seudonimo": "F-GZGQD6"
+      },
+      "001-001-000000372": {
+        "seudonimo": "F-P46KHK"
+      },
+      "001-001-000000373": {
+        "seudonimo": "F-PTAY6T"
+      },
+      "001-001-000000374": {
+        "seudonimo": "F-Z6NDYZ"
+      },
+      "001-001-000000375": {
+        "seudonimo": "F-7GW2LY"
+      },
+      "001-001-000000376": {
+        "seudonimo": "F-XXS9Y7"
+      },
+      "001-001-000000377": {
+        "seudonimo": "F-R8GNPE"
+      },
+      "001-001-000000378": {
+        "seudonimo": "F-4KP9R2"
+      },
+      "001-001-000000379": {
+        "seudonimo": "F-QSVSTV"
+      },
+      "001-001-000000380": {
+        "seudonimo": "F-E8CDMA"
+      },
+      "001-001-000000381": {
+        "seudonimo": "F-NP53F6"
+      },
+      "001-001-000000382": {
+        "seudonimo": "F-4CNXD7"
+      },
+      "001-001-000000383": {
+        "seudonimo": "F-S72Y2X"
+      },
+      "001-001-000000384": {
+        "seudonimo": "F-W5L4JM"
+      },
+      "001-001-000000385": {
+        "seudonimo": "F-QJC3XM"
+      },
+      "001-001-000000386": {
+        "seudonimo": "F-RVJF6E"
+      },
+      "001-001-000000387": {
+        "seudonimo": "F-RGYTLW"
+      },
+      "001-001-000000388": {
+        "seudonimo": "F-ZV3JJB"
+      },
+      "001-001-000000389": {
+        "seudonimo": "F-T5XSVZ"
+      },
+      "001-001-000000390": {
+        "seudonimo": "F-57FYL7"
+      },
+      "001-001-000000391": {
+        "seudonimo": "F-C7YWAN"
+      },
+      "001-001-000000392": {
+        "seudonimo": "F-3ZEWS3"
+      },
+      "001-001-000000393": {
+        "seudonimo": "F-97L9F4"
+      },
+      "001-001-000000394": {
+        "seudonimo": "F-EQ8ZQQ"
+      },
+      "001-001-000000395": {
+        "seudonimo": "F-3RNGRX"
+      },
+      "001-001-000000396": {
+        "seudonimo": "F-BEXDZ3"
+      },
+      "001-001-000000397": {
+        "seudonimo": "F-GPG5JH"
+      },
+      "001-001-000000398": {
+        "seudonimo": "F-VKH7FU"
+      },
+      "001-001-000000399": {
+        "seudonimo": "F-6V7VAA"
+      },
+      "001-001-000000400": {
+        "seudonimo": "F-F8P6E8"
+      },
+      "001-001-000000401": {
+        "seudonimo": "F-FKEHRS"
+      },
+      "001-001-000000402": {
+        "seudonimo": "F-WJ8CBK"
+      },
+      "001-001-000000403": {
+        "seudonimo": "F-KW2PXV"
+      },
+      "001-001-000000404": {
+        "seudonimo": "F-952BX3"
+      },
+      "001-001-000000405": {
+        "seudonimo": "F-359SCN"
+      },
+      "001-001-000000406": {
+        "seudonimo": "F-539AY7"
+      },
+      "001-001-000000407": {
+        "seudonimo": "F-9DQLWL"
+      },
+      "001-001-000000408": {
+        "seudonimo": "F-7DE2LH"
+      },
+      "001-001-000000409": {
+        "seudonimo": "F-6CK63J"
+      },
+      "001-001-000000410": {
+        "seudonimo": "F-ZRNV6Q"
+      },
+      "001-001-000000411": {
+        "seudonimo": "F-BLE9UH"
+      },
+      "001-001-000000412": {
+        "seudonimo": "F-5M96DK"
+      },
+      "001-001-000000413": {
+        "seudonimo": "F-XBSKZR"
+      },
+      "001-001-000000414": {
+        "seudonimo": "F-U2Q8XZ"
+      },
+      "001-001-000000415": {
+        "seudonimo": "F-PUB5DZ"
+      },
+      "001-001-000000416": {
+        "seudonimo": "F-HLYFLX"
+      },
+      "001-001-000000417": {
+        "seudonimo": "F-S4HT9X"
+      },
+      "001-001-000000418": {
+        "seudonimo": "F-CD9AEY"
+      },
+      "001-001-000000419": {
+        "seudonimo": "F-S92N2Z"
+      },
+      "001-001-000000420": {
+        "seudonimo": "F-ERRHSG"
+      },
+      "001-001-000000421": {
+        "seudonimo": "F-CM99KL"
+      },
+      "001-001-000000422": {
+        "seudonimo": "F-P7AW2H"
+      },
+      "001-001-000000423": {
+        "seudonimo": "F-DVDWEE"
+      },
+      "001-001-000000424": {
+        "seudonimo": "F-EC85FY"
+      },
+      "001-001-000000425": {
+        "seudonimo": "F-KSMJDY"
+      },
+      "001-001-000000426": {
+        "seudonimo": "F-7VC5Q6"
+      },
+      "001-001-000000427": {
+        "seudonimo": "F-MHL52L"
+      },
+      "001-001-000000428": {
+        "seudonimo": "F-FZQNHA"
+      },
+      "001-001-000000429": {
+        "seudonimo": "F-56UC8N"
+      },
+      "001-001-000000430": {
+        "seudonimo": "F-5KECZY"
+      },
+      "001-001-000000431": {
+        "seudonimo": "F-8YQ5EK"
+      },
+      "001-001-000000432": {
+        "seudonimo": "F-FL3YE5"
+      },
+      "001-001-000000433": {
+        "seudonimo": "F-Z34N8C"
+      },
+      "001-001-000000434": {
+        "seudonimo": "F-CE5PYF"
+      },
+      "001-001-000000435": {
+        "seudonimo": "F-3QY7DP"
+      },
+      "001-001-000000436": {
+        "seudonimo": "F-J5DLWN"
+      },
+      "001-001-000000437": {
+        "seudonimo": "F-W2KXEH"
+      },
+      "001-001-000000438": {
+        "seudonimo": "F-WUEX8A"
+      },
+      "001-001-000000439": {
+        "seudonimo": "F-L9XKQP"
+      },
+      "001-001-000000440": {
+        "seudonimo": "F-QG6MAQ"
+      },
+      "001-001-000000441": {
+        "seudonimo": "F-C6HV55"
+      },
+      "001-001-000000442": {
+        "seudonimo": "F-KP4VS8"
+      },
+      "001-001-000000443": {
+        "seudonimo": "F-WJ4YXF"
+      },
+      "001-001-000000444": {
+        "seudonimo": "F-WSH9AM"
+      },
+      "001-001-000000445": {
+        "seudonimo": "F-PGK33S"
+      },
+      "001-001-000000446": {
+        "seudonimo": "F-WLGXAX"
+      },
+      "001-001-000000447": {
+        "seudonimo": "F-FY2U9K"
+      },
+      "001-001-000000448": {
+        "seudonimo": "F-L7TBSA"
+      },
+      "001-001-000000449": {
+        "seudonimo": "F-EKP7R6"
+      },
+      "001-001-000000450": {
+        "seudonimo": "F-7Z88AP"
+      },
+      "001-001-000000451": {
+        "seudonimo": "F-ENDTPQ"
+      },
+      "001-001-000000452": {
+        "seudonimo": "F-SL8GPU"
+      },
+      "001-001-000000453": {
+        "seudonimo": "F-WQADES"
+      },
+      "001-001-000000454": {
+        "seudonimo": "F-ZKEMVD"
+      },
+      "001-001-000000455": {
+        "seudonimo": "F-5LJQ3X"
+      },
+      "001-001-000000456": {
+        "seudonimo": "F-4ZDU2C"
+      },
+      "001-001-000000457": {
+        "seudonimo": "F-ALKUQ3"
+      },
+      "001-001-000000458": {
+        "seudonimo": "F-FZG7TG"
+      },
+      "001-001-000000459": {
+        "seudonimo": "F-L7MCLY"
+      }
+    },
+    "cobros": {
+      "CB-000001": {
+        "seudonimo": "CB-U6W7RV"
+      },
+      "CB-000002": {
+        "seudonimo": "CB-WMEFTS"
+      },
+      "CB-000003": {
+        "seudonimo": "CB-PJASXV"
+      },
+      "CB-000004": {
+        "seudonimo": "CB-KZT4XZ"
+      },
+      "CB-000005": {
+        "seudonimo": "CB-3G66KZ"
+      },
+      "CB-000006": {
+        "seudonimo": "CB-WT32KU"
+      },
+      "CB-000007": {
+        "seudonimo": "CB-JNLDRA"
+      },
+      "CB-000008": {
+        "seudonimo": "CB-2JSCYG"
+      },
+      "CB-000009": {
+        "seudonimo": "CB-V4HTU6"
+      },
+      "CB-000010": {
+        "seudonimo": "CB-7ZJVD9"
+      },
+      "CB-000011": {
+        "seudonimo": "CB-KZWU39"
+      },
+      "CB-000012": {
+        "seudonimo": "CB-X644GJ"
+      },
+      "CB-000013": {
+        "seudonimo": "CB-YN7PR4"
+      },
+      "CB-000014": {
+        "seudonimo": "CB-B76R2N"
+      },
+      "CB-000015": {
+        "seudonimo": "CB-AYQYHA"
+      },
+      "CB-000016": {
+        "seudonimo": "CB-GPU3ES"
+      },
+      "CB-000017": {
+        "seudonimo": "CB-PN5ZYK"
+      },
+      "CB-000018": {
+        "seudonimo": "CB-G5CC7P"
+      },
+      "CB-000019": {
+        "seudonimo": "CB-UNRAAJ"
+      },
+      "CB-000020": {
+        "seudonimo": "CB-WKEEN6"
+      },
+      "CB-000021": {
+        "seudonimo": "CB-UWEGK4"
+      },
+      "CB-000022": {
+        "seudonimo": "CB-VPZSHT"
+      },
+      "CB-000023": {
+        "seudonimo": "CB-JR9Y6M"
+      },
+      "CB-000024": {
+        "seudonimo": "CB-XDMJRT"
+      },
+      "CB-000025": {
+        "seudonimo": "CB-MSSAY3"
+      },
+      "CB-000026": {
+        "seudonimo": "CB-4PPJTN"
+      },
+      "CB-000027": {
+        "seudonimo": "CB-Y6LEUB"
+      },
+      "CB-000028": {
+        "seudonimo": "CB-QDKSQU"
+      },
+      "CB-000029": {
+        "seudonimo": "CB-MEWXMY"
+      },
+      "CB-000030": {
+        "seudonimo": "CB-QGJZYD"
+      },
+      "CB-000031": {
+        "seudonimo": "CB-PXA6SQ"
+      },
+      "CB-000032": {
+        "seudonimo": "CB-S7CSFL"
+      },
+      "CB-000033": {
+        "seudonimo": "CB-3JKPRP"
+      },
+      "CB-000034": {
+        "seudonimo": "CB-ULYPRK"
+      },
+      "CB-000035": {
+        "seudonimo": "CB-ARPZJZ"
+      },
+      "CB-000036": {
+        "seudonimo": "CB-MEPZ33"
+      },
+      "CB-000037": {
+        "seudonimo": "CB-RESEMV"
+      },
+      "CB-000038": {
+        "seudonimo": "CB-EBS7KK"
+      },
+      "CB-000039": {
+        "seudonimo": "CB-GDHGWH"
+      },
+      "CB-000040": {
+        "seudonimo": "CB-R6RXLP"
+      },
+      "CB-000041": {
+        "seudonimo": "CB-8KJL2R"
+      },
+      "CB-000042": {
+        "seudonimo": "CB-VUCW4A"
+      },
+      "CB-000043": {
+        "seudonimo": "CB-NMKEVH"
+      },
+      "CB-000044": {
+        "seudonimo": "CB-4JMRJT"
+      },
+      "CB-000045": {
+        "seudonimo": "CB-DH39LP"
+      },
+      "CB-000046": {
+        "seudonimo": "CB-EVNKAK"
+      },
+      "CB-000047": {
+        "seudonimo": "CB-BGH55U"
+      },
+      "CB-000048": {
+        "seudonimo": "CB-Y224GY"
+      },
+      "CB-000049": {
+        "seudonimo": "CB-XU7SP6"
+      },
+      "CB-000050": {
+        "seudonimo": "CB-UQJQ8M"
+      },
+      "CB-000051": {
+        "seudonimo": "CB-GDESBZ"
+      },
+      "CB-000052": {
+        "seudonimo": "CB-BP5A4D"
+      },
+      "CB-000053": {
+        "seudonimo": "CB-NY2TR4"
+      },
+      "CB-000054": {
+        "seudonimo": "CB-6Q6M8Q"
+      },
+      "CB-000055": {
+        "seudonimo": "CB-FYHQY6"
+      },
+      "CB-000056": {
+        "seudonimo": "CB-AW36QD"
+      },
+      "CB-000057": {
+        "seudonimo": "CB-83UJQW"
+      },
+      "CB-000058": {
+        "seudonimo": "CB-Y4TYHF"
+      },
+      "CB-000059": {
+        "seudonimo": "CB-WCMQ8Q"
+      },
+      "CB-000060": {
+        "seudonimo": "CB-E7328G"
+      },
+      "CB-000061": {
+        "seudonimo": "CB-NK23EL"
+      },
+      "CB-000062": {
+        "seudonimo": "CB-W9AZYU"
+      },
+      "CB-000063": {
+        "seudonimo": "CB-KWGTV8"
+      },
+      "CB-000064": {
+        "seudonimo": "CB-QHGZ68"
+      },
+      "CB-000065": {
+        "seudonimo": "CB-2XHZES"
+      },
+      "CB-000066": {
+        "seudonimo": "CB-2KK836"
+      },
+      "CB-000067": {
+        "seudonimo": "CB-4DMG8S"
+      },
+      "CB-000068": {
+        "seudonimo": "CB-LGY63V"
+      },
+      "CB-000069": {
+        "seudonimo": "CB-95Z4VZ"
+      },
+      "CB-000070": {
+        "seudonimo": "CB-GMEYMG"
+      },
+      "CB-000071": {
+        "seudonimo": "CB-A7W7H7"
+      },
+      "CB-000072": {
+        "seudonimo": "CB-TL8HG8"
+      },
+      "CB-000073": {
+        "seudonimo": "CB-MV92GQ"
+      },
+      "CB-000074": {
+        "seudonimo": "CB-52MPXC"
+      },
+      "CB-000075": {
+        "seudonimo": "CB-YETC97"
+      },
+      "CB-000076": {
+        "seudonimo": "CB-JF8L7V"
+      },
+      "CB-000077": {
+        "seudonimo": "CB-GH2GZE"
+      },
+      "CB-000078": {
+        "seudonimo": "CB-7ETFYR"
+      },
+      "CB-000079": {
+        "seudonimo": "CB-2BLL2R"
+      },
+      "CB-000080": {
+        "seudonimo": "CB-RBLXKJ"
+      },
+      "CB-000081": {
+        "seudonimo": "CB-QFRZFT"
+      },
+      "CB-000082": {
+        "seudonimo": "CB-3DDR75"
+      },
+      "CB-000083": {
+        "seudonimo": "CB-5TDPPB"
+      },
+      "CB-000084": {
+        "seudonimo": "CB-2XA9XX"
+      },
+      "CB-000085": {
+        "seudonimo": "CB-A2DEX2"
+      },
+      "CB-000086": {
+        "seudonimo": "CB-ERV9HC"
+      },
+      "CB-000087": {
+        "seudonimo": "CB-HVFLXA"
+      },
+      "CB-000088": {
+        "seudonimo": "CB-WQHS4L"
+      },
+      "CB-000089": {
+        "seudonimo": "CB-TQGKFQ"
+      },
+      "CB-000090": {
+        "seudonimo": "CB-PZASKQ"
+      },
+      "CB-000091": {
+        "seudonimo": "CB-NPV8YK"
+      },
+      "CB-000092": {
+        "seudonimo": "CB-BMDDYE"
+      },
+      "CB-000093": {
+        "seudonimo": "CB-UF8MWT"
+      },
+      "CB-000094": {
+        "seudonimo": "CB-YKR6C8"
+      },
+      "CB-000095": {
+        "seudonimo": "CB-TAJUJW"
+      },
+      "CB-000096": {
+        "seudonimo": "CB-5C6QEZ"
+      },
+      "CB-000097": {
+        "seudonimo": "CB-5HJT44"
+      },
+      "CB-000098": {
+        "seudonimo": "CB-V5DC4T"
+      },
+      "CB-000099": {
+        "seudonimo": "CB-EJCWER"
+      },
+      "CB-000100": {
+        "seudonimo": "CB-H2G786"
+      },
+      "CB-000101": {
+        "seudonimo": "CB-ZKXT2A"
+      },
+      "CB-000102": {
+        "seudonimo": "CB-MSHTN5"
+      },
+      "CB-000103": {
+        "seudonimo": "CB-SF3HKH"
+      },
+      "CB-000104": {
+        "seudonimo": "CB-2M4HQX"
+      },
+      "CB-000105": {
+        "seudonimo": "CB-9RB67C"
+      },
+      "CB-000106": {
+        "seudonimo": "CB-JDRMVX"
+      },
+      "CB-000107": {
+        "seudonimo": "CB-2HPRYU"
+      },
+      "CB-000108": {
+        "seudonimo": "CB-NKCZPG"
+      },
+      "CB-000109": {
+        "seudonimo": "CB-TK8TQS"
+      },
+      "CB-000110": {
+        "seudonimo": "CB-QQRQG5"
+      },
+      "CB-000111": {
+        "seudonimo": "CB-5CF6CZ"
+      },
+      "CB-000112": {
+        "seudonimo": "CB-3U9Z8U"
+      },
+      "CB-000113": {
+        "seudonimo": "CB-TZHFQQ"
+      },
+      "CB-000114": {
+        "seudonimo": "CB-P6UK7Y"
+      },
+      "CB-000115": {
+        "seudonimo": "CB-3PU5TT"
+      },
+      "CB-000116": {
+        "seudonimo": "CB-TNHM26"
+      },
+      "CB-000117": {
+        "seudonimo": "CB-L7NJ4T"
+      },
+      "CB-000118": {
+        "seudonimo": "CB-N8YERX"
+      },
+      "CB-000119": {
+        "seudonimo": "CB-AMQJML"
+      },
+      "CB-000120": {
+        "seudonimo": "CB-42ZULK"
+      },
+      "CB-000121": {
+        "seudonimo": "CB-L2V73L"
+      },
+      "CB-000122": {
+        "seudonimo": "CB-SPJSAU"
+      },
+      "CB-000123": {
+        "seudonimo": "CB-HNUFJU"
+      },
+      "CB-000124": {
+        "seudonimo": "CB-D7H9AN"
+      },
+      "CB-000125": {
+        "seudonimo": "CB-5C2W3E"
+      },
+      "CB-000126": {
+        "seudonimo": "CB-CVMEFJ"
+      },
+      "CB-000127": {
+        "seudonimo": "CB-TWXJNL"
+      },
+      "CB-000128": {
+        "seudonimo": "CB-2KRQ5Y"
+      },
+      "CB-000129": {
+        "seudonimo": "CB-HV77RE"
+      },
+      "CB-000130": {
+        "seudonimo": "CB-EPDCDS"
+      },
+      "CB-000131": {
+        "seudonimo": "CB-32EYY9"
+      },
+      "CB-000132": {
+        "seudonimo": "CB-SRUNS6"
+      },
+      "CB-000133": {
+        "seudonimo": "CB-TPQDLX"
+      },
+      "CB-000134": {
+        "seudonimo": "CB-EUT82T"
+      },
+      "CB-000135": {
+        "seudonimo": "CB-VLQ5EW"
+      },
+      "CB-000136": {
+        "seudonimo": "CB-2JD8EQ"
+      },
+      "CB-000137": {
+        "seudonimo": "CB-RGJCN9"
+      },
+      "CB-000138": {
+        "seudonimo": "CB-4HJQEF"
+      },
+      "CB-000139": {
+        "seudonimo": "CB-YHPPU3"
+      },
+      "CB-000140": {
+        "seudonimo": "CB-Q845JU"
+      },
+      "CB-000141": {
+        "seudonimo": "CB-2PVCS9"
+      },
+      "CB-000142": {
+        "seudonimo": "CB-V77LBD"
+      },
+      "CB-000143": {
+        "seudonimo": "CB-U66B3F"
+      },
+      "CB-000144": {
+        "seudonimo": "CB-HSQNG9"
+      },
+      "CB-000145": {
+        "seudonimo": "CB-ATWSHV"
+      },
+      "CB-000146": {
+        "seudonimo": "CB-JEVN4B"
+      },
+      "CB-000147": {
+        "seudonimo": "CB-R5TWXX"
+      },
+      "CB-000148": {
+        "seudonimo": "CB-RELV8M"
+      },
+      "CB-000149": {
+        "seudonimo": "CB-A2SMCE"
+      },
+      "CB-000150": {
+        "seudonimo": "CB-2CX4D5"
+      },
+      "CB-000151": {
+        "seudonimo": "CB-RW7FRN"
+      },
+      "CB-000152": {
+        "seudonimo": "CB-YLWUTM"
+      },
+      "CB-000153": {
+        "seudonimo": "CB-RK45B8"
+      },
+      "CB-000154": {
+        "seudonimo": "CB-YY64CX"
+      },
+      "CB-000155": {
+        "seudonimo": "CB-N3SF83"
+      },
+      "CB-000156": {
+        "seudonimo": "CB-5BCLCV"
+      },
+      "CB-000157": {
+        "seudonimo": "CB-BYBSD6"
+      },
+      "CB-000158": {
+        "seudonimo": "CB-FDHBXP"
+      },
+      "CB-000159": {
+        "seudonimo": "CB-VPLZEP"
+      },
+      "CB-000160": {
+        "seudonimo": "CB-SZGE9H"
+      },
+      "CB-000161": {
+        "seudonimo": "CB-KZTVHW"
+      },
+      "CB-000162": {
+        "seudonimo": "CB-G4XYVA"
+      },
+      "CB-000163": {
+        "seudonimo": "CB-W2V724"
+      },
+      "CB-000164": {
+        "seudonimo": "CB-4HCGJE"
+      },
+      "CB-000165": {
+        "seudonimo": "CB-YGUP5L"
+      },
+      "CB-000166": {
+        "seudonimo": "CB-5FDBGC"
+      },
+      "CB-000167": {
+        "seudonimo": "CB-FKFSPT"
+      },
+      "CB-000168": {
+        "seudonimo": "CB-R65TKD"
+      },
+      "CB-000169": {
+        "seudonimo": "CB-U3QHXH"
+      },
+      "CB-000170": {
+        "seudonimo": "CB-C3YY6L"
+      },
+      "CB-000171": {
+        "seudonimo": "CB-YBNCRD"
+      },
+      "CB-000172": {
+        "seudonimo": "CB-GH56A6"
+      },
+      "CB-000173": {
+        "seudonimo": "CB-HDU4AZ"
+      },
+      "CB-000174": {
+        "seudonimo": "CB-JJ2Y2R"
+      },
+      "CB-000175": {
+        "seudonimo": "CB-FJ5RJW"
+      },
+      "CB-000176": {
+        "seudonimo": "CB-ZBKCGD"
+      },
+      "CB-000177": {
+        "seudonimo": "CB-4K3PQU"
+      },
+      "CB-000178": {
+        "seudonimo": "CB-648V52"
+      },
+      "CB-000179": {
+        "seudonimo": "CB-MN2PGK"
+      },
+      "CB-000180": {
+        "seudonimo": "CB-6Y4YZE"
+      },
+      "CB-000181": {
+        "seudonimo": "CB-NBBZGF"
+      },
+      "CB-000182": {
+        "seudonimo": "CB-5LXA6X"
+      },
+      "CB-000183": {
+        "seudonimo": "CB-MYFQWM"
+      },
+      "CB-000184": {
+        "seudonimo": "CB-PAMQ4T"
+      },
+      "CB-000185": {
+        "seudonimo": "CB-VB2B9N"
+      },
+      "CB-000186": {
+        "seudonimo": "CB-PELLDW"
+      },
+      "CB-000187": {
+        "seudonimo": "CB-UZVXRW"
+      },
+      "CB-000188": {
+        "seudonimo": "CB-UT5MTS"
+      },
+      "CB-000189": {
+        "seudonimo": "CB-L7U7XK"
+      },
+      "CB-000190": {
+        "seudonimo": "CB-7GX6CN"
+      },
+      "CB-000191": {
+        "seudonimo": "CB-NPQUXA"
+      },
+      "CB-000192": {
+        "seudonimo": "CB-7MFLEU"
+      },
+      "CB-000193": {
+        "seudonimo": "CB-KV9BY4"
+      },
+      "CB-000194": {
+        "seudonimo": "CB-NEUKYA"
+      },
+      "CB-000195": {
+        "seudonimo": "CB-CSUXXS"
+      },
+      "CB-000196": {
+        "seudonimo": "CB-Y8CUHD"
+      },
+      "CB-000197": {
+        "seudonimo": "CB-YCYK6Q"
+      },
+      "CB-000198": {
+        "seudonimo": "CB-E7SY37"
+      },
+      "CB-000199": {
+        "seudonimo": "CB-QX7XEW"
+      },
+      "CB-000200": {
+        "seudonimo": "CB-CDGB85"
+      },
+      "CB-000201": {
+        "seudonimo": "CB-22QY2M"
+      },
+      "CB-000202": {
+        "seudonimo": "CB-33MGLM"
+      },
+      "CB-000203": {
+        "seudonimo": "CB-TU9BRV"
+      },
+      "CB-000204": {
+        "seudonimo": "CB-AFE45E"
+      },
+      "CB-000205": {
+        "seudonimo": "CB-RU4RNG"
+      },
+      "CB-000206": {
+        "seudonimo": "CB-V8SCFS"
+      },
+      "CB-000207": {
+        "seudonimo": "CB-XQVJ7V"
+      },
+      "CB-000208": {
+        "seudonimo": "CB-XGSJ3B"
+      },
+      "CB-000209": {
+        "seudonimo": "CB-ERX4ND"
+      },
+      "CB-000210": {
+        "seudonimo": "CB-9XV9M7"
+      },
+      "CB-000211": {
+        "seudonimo": "CB-ENJBMR"
+      },
+      "CB-000212": {
+        "seudonimo": "CB-4FPE4B"
+      },
+      "CB-000213": {
+        "seudonimo": "CB-K6KWV8"
+      },
+      "CB-000214": {
+        "seudonimo": "CB-DG676T"
+      },
+      "CB-000215": {
+        "seudonimo": "CB-WJCDXC"
+      },
+      "CB-000216": {
+        "seudonimo": "CB-S65EXQ"
+      },
+      "CB-000217": {
+        "seudonimo": "CB-2TWEQB"
+      },
+      "CB-000218": {
+        "seudonimo": "CB-REA9H5"
+      },
+      "CB-000219": {
+        "seudonimo": "CB-RCREGB"
+      },
+      "CB-000220": {
+        "seudonimo": "CB-T9UFZV"
+      },
+      "CB-000221": {
+        "seudonimo": "CB-KF4TSE"
+      },
+      "CB-000222": {
+        "seudonimo": "CB-4YJL5V"
+      },
+      "CB-000223": {
+        "seudonimo": "CB-69CJKY"
+      },
+      "CB-000224": {
+        "seudonimo": "CB-SZ67ZB"
+      },
+      "CB-000225": {
+        "seudonimo": "CB-CZ9E67"
+      },
+      "CB-000226": {
+        "seudonimo": "CB-2EMG3W"
+      },
+      "CB-000227": {
+        "seudonimo": "CB-R7DE38"
+      },
+      "CB-000228": {
+        "seudonimo": "CB-J89NF9"
+      },
+      "CB-000229": {
+        "seudonimo": "CB-V6VZV5"
+      },
+      "CB-000230": {
+        "seudonimo": "CB-L6W98Q"
+      },
+      "CB-000231": {
+        "seudonimo": "CB-AJ7Z84"
+      },
+      "CB-000232": {
+        "seudonimo": "CB-DVDZUS"
+      },
+      "CB-000233": {
+        "seudonimo": "CB-6XDZN2"
+      },
+      "CB-000234": {
+        "seudonimo": "CB-DQEHRT"
+      },
+      "CB-000235": {
+        "seudonimo": "CB-K3W4BT"
+      },
+      "CB-000236": {
+        "seudonimo": "CB-LN9KBB"
+      },
+      "CB-000237": {
+        "seudonimo": "CB-B2HKGK"
+      },
+      "CB-000238": {
+        "seudonimo": "CB-LYEFVK"
+      },
+      "CB-000239": {
+        "seudonimo": "CB-3A4VT5"
+      },
+      "CB-000240": {
+        "seudonimo": "CB-GYF622"
+      },
+      "CB-000241": {
+        "seudonimo": "CB-6X2VLY"
+      },
+      "CB-000242": {
+        "seudonimo": "CB-NTFN9G"
+      },
+      "CB-000243": {
+        "seudonimo": "CB-AR74WC"
+      },
+      "CB-000244": {
+        "seudonimo": "CB-ESWDSJ"
+      },
+      "CB-000245": {
+        "seudonimo": "CB-NLE2QF"
+      },
+      "CB-000246": {
+        "seudonimo": "CB-CMD58M"
+      },
+      "CB-000247": {
+        "seudonimo": "CB-87BJMU"
+      },
+      "CB-000248": {
+        "seudonimo": "CB-LP763P"
+      },
+      "CB-000249": {
+        "seudonimo": "CB-WANYXR"
+      },
+      "CB-000250": {
+        "seudonimo": "CB-TV3VHN"
+      },
+      "CB-000251": {
+        "seudonimo": "CB-WJCPDL"
+      },
+      "CB-000252": {
+        "seudonimo": "CB-EL5KKW"
+      },
+      "CB-000253": {
+        "seudonimo": "CB-PJY7F4"
+      },
+      "CB-000254": {
+        "seudonimo": "CB-9D4XGD"
+      },
+      "CB-000255": {
+        "seudonimo": "CB-KHA35Y"
+      },
+      "CB-000256": {
+        "seudonimo": "CB-LLYHPY"
+      },
+      "CB-000257": {
+        "seudonimo": "CB-JYLSAW"
+      },
+      "CB-000258": {
+        "seudonimo": "CB-8PMV5T"
+      },
+      "CB-000259": {
+        "seudonimo": "CB-5BMC4Z"
+      },
+      "CB-000260": {
+        "seudonimo": "CB-8D9FWF"
+      },
+      "CB-000261": {
+        "seudonimo": "CB-R6QTU8"
+      },
+      "CB-000262": {
+        "seudonimo": "CB-JM2DAK"
+      },
+      "CB-000263": {
+        "seudonimo": "CB-F49MUH"
+      },
+      "CB-000264": {
+        "seudonimo": "CB-QDUY3V"
+      },
+      "CB-000265": {
+        "seudonimo": "CB-646U72"
+      },
+      "CB-000266": {
+        "seudonimo": "CB-J4WUZB"
+      },
+      "CB-000267": {
+        "seudonimo": "CB-NGBA5A"
+      },
+      "CB-000268": {
+        "seudonimo": "CB-9SSTXF"
+      },
+      "CB-000269": {
+        "seudonimo": "CB-74MU8V"
+      },
+      "CB-000270": {
+        "seudonimo": "CB-6SYQ94"
+      },
+      "CB-000271": {
+        "seudonimo": "CB-99BQVM"
+      },
+      "CB-000272": {
+        "seudonimo": "CB-293YZG"
+      },
+      "CB-000273": {
+        "seudonimo": "CB-8573BN"
+      },
+      "CB-000274": {
+        "seudonimo": "CB-54DPCE"
+      },
+      "CB-000275": {
+        "seudonimo": "CB-2HCLVA"
+      },
+      "CB-000276": {
+        "seudonimo": "CB-7TWRT8"
+      },
+      "CB-000277": {
+        "seudonimo": "CB-QAVSBK"
+      },
+      "CB-000278": {
+        "seudonimo": "CB-R5UDJM"
+      },
+      "CB-000279": {
+        "seudonimo": "CB-YJCDPC"
+      },
+      "CB-000280": {
+        "seudonimo": "CB-AA857F"
+      },
+      "CB-000281": {
+        "seudonimo": "CB-CKBSAM"
+      },
+      "CB-000282": {
+        "seudonimo": "CB-43F6ZW"
+      },
+      "CB-000283": {
+        "seudonimo": "CB-XUTJQV"
+      },
+      "CB-000284": {
+        "seudonimo": "CB-6GEED6"
+      },
+      "CB-000285": {
+        "seudonimo": "CB-8D3JEY"
+      },
+      "CB-000286": {
+        "seudonimo": "CB-CCVH52"
+      },
+      "CB-000287": {
+        "seudonimo": "CB-774K63"
+      },
+      "CB-000288": {
+        "seudonimo": "CB-ZVM34F"
+      },
+      "CB-000289": {
+        "seudonimo": "CB-QLETW7"
+      },
+      "CB-000290": {
+        "seudonimo": "CB-LUM3Y3"
+      },
+      "CB-000291": {
+        "seudonimo": "CB-2ZMF6D"
+      },
+      "CB-000292": {
+        "seudonimo": "CB-YG96SV"
+      },
+      "CB-000293": {
+        "seudonimo": "CB-Q7NBW5"
+      },
+      "CB-000294": {
+        "seudonimo": "CB-XXXCJP"
+      },
+      "CB-000295": {
+        "seudonimo": "CB-3E28WZ"
+      },
+      "CB-000296": {
+        "seudonimo": "CB-X4F9QX"
+      },
+      "CB-000297": {
+        "seudonimo": "CB-LWUMYX"
+      },
+      "CB-000298": {
+        "seudonimo": "CB-FN27KB"
+      },
+      "CB-000299": {
+        "seudonimo": "CB-5GUWQ6"
+      },
+      "CB-000300": {
+        "seudonimo": "CB-4P7DE3"
+      },
+      "CB-000301": {
+        "seudonimo": "CB-BFB8M5"
+      },
+      "CB-000302": {
+        "seudonimo": "CB-84PW9E"
+      },
+      "CB-000303": {
+        "seudonimo": "CB-QHT2T9"
+      },
+      "CB-000304": {
+        "seudonimo": "CB-YL8H44"
+      },
+      "CB-000305": {
+        "seudonimo": "CB-AFD2YL"
+      },
+      "CB-000306": {
+        "seudonimo": "CB-83DB5R"
+      },
+      "CB-000307": {
+        "seudonimo": "CB-6T6PUR"
+      },
+      "CB-000308": {
+        "seudonimo": "CB-K53FW4"
+      },
+      "CB-000309": {
+        "seudonimo": "CB-ZP6YU3"
+      },
+      "CB-000310": {
+        "seudonimo": "CB-34TR7Z"
+      },
+      "CB-000311": {
+        "seudonimo": "CB-3YKHFW"
+      },
+      "CB-000312": {
+        "seudonimo": "CB-MDTRXA"
+      },
+      "CB-000313": {
+        "seudonimo": "CB-M43ZGH"
+      },
+      "CB-000314": {
+        "seudonimo": "CB-XNFG32"
+      },
+      "CB-000315": {
+        "seudonimo": "CB-ZRHYK4"
+      },
+      "CB-000316": {
+        "seudonimo": "CB-VERXNM"
+      },
+      "CB-000317": {
+        "seudonimo": "CB-TFF3SE"
+      },
+      "CB-000318": {
+        "seudonimo": "CB-TR6DUQ"
+      },
+      "CB-000319": {
+        "seudonimo": "CB-3YMFUF"
+      },
+      "CB-000320": {
+        "seudonimo": "CB-2N364Q"
+      },
+      "CB-000321": {
+        "seudonimo": "CB-VPMZNL"
+      },
+      "CB-000322": {
+        "seudonimo": "CB-ZCH6T7"
+      },
+      "CB-000323": {
+        "seudonimo": "CB-B7F7K8"
+      },
+      "CB-000324": {
+        "seudonimo": "CB-FP9ANB"
+      },
+      "CB-000325": {
+        "seudonimo": "CB-V5X5FR"
+      },
+      "CB-000326": {
+        "seudonimo": "CB-5SD93W"
+      },
+      "CB-000327": {
+        "seudonimo": "CB-D8MWKR"
+      },
+      "CB-000328": {
+        "seudonimo": "CB-EWNEMC"
+      },
+      "CB-000329": {
+        "seudonimo": "CB-Q2SSEH"
+      },
+      "CB-000330": {
+        "seudonimo": "CB-JMTMYA"
+      },
+      "CB-000331": {
+        "seudonimo": "CB-5XXZU6"
+      },
+      "CB-000332": {
+        "seudonimo": "CB-U6653N"
+      },
+      "CB-000333": {
+        "seudonimo": "CB-RZWCWF"
+      },
+      "CB-000334": {
+        "seudonimo": "CB-VA4KFV"
+      },
+      "CB-000335": {
+        "seudonimo": "CB-46GFC5"
+      },
+      "CB-000336": {
+        "seudonimo": "CB-PFLAFQ"
+      },
+      "CB-000337": {
+        "seudonimo": "CB-85MC73"
+      },
+      "CB-000338": {
+        "seudonimo": "CB-52A4LZ"
+      },
+      "CB-000339": {
+        "seudonimo": "CB-WEGG3H"
+      },
+      "CB-000340": {
+        "seudonimo": "CB-YZLTYM"
+      },
+      "CB-000341": {
+        "seudonimo": "CB-UGKV29"
+      },
+      "CB-000342": {
+        "seudonimo": "CB-R8QPG6"
+      },
+      "CB-000343": {
+        "seudonimo": "CB-7DSZMD"
+      },
+      "CB-000344": {
+        "seudonimo": "CB-5M8FN8"
+      },
+      "CB-000345": {
+        "seudonimo": "CB-B7N2VZ"
+      },
+      "CB-000346": {
+        "seudonimo": "CB-QB5X6P"
+      },
+      "CB-000347": {
+        "seudonimo": "CB-XCSQZC"
+      },
+      "CB-000348": {
+        "seudonimo": "CB-ZYKB7F"
+      },
+      "CB-000349": {
+        "seudonimo": "CB-8389KP"
+      },
+      "CB-000350": {
+        "seudonimo": "CB-EHU4F4"
+      },
+      "CB-000351": {
+        "seudonimo": "CB-4YFY7P"
+      },
+      "CB-000352": {
+        "seudonimo": "CB-FLTMDN"
+      },
+      "CB-000353": {
+        "seudonimo": "CB-CLMEE8"
+      },
+      "CB-000354": {
+        "seudonimo": "CB-GBQVGD"
+      },
+      "CB-000355": {
+        "seudonimo": "CB-4NNRUC"
+      },
+      "CB-000356": {
+        "seudonimo": "CB-KTN4FL"
+      },
+      "CB-000357": {
+        "seudonimo": "CB-DJYR5C"
+      },
+      "CB-000358": {
+        "seudonimo": "CB-NDGSA7"
+      },
+      "CB-000359": {
+        "seudonimo": "CB-RC2F5X"
+      },
+      "CB-000360": {
+        "seudonimo": "CB-SZX8KK"
+      },
+      "CB-000361": {
+        "seudonimo": "CB-DTCH8R"
+      },
+      "CB-000362": {
+        "seudonimo": "CB-CY6H2Y"
+      },
+      "CB-000363": {
+        "seudonimo": "CB-B2R3HY"
+      },
+      "CB-000364": {
+        "seudonimo": "CB-W2YHYS"
+      },
+      "CB-000365": {
+        "seudonimo": "CB-J2W79Y"
+      },
+      "CB-000366": {
+        "seudonimo": "CB-7JB7MJ"
+      },
+      "CB-000367": {
+        "seudonimo": "CB-ZYM4D7"
+      },
+      "CB-000368": {
+        "seudonimo": "CB-MNLCEU"
+      },
+      "CB-000369": {
+        "seudonimo": "CB-7UE599"
+      },
+      "CB-000370": {
+        "seudonimo": "CB-VMBVK7"
+      },
+      "CB-000371": {
+        "seudonimo": "CB-TETR9W"
+      },
+      "CB-000372": {
+        "seudonimo": "CB-GU9S8S"
+      },
+      "CB-000373": {
+        "seudonimo": "CB-D44LSC"
+      },
+      "CB-000374": {
+        "seudonimo": "CB-MW2H84"
+      },
+      "CB-000375": {
+        "seudonimo": "CB-PD4TA4"
+      },
+      "CB-000376": {
+        "seudonimo": "CB-T2XVVA"
+      },
+      "CB-000377": {
+        "seudonimo": "CB-KY6F2Y"
+      },
+      "CB-000378": {
+        "seudonimo": "CB-33GAT4"
+      },
+      "CB-000379": {
+        "seudonimo": "CB-RNT8XU"
+      },
+      "CB-000380": {
+        "seudonimo": "CB-T8M9VL"
+      },
+      "CB-000381": {
+        "seudonimo": "CB-583S5H"
+      },
+      "CB-000382": {
+        "seudonimo": "CB-6BN2FR"
+      },
+      "CB-000383": {
+        "seudonimo": "CB-7D2ZZ7"
+      },
+      "CB-000384": {
+        "seudonimo": "CB-2KW5DU"
+      },
+      "CB-000385": {
+        "seudonimo": "CB-NMETYV"
+      },
+      "CB-000386": {
+        "seudonimo": "CB-UDM3AG"
+      },
+      "CB-000387": {
+        "seudonimo": "CB-UZEK72"
+      },
+      "CB-000388": {
+        "seudonimo": "CB-YGLXBD"
+      },
+      "CB-000389": {
+        "seudonimo": "CB-Z7296S"
+      },
+      "CB-000390": {
+        "seudonimo": "CB-8C5ZVE"
+      },
+      "CB-000391": {
+        "seudonimo": "CB-DRP32D"
+      },
+      "CB-000392": {
+        "seudonimo": "CB-EZTGCZ"
+      },
+      "CB-000393": {
+        "seudonimo": "CB-9QDDPV"
+      },
+      "CB-000394": {
+        "seudonimo": "CB-PSXABN"
+      },
+      "CB-000395": {
+        "seudonimo": "CB-74K5A7"
+      },
+      "CB-000396": {
+        "seudonimo": "CB-3T9NSW"
+      },
+      "CB-000397": {
+        "seudonimo": "CB-2U2TJ4"
+      },
+      "CB-000398": {
+        "seudonimo": "CB-8D2M25"
+      },
+      "CB-000399": {
+        "seudonimo": "CB-JZ8WZ5"
+      },
+      "CB-000400": {
+        "seudonimo": "CB-H63254"
+      },
+      "CB-000401": {
+        "seudonimo": "CB-WBRYP3"
+      },
+      "CB-000402": {
+        "seudonimo": "CB-F8WJJG"
+      },
+      "CB-000403": {
+        "seudonimo": "CB-FDCUJ8"
+      },
+      "CB-000404": {
+        "seudonimo": "CB-2XJE94"
+      },
+      "CB-000405": {
+        "seudonimo": "CB-LF9WTQ"
+      },
+      "CB-000406": {
+        "seudonimo": "CB-9F6HKB"
+      },
+      "CB-000407": {
+        "seudonimo": "CB-9TJK2D"
+      },
+      "CB-000408": {
+        "seudonimo": "CB-2KFGFT"
+      },
+      "CB-000409": {
+        "seudonimo": "CB-U3F3X2"
+      },
+      "CB-000410": {
+        "seudonimo": "CB-QQ8MYJ"
+      },
+      "CB-000411": {
+        "seudonimo": "CB-E9XLGX"
+      },
+      "CB-000412": {
+        "seudonimo": "CB-XWA2N6"
+      },
+      "CB-000413": {
+        "seudonimo": "CB-6VFGXN"
+      },
+      "CB-000414": {
+        "seudonimo": "CB-CWLBCK"
+      },
+      "CB-000415": {
+        "seudonimo": "CB-N5F8ZW"
+      },
+      "CB-000416": {
+        "seudonimo": "CB-9J7N7E"
+      },
+      "CB-000417": {
+        "seudonimo": "CB-UCYVUC"
+      },
+      "CB-000418": {
+        "seudonimo": "CB-FYMSNS"
+      }
+    },
+    "notasCredito": {
+      "NC-001-001-0000001": {
+        "seudonimo": "NC-9GC762"
+      },
+      "NC-001-001-0000002": {
+        "seudonimo": "NC-FLA94D"
+      },
+      "NC-001-001-0000003": {
+        "seudonimo": "NC-S6P3SL"
+      },
+      "NC-001-001-0000004": {
+        "seudonimo": "NC-523AK2"
+      },
+      "NC-001-001-0000005": {
+        "seudonimo": "NC-3FA24A"
+      },
+      "NC-001-001-0000006": {
+        "seudonimo": "NC-KF9FF4"
+      },
+      "NC-001-001-0000007": {
+        "seudonimo": "NC-CYUZEA"
+      },
+      "NC-001-001-0000008": {
+        "seudonimo": "NC-GYN475"
+      },
+      "NC-001-001-0000009": {
+        "seudonimo": "NC-WDXKZD"
+      },
+      "NC-001-001-0000010": {
+        "seudonimo": "NC-FAXHF2"
+      },
+      "NC-001-001-0000011": {
+        "seudonimo": "NC-K3HYZY"
+      },
+      "NC-001-001-0000012": {
+        "seudonimo": "NC-K2MLKN"
+      }
+    }
+  },
+  "generado": "2026-09-14T00:00:00",
+  "origen": "Prueba_01_Datos_ficticios_INDUVALLAS.xlsx",
+  "clavePrueba": "prueba-kam-2026 (solo en este kit de prueba; en producción la clave nunca se escribe en el mapa)",
+  "advertencia": "Este mapa permite reidentificar los datos anonimizados. Custodia exclusiva de INDUVALLAS; no compartir."
+}

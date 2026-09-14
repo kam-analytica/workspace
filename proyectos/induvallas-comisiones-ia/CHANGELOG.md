@@ -11,6 +11,7 @@ Preparación para la validación con datos reales anonimizados de INDUVALLAS.
 - `PROTOCOLO_DATOS_ANONIMIZADOS.md`: qué se comparte, pasos para Finanzas, ficha de parámetros reales y consideraciones LOPDP.
 - 6 pruebas nuevas (AN-01 a AN-05, CT-01); humo Playwright ampliado con la exportación anonimizada y la plantilla de contraste.
 - Reemplazar datos conserva la bitácora (D-28).
+- Kit de prueba con datos ficticios en `dist/pruebas/` (`npm run prueba`): plantilla rellena, copia anonimizada con mapa, rol histórico con cuatro desviaciones deliberadas e instrucciones con resultados esperados; el script verifica el ciclo importar → calcular → contrastar antes de escribirlas.
 
 ## V.1.0 · 14-sep-2026
 

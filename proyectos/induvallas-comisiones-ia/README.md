@@ -10,6 +10,7 @@ Desarrollada por kam-Analytica S.A.S. (RUC 1793220761001) conforme a `PROMPT.md`
 |---|---|
 | `dist/ComisionesIA_Induvallas_V.1.1.html` | La herramienta completa (≈ 1,4 MB): interfaz, motor, Chart.js 4.5.1 y SheetJS CE 0.18.5 embebidos |
 | `PROTOCOLO_DATOS_ANONIMIZADOS.md` | Cómo compartir datos reales seudonimizados con kam y qué parámetros acompañan a los datos |
+| `dist/pruebas/` | Kit de prueba con datos ficticios del flujo anonimizado: plantilla rellena, copia anonimizada, mapa, rol histórico de contraste e instrucciones con resultados esperados (`npm run prueba`) |
 | `dist/Plantilla_Datos_Induvallas.xlsx` | Plantilla de carga con 6 hojas de datos más Instrucciones; también se descarga desde la pestaña Datos |
 | `GUIA_USO_Finanzas.md` | Guía de uso de una página para Finanzas |
 | `CHANGELOG.md` | Historial de versiones |
@@ -40,6 +41,7 @@ npm run build        # genera dist/ComisionesIA_Induvallas_V.1.0.html
 npm run e2e          # prueba de humo en Chromium sobre dist/
 npm run plantilla    # regenera dist/Plantilla_Datos_Induvallas.xlsx
 npm run anonimizar   # node scripts/anonimizar.mjs entrada.xlsx salida.xlsx --clave "frase" [--escala 0.8]
+npm run prueba       # regenera dist/pruebas/ (kit de prueba con datos ficticios y resultados esperados)
 ```
 
 ## Reglas de negocio implementadas

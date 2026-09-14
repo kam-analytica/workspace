@@ -39,6 +39,7 @@ npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10),
 npm run plantilla  # node scripts/generar-plantilla.mjs   regenera dist/Plantilla_Datos_Induvallas.xlsx
 npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.<versionEntregable>.html (≈ 1,4 MB)
 npm run anonimizar # node scripts/anonimizar.mjs           seudonimiza una plantilla rellena (ver PROTOCOLO_DATOS_ANONIMIZADOS.md)
+npm run prueba     # node scripts/generar-prueba.mjs       regenera dist/pruebas/ (kit de prueba ficticio autoverificado)
 npm run e2e        # playwright test                       humo en Chromium sobre dist/ (usa /opt/pw-browsers/chromium si existe)
 ```
 
