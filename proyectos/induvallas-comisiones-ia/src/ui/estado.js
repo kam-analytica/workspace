@@ -50,6 +50,10 @@ export function puede(accion) {
   return (PERMISOS[estado.rol] || []).includes(accion);
 }
 
+export function esDemo() {
+  return /demostraci/i.test(estado.origen?.origen || '');
+}
+
 export function hayDatos() {
   return !!(estado.dataset && (estado.dataset.facturas.length || estado.dataset.vendedores.length));
 }

@@ -1,4 +1,4 @@
-# kam. Comisiones IA · INDUVALLAS · V.1.1
+# kam. Comisiones IA · INDUVALLAS · V.1.2
 
 Herramienta web local de un solo archivo para calcular, liberar, liquidar y auditar las comisiones de la fuerza comercial de INDUVALLAS. Se abre con doble clic en el navegador del Departamento Financiero, guarda los datos en el propio navegador (IndexedDB) y no depende de ningún servidor ni conexión.
 
@@ -8,11 +8,11 @@ Desarrollada por kam-Analytica S.A.S. (RUC 1793220761001) conforme a `PROMPT.md`
 
 | Archivo | Contenido |
 |---|---|
-| `dist/ComisionesIA_Induvallas_V.1.1.html` | La herramienta completa (≈ 1,4 MB): interfaz, motor, Chart.js 4.5.1 y SheetJS CE 0.18.5 embebidos |
+| `dist/ComisionesIA_Induvallas_V.1.2.html` | La herramienta completa (≈ 1,4 MB): interfaz, motor, Chart.js 4.5.1 y SheetJS CE 0.18.5 embebidos |
 | `PROTOCOLO_DATOS_ANONIMIZADOS.md` | Cómo compartir datos reales seudonimizados con kam y qué parámetros acompañan a los datos |
 | `dist/pruebas/` | Kit de prueba con datos ficticios del flujo anonimizado: plantilla rellena, copia anonimizada, mapa, rol histórico de contraste e instrucciones con resultados esperados (`npm run prueba`) |
 | `dist/Plantilla_Datos_Induvallas.xlsx` | Plantilla de carga con 6 hojas de datos más Instrucciones; también se descarga desde la pestaña Datos |
-| `GUIA_USO_Finanzas.md` | Guía de uso de una página para Finanzas |
+| `GUIA_USO_Finanzas.md` | Guía de uso de una página para Finanzas (la herramienta incluye además recorrido inicial, barra de pasos, ayuda por pestaña, glosario y guion de la demostración) |
 | `CHANGELOG.md` | Historial de versiones |
 
 ## Requisitos

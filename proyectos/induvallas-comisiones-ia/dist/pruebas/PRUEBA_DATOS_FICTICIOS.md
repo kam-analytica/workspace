@@ -17,7 +17,7 @@ Nota: en esta prueba todos los períodos quedan abiertos (una plantilla no trae 
 
 ## Prueba A · lado kam: importar la copia anonimizada y contrastar
 
-1. Abra `ComisionesIA_Induvallas_V.1.1.html` en un navegador sin datos previos (o pestaña Datos → Borrar todos los datos). Rol: Finanzas.
+1. Abra `ComisionesIA_Induvallas_V.1.2.html` en un navegador sin datos previos (o pestaña Datos → Borrar todos los datos). Rol: Finanzas.
 2. Datos → Importar archivo… → `Prueba_02_Datos_anonimizados.xlsx` → debe indicar **archivo válido** → Reemplazar todos los datos.
 3. Fecha de referencia del cálculo: 2026-09-14. Período: agosto 2026.
 4. Liquidación y auditoría → Cargar rol histórico… → `Prueba_03_Rol_historico_contraste.xlsx`.

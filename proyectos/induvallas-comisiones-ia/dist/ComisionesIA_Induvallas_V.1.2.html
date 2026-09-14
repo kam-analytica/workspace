@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>kam. Comisiones IA · INDUVALLAS · V.1.1</title>
+<title>kam. Comisiones IA · INDUVALLAS · V.1.2</title>
 <style>
 /* kam. Comisiones IA · INDUVALLAS · sistema visual (tokens del prompt <design_system> y kam-house-style §11) */
 :root {
@@ -273,6 +273,41 @@ input[type="file"] { font-size: var(--f11); }
   .pie { border-top: 1px solid var(--gme); }
 }
 
+/* Capa didáctica: barra de pasos, ayuda por pestaña, glosario, recorrido, guion */
+.stepper { background: var(--blanco); border: var(--borde); border-radius: var(--radio); padding: 10px 14px; margin-bottom: 14px; }
+.stepper-pasos { display: flex; flex-wrap: wrap; gap: 6px; }
+.paso { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gme); background: var(--blanco); border-radius: 999px; padding: 4px 12px 4px 4px; cursor: pointer; color: var(--gos); font-size: var(--f13); }
+.paso:hover { border-color: var(--azul); color: var(--azul); }
+.paso-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--gcl); color: var(--gos); font-weight: 600; font-size: var(--f11); }
+.paso-hecho { color: var(--azul); }
+.paso-hecho .paso-num { background: var(--grn-suave); color: var(--ok); }
+.paso-actual { border-color: var(--mag); color: var(--azul); font-weight: 600; background: var(--mag-suave); }
+.paso-actual .paso-num { background: var(--mag); color: var(--blanco); }
+.stepper-instruccion { margin-top: 8px; font-size: var(--f13); color: var(--tinta); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ayuda-tarjeta { border-left: 4px solid var(--pur); background: #FBFAFD; }
+.lista-pasos { margin: 4px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.lista-pasos li { line-height: 1.45; }
+.termino { border-bottom: 1px dotted var(--pur); cursor: help; color: inherit; }
+.termino:hover { color: var(--pur); }
+.glosario { margin: 0; display: grid; gap: 2px 14px; grid-template-columns: max-content 1fr; }
+.glosario dt { font-weight: 600; color: var(--azul); padding: 4px 0; }
+.glosario dd { margin: 0; padding: 4px 0; border-bottom: 1px solid var(--gcl); }
+.glosario dt.glos-activo, .glosario dt.glos-activo + dd { background: var(--mag-suave); }
+.recorrido-progreso { display: flex; gap: 6px; margin-bottom: 6px; }
+.recorrido-progreso .punto { width: 28px; height: 4px; border-radius: 2px; background: var(--gcl); }
+.recorrido-progreso .punto.hecho { background: var(--gme); }
+.recorrido-progreso .punto.activo { background: var(--mag); }
+.recorrido-titulo { font-size: var(--f15); color: var(--azul); text-transform: none; letter-spacing: 0; margin: 4px 0 8px; }
+.recorrido-cuerpo { min-height: 180px; }
+.guion { display: grid; gap: 8px; }
+.guion-item { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: start; padding: 8px 10px; border: var(--borde); border-radius: 4px; }
+.guion-num { width: 28px; height: 28px; border-radius: 50%; background: var(--azul); color: var(--blanco); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+.guion-titulo { font-weight: 600; color: var(--azul); }
+.resaltar { outline: 3px solid var(--mag); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { .resaltar { animation: pulso 1.2s ease-in-out 2; } @keyframes pulso { 0%, 100% { outline-color: var(--mag); } 50% { outline-color: transparent; } } }
+@media (max-width: 1024px) { .glosario { grid-template-columns: 1fr; } .guion-item { grid-template-columns: 32px 1fr; } }
+@media print { .stepper, .ayuda-tarjeta { display: none !important; } }
+
 </style>
 </head>
 <body>
@@ -405,9 +440,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function badge(texto2, clase = "badge-neutro", titulo = null) {
     return h("span", { class: `badge ${clase}`, title: titulo }, texto2);
   }
-  function tarjeta(titulo, contenido, { clase = "", acciones = null, memorable = false, subtitulo = null } = {}) {
+  function tarjeta(titulo, contenido, { clase = "", acciones = null, memorable = false, subtitulo = null, id = null } = {}) {
     const cab = titulo || acciones ? h("div", { class: "tarjeta-cab" }, h("div", null, titulo ? h("h2", null, titulo) : null, subtitulo ? h("div", { class: "ayuda" }, subtitulo) : null), acciones ? h("div", { class: "acciones" }, acciones) : null) : null;
-    return h("section", { class: `tarjeta ${memorable ? "tarjeta-memorable" : ""} ${clase}`.trim() }, cab, contenido);
+    return h("section", { class: `tarjeta ${memorable ? "tarjeta-memorable" : ""} ${clase}`.trim(), id }, cab, contenido);
   }
   function vacio(mensaje) {
     return h("div", { class: "vacio" }, mensaje);
@@ -2008,7 +2043,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     pestana: "panel",
     origen: null,
     errores: null,
-    version: true ? "1.1" : "dev"
+    version: true ? "1.2" : "dev"
   };
   var oyentes = /* @__PURE__ */ new Map();
   function on(evento, fn) {
@@ -2027,6 +2062,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   function puede(accion) {
     return (PERMISOS[estado.rol] || []).includes(accion);
+  }
+  function esDemo() {
+    return /demostraci/i.test(estado.origen?.origen || "");
   }
   function hayDatos() {
     return !!(estado.dataset && (estado.dataset.facturas.length || estado.dataset.vendedores.length));
@@ -2103,6 +2141,477 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if (extra.periodo) estado.periodo = extra.periodo;
     estado.pestana = pestana;
     emitir("pestana", { pestana, extra });
+  }
+
+  // src/seed/defaults.js
+  var ETIQUETA_DEMO = "Datos ficticios \xB7 modo demostraci\xF3n";
+  var AUTOR_DEMO = "kam-Analytica (demo)";
+  var CONTROL = { cobranzaMinima: 0.7, diasSinCobro: 90, puntosCercaTramo: 0.015 };
+  var TRAMOS = [
+    { id: "t0", nombre: "Sin comisi\xF3n", desde: 0, multiplicador: 0 },
+    { id: "t1", nombre: "Base reducida", desde: 0.7, multiplicador: 0.5 },
+    { id: "t2", nombre: "Base", desde: 0.9, multiplicador: 1 },
+    { id: "t3", nombre: "Acelerador", desde: 1, multiplicador: 1.1 },
+    { id: "t4", nombre: "Sobrecumplimiento", desde: 1.15, multiplicador: 1.25 }
+  ];
+  var TASAS_BASE = {
+    vallas: { directo: 0.012, agencia: 0.01 },
+    led: { directo: 0.014, agencia: 0.012 },
+    retail: { directo: 0.016, agencia: 0.014 }
+  };
+  function esquemaDemo() {
+    return {
+      id: "ESQ-2026-01",
+      version: "1.0",
+      vigenteDesde: "2026-01-01",
+      criterioTramo: "cumplimiento",
+      tramos: TRAMOS.map((t) => ({ ...t })),
+      tasasBase: JSON.parse(JSON.stringify(TASAS_BASE)),
+      celdas: generarCeldas(TASAS_BASE, TRAMOS),
+      bonos: { mix: { activo: true, umbralRetail: 0.2, pct: 0.1 }, clienteNuevo: { activo: true, monto: 150, maximo: 5 } },
+      tope: { activo: true, monto: 1500 },
+      autor: AUTOR_DEMO,
+      fecha: "2026-01-01",
+      comentario: "Esquema de demostraci\xF3n. Celdas entre 0,50 % y 2,00 % generadas desde tasa base \xD7 multiplicador (S-26). Tope de demostraci\xF3n USD 1.500 (S-27)."
+    };
+  }
+  function politicasDemo() {
+    return [
+      {
+        id: "POL-2025-01",
+        version: "1.0",
+        vigenteDesde: "2025-01-01",
+        modo: "emision",
+        tramos: [],
+        caducidadDias: null,
+        reglaTransicion: "emision",
+        pctAnticipo: 0,
+        autor: AUTOR_DEMO,
+        fecha: "2025-01-01",
+        comentario: "Pol\xEDtica anterior: 100 % de la comisi\xF3n pagadera con la emisi\xF3n de la factura, sin condici\xF3n de cobro."
+      },
+      {
+        id: "POL-2026-01",
+        version: "2.0",
+        vigenteDesde: "2026-01-01",
+        modo: "cobro",
+        tramos: [
+          { hastaDias: 30, factor: 1 },
+          { hastaDias: 60, factor: 1 },
+          { hastaDias: 90, factor: 0.8 },
+          { hastaDias: 120, factor: 0.5 }
+        ],
+        caducidadDias: 120,
+        reglaTransicion: "emision",
+        pctAnticipo: 0,
+        autor: AUTOR_DEMO,
+        fecha: "2026-01-01",
+        comentario: "Pol\xEDtica actualizada: la comisi\xF3n se libera con el cobro seg\xFAn d\xEDas emisi\xF3n \u2192 cobro; caduca a los 121 d\xEDas. Vigencia de demostraci\xF3n 01-ene-2026 (S-05); con datos reales, Finanzas fija la vigencia real."
+      }
+    ];
+  }
+  var cuotasAnio = (monto) => Array.from({ length: 12 }, (_, i) => ({ periodo: `2026-${String(i + 1).padStart(2, "0")}`, monto }));
+  function vendedoresDemo() {
+    return [
+      { id: "V01", nombre: "Mar\xEDa Fernanda Salazar", iniciales: "MS", zona: "Quito", cargo: "Ejecutiva senior", activo: true, cuotas: cuotasAnio(6e4) },
+      { id: "V02", nombre: "Andr\xE9s Villac\xEDs", iniciales: "AV", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(5e4) },
+      { id: "V03", nombre: "Gabriela Torres", iniciales: "GT", zona: "Guayaquil", cargo: "Ejecutiva comercial", activo: true, cuotas: cuotasAnio(45e3) },
+      { id: "V04", nombre: "Diego C\xE1rdenas", iniciales: "DC", zona: "Guayaquil", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(45e3) },
+      { id: "V05", nombre: "Valeria Espinoza", iniciales: "VE", zona: "Cuenca", cargo: "Ejecutiva comercial", activo: true, cuotas: cuotasAnio(35e3) },
+      { id: "V06", nombre: "Juan Pablo Ortiz", iniciales: "JO", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(5e4) },
+      { id: "V07", nombre: "Carolina Mera", iniciales: "CM", zona: "Guayaquil", cargo: "Ejecutiva Retail Media", activo: true, cuotas: cuotasAnio(4e4) },
+      { id: "V08", nombre: "Sebasti\xE1n Andrade", iniciales: "SA", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(4e4) }
+    ];
+  }
+  function agenciasDemo() {
+    const nombres = [
+      ["Agencia C\xF3ndor", 0.15],
+      ["Central de Medios Pichincha", 0.2],
+      ["Ideas 593", 0.1],
+      ["Nexo Publicidad", 0.15],
+      ["Andes Media", 0.15],
+      ["Estudio Guayas", 0.1],
+      ["Ruta Creativa", 0.2],
+      ["Puntoclave", 0.15],
+      ["Marca Sur", 0.1],
+      ["Orbe Comunicaci\xF3n", 0.15],
+      ["V\xE9rtice Medios", 0.2],
+      ["Pixel & Papel", 0.1]
+    ];
+    return nombres.map(([nombre, pct2], i) => ({ id: `AG${String(i + 1).padStart(2, "0")}`, nombre, pctAgencia: pct2 }));
+  }
+  function clientesDemo() {
+    const filas = [
+      ["C01", "L\xE1cteos San Isidro", "V01", "directo", null, "2024-03-11"],
+      ["C02", "Constructora Horizonte", "V01", "agencia", "AG01", "2023-09-02"],
+      ["C03", "Cadena Farma Salud", "V01", "agencia", "AG02", "2024-06-18"],
+      ["C04", "Bebidas Tropical", "V01", "directo", null, "2022-11-05"],
+      ["C05", "Cooperativa Sierra Central", "V01", "directo", null, "2025-02-20"],
+      ["C06", "Automotriz Andina", "V02", "directo", null, "2023-04-14"],
+      ["C07", "Inmobiliaria Cumbre", "V02", "agencia", "AG03", "2024-08-01"],
+      ["C08", "Moda Urbana", "V02", "directo", null, "2025-01-09"],
+      ["C09", "Cl\xEDnica Los Andes", "V02", "agencia", "AG04", "2023-12-12"],
+      ["C10", "Retail La Cesta", "V03", "directo", null, "2022-05-30"],
+      ["C11", "Telecom Andina", "V03", "agencia", "AG06", "2024-02-27"],
+      ["C12", "Aseguradora Sol", "V03", "agencia", "AG07", "2023-07-19"],
+      ["C13", "Universidad del Litoral Ficticia", "V03", "directo", null, "2025-03-03"],
+      ["C14", "Electrodom\xE9sticos Norte", "V04", "directo", null, "2023-10-10"],
+      ["C15", "Restaurantes El Fog\xF3n", "V04", "agencia", "AG08", "2024-11-21"],
+      ["C16", "Banca Ficticia del R\xEDo", "V04", "directo", null, "2022-08-08"],
+      ["C17", "Turismo Cuenca Viva", "V05", "directo", null, "2024-05-15"],
+      ["C18", "Cer\xE1micas del Azuay", "V05", "agencia", "AG09", "2023-03-23"],
+      ["C19", "Panificadora Tomebamba", "V05", "directo", null, "2025-06-02"],
+      ["C20", "Tecnolog\xEDa Nube 593", "V06", "agencia", "AG10", "2024-01-17"],
+      ["C21", "Supermercados La Rueda", "V06", "directo", null, "2022-02-14"],
+      ["C22", "Gimnasios Vital", "V06", "directo", null, "2025-04-28"],
+      ["C23", "Editorial P\xE1ramo", "V06", "directo", null, "2023-06-06"],
+      ["C24", "Cosm\xE9ticos Aurora", "V07", "agencia", "AG12", "2024-09-09"],
+      ["C25", "Snacks Andinos", "V07", "directo", null, "2023-01-31"],
+      ["C26", "Hogar & Deco", "V07", "agencia", "AG01", "2025-05-12"],
+      ["C27", "Beb\xE9s y M\xE1s", "V07", "directo", null, "2024-04-04"],
+      ["C28", "Ferreter\xEDa El Tornillo", "V08", "directo", null, "2023-08-25"],
+      ["C29", "\xD3ptica Mirador", "V08", "agencia", "AG02", "2024-10-30"],
+      ["C30", "Transporte R\xE1pido Express", "V08", "directo", null, "2025-07-07"],
+      ["C31", "Helados Glaciar", "V07", "directo", null, "2026-08-03"],
+      ["C32", "Librer\xEDa Cordillera", "V07", "agencia", "AG05", "2026-08-10"]
+    ];
+    return filas.map(([id, nombre, vendedorId, canal, agenciaId, fechaAlta]) => ({ id, nombre, canal, agenciaId: agenciaId || void 0, vendedorId, fechaAlta }));
+  }
+
+  // src/ui/guia.js
+  var GLOSARIO = {
+    baseComisionable: { t: "Base comisionable", d: "Valor de la factura sin IVA menos la comisi\xF3n de agencia (si la venta pas\xF3 por una agencia o central de medios). Sobre esta base se aplica el porcentaje de comisi\xF3n. Regla R-00." },
+    cumplimiento: { t: "Cumplimiento", d: "Base comisionable del mes dividida para la cuota del vendedor. Con 100 % se cumple la cuota exacta. Define el tramo. Regla R-01." },
+    tramo: { t: "Tramo", d: "Escal\xF3n de cumplimiento (por ejemplo \xABBase\xBB de 90 % a 100 %) que fija el porcentaje de comisi\xF3n de todas las facturas del vendedor en el mes. Regla R-01." },
+    multiplicador: { t: "Multiplicador", d: "Factor que se aplica a la tasa base de cada l\xEDnea y canal para obtener el porcentaje del tramo (0,5 reduce a la mitad; 1,25 lo eleva un cuarto)." },
+    devengado: { t: "Devengado", d: "Comisi\xF3n ganada con la factura: base comisionable por el porcentaje del tramo. Se gana al facturar, pero solo se paga seg\xFAn la cobranza. Regla R-01." },
+    liberado: { t: "Liberado", d: "Parte del devengado que ya se puede pagar porque la factura se cobr\xF3, en proporci\xF3n a lo cobrado y seg\xFAn los d\xEDas que tard\xF3 el cobro. Regla R-04." },
+    retenido: { t: "Retenido", d: "Comisi\xF3n devengada que todav\xEDa no se paga porque la factura sigue sin cobrarse. Se libera cuando entra el cobro, o caduca si pasa el plazo. Regla R-04." },
+    caducado: { t: "Caducado", d: "Comisi\xF3n que se pierde porque la factura super\xF3 el plazo m\xE1ximo de cobro (121 d\xEDas en la pol\xEDtica actualizada). Regla R-04." },
+    factor: { t: "Factor de liberaci\xF3n", d: "Porcentaje de la comisi\xF3n que se libera seg\xFAn los d\xEDas entre la emisi\xF3n de la factura y el cobro: 100 % hasta 60 d\xEDas, 80 % hasta 90, 50 % hasta 120 y 0 % despu\xE9s. Regla R-04." },
+    rezago: { t: "No liberado por rezago", d: "Parte de la comisi\xF3n que no se libera porque el cobro lleg\xF3 tarde y el factor fue menor al 100 %. No es caducidad: la factura s\xED se cobr\xF3." },
+    politica: { t: "Pol\xEDtica de cobranza", d: "Conjunto de reglas versionadas que dicen cu\xE1ndo y cu\xE1nto se libera de la comisi\xF3n seg\xFAn la cobranza. La anterior (v1.0) pagaba todo con la factura; la actualizada (v2.0) paga con el cobro." },
+    transicion: { t: "Regla de transici\xF3n", d: "C\xF3mo se aplica una pol\xEDtica nueva a las facturas ya emitidas: solo a las emitidas desde su vigencia (opci\xF3n por defecto) o a toda la cartera pendiente de cobro." },
+    cartera: { t: "Cartera de comisiones pendientes", d: "Lista de facturas con comisi\xF3n retenida: cu\xE1ntos d\xEDas llevan, cu\xE1nto se liberar\xEDa si se cobraran hoy y cu\xE1ndo caducan. Sirve para presionar la cobranza." },
+    clawback: { t: "Clawback", d: "Devoluci\xF3n de una comisi\xF3n ya pagada cuando una nota de cr\xE9dito anula parte de una factura que ya se hab\xEDa cobrado. Se descuenta en el mes de la nota de cr\xE9dito. Regla R-03." },
+    notaCredito: { t: "Nota de cr\xE9dito", d: "Documento que reduce el valor de una factura. Si llega antes de liquidar, reduce la base; si llega despu\xE9s de pagada la comisi\xF3n, genera clawback. Regla R-03." },
+    saldoTrasladado: { t: "Saldo trasladado", d: "Cuando en un mes el neto a pagar es negativo (por clawback), el saldo se descuenta en el mes siguiente. Regla R-03." },
+    tope: { t: "Tope mensual", d: "M\xE1ximo de comisi\xF3n pagable por vendedor en un mes. El excedente queda visible como pendiente de una pol\xEDtica de diferimiento; no se pierde en silencio. Regla R-05." },
+    bonoMix: { t: "Bono mix", d: "Bono del 10 % sobre el devengado del mes cuando Retail Media representa al menos el 20 % de la base comisionable. Regla R-02." },
+    bonoClienteNuevo: { t: "Bono cliente nuevo", d: "USD 150 por cada cliente activado en el mes (hasta 5) para el vendedor titular del cliente. Regla R-02." },
+    ajuste: { t: "Ajuste manual", d: "Suma o resta al neto de un vendedor con motivo obligatorio, autor y fecha. Aparece en el ledger y en la bit\xE1cora. Regla R-06." },
+    ledger: { t: "Ledger", d: "Cuadro paso a paso de nueve l\xEDneas que muestra c\xF3mo se llega de la facturaci\xF3n a la comisi\xF3n liquidable de un vendedor, con la regla y la f\xF3rmula de cada l\xEDnea." },
+    periodoAprobado: { t: "Per\xEDodo aprobado", d: "Mes bloqueado por Gerencia Financiera: su c\xE1lculo queda congelado tal como se aprob\xF3 y no se recalcula. Reabrirlo exige un motivo que queda en la bit\xE1cora. Regla R-07." },
+    periodoEnCurso: { t: "Per\xEDodo en curso", d: "El mes de la fecha de referencia: todav\xEDa se le suman facturas y cobros; sus cifras cambian hasta el corte." },
+    fechaReferencia: { t: "Fecha de referencia", d: "Fecha \xABhoy\xBB del c\xE1lculo. Define qu\xE9 mes est\xE1 en curso y la antig\xFCedad de la cartera. Con datos reales debe ser la fecha del d\xEDa; la demostraci\xF3n usa el 14-sep-2026." },
+    liquidable: { t: "Comisi\xF3n liquidable", d: "Lo que efectivamente se paga en el mes: liberado del per\xEDodo m\xE1s liberado de cartera, menos clawback y saldo anterior, m\xE1s ajustes, limitado por el tope. L\xEDnea L9 del ledger." },
+    bitacora: { t: "Bit\xE1cora", d: "Registro de toda acci\xF3n con fecha, usuario y detalle: cargas de datos, cambios de par\xE1metros, ajustes, aprobaciones, reaperturas y exportaciones." },
+    seudonimizacion: { t: "Copia anonimizada", d: "Exportaci\xF3n de los datos con nombres y c\xF3digos reemplazados por seud\xF3nimos estables. Permite validar el c\xE1lculo fuera de INDUVALLAS sin compartir datos personales." }
+  };
+  function termino(clave2, texto2 = null) {
+    const g = GLOSARIO[clave2];
+    if (!g) return texto2 || clave2;
+    return h("span", { class: "termino", title: g.d, tabindex: 0, role: "button", "aria-label": `${g.t}: ${g.d}`, onClick: (e) => {
+      e.stopPropagation();
+      mostrarGlosario(clave2);
+    }, onKeydown: (e) => {
+      if (e.key === "Enter") {
+        e.stopPropagation();
+        mostrarGlosario(clave2);
+      }
+    } }, texto2 || g.t);
+  }
+  function mostrarGlosario(claveInicial = null) {
+    const lista = Object.entries(GLOSARIO).sort((a, b) => a[1].t.localeCompare(b[1].t, "es"));
+    const cuerpo = h("dl", { class: "glosario" }, lista.map(([k, g]) => [h("dt", { id: `glos-${k}`, class: k === claveInicial ? "glos-activo" : "" }, g.t), h("dd", null, g.d)]));
+    const m = modal({ titulo: "Glosario de t\xE9rminos", cuerpo, ancho: "720px", acciones: [{ texto: "Cerrar" }] });
+    if (claveInicial) setTimeout(() => m.caja.querySelector(`#glos-${claveInicial}`)?.scrollIntoView({ block: "center" }), 50);
+    return m;
+  }
+  var AYUDA_PESTANAS = {
+    panel: {
+      proposito: "Vista de conjunto del cierre: veredicto, tendencia, mix, ranking y alertas.",
+      pasos: [
+        ["Elija el per\xEDodo", "En la barra superior seleccione el mes que va a cerrar (por defecto, el \xFAltimo mes terminado)."],
+        ["Lea el veredicto", "Verde: listo. \xC1mbar: con observaciones. Rojo: hay alertas cr\xEDticas que atender antes de aprobar."],
+        ["Revise el ranking", "Haga clic en un vendedor para abrir su c\xE1lculo paso a paso en Motor de c\xE1lculo."],
+        ["Atienda las alertas", "Cada alerta indica regla, vendedor y factura; al hacer clic lo lleva al lugar del c\xE1lculo que la origina."]
+      ]
+    },
+    datos: {
+      proposito: "Cargar, respaldar y conciliar la informaci\xF3n. Es el primer paso de cada mes.",
+      pasos: [
+        ["Descargue la plantilla", "Bot\xF3n \xABDescargar plantilla\xBB. Complete las seis hojas: Vendedores (con cuotas), Agencias, Clientes, Facturas (sin IVA), Cobros y NotasCredito."],
+        ["Importe el archivo", "Bot\xF3n \xABImportar archivo\u2026\xBB. La herramienta revisa fila por fila y muestra los errores con hoja, fila y columna. Solo carga si no hay errores."],
+        ["Elija c\xF3mo cargar", "\xABReemplazar\xBB borra lo anterior (primera carga); \xABAgregar\xBB suma registros nuevos (cargas mensuales)."],
+        ["Fije la fecha de referencia", "Con datos reales, la fecha del d\xEDa. Define el mes en curso y la antig\xFCedad de la cartera."],
+        ["Respalde", "Al cerrar cada mes, \xABExportar respaldo JSON\xBB. Los datos viven solo en este navegador."]
+      ]
+    },
+    tabla: {
+      proposito: "Definir qu\xE9 porcentaje de comisi\xF3n corresponde a cada tramo de cumplimiento, l\xEDnea y canal.",
+      pasos: [
+        ["Revise la matriz vigente", "La tabla superior muestra los porcentajes que se est\xE1n aplicando al per\xEDodo seleccionado."],
+        ["Edite si hace falta", "Cambie tasas base y multiplicadores y pulse \xABGenerar celdas\xBB, o edite celda a celda. Ajuste bonos y tope."],
+        ["Mida el impacto antes de guardar", "\xABVista previa del impacto\xBB recalcula el devengado de cada vendedor con la versi\xF3n editada."],
+        ["Guarde como nueva versi\xF3n", "Indique desde qu\xE9 fecha rige y un comentario. Las versiones anteriores se conservan intactas."]
+      ]
+    },
+    politica: {
+      proposito: "Definir cu\xE1ndo se libera la comisi\xF3n seg\xFAn la cobranza, comparar pol\xEDticas y seguir la cartera pendiente.",
+      pasos: [
+        ["Revise la pol\xEDtica vigente", "Tramos de d\xEDas con su factor de liberaci\xF3n, plazo de caducidad y regla de transici\xF3n."],
+        ["Compare anterior y actualizada", "El simulador aplica cada pol\xEDtica al mismo per\xEDodo y muestra liberado, retenido y caducado por vendedor."],
+        ["Use la cartera para cobrar", "Ordene por \xABD\xEDas restantes\xBB: las facturas en rojo caducan en 15 d\xEDas o menos. Exporte la lista a Excel para Cobranzas."],
+        ["Guarde cambios como versi\xF3n", "Cualquier cambio de tramos o factores se guarda con fecha de vigencia y comentario; nunca se sobrescribe una versi\xF3n."]
+      ]
+    },
+    motor: {
+      proposito: "Entender y defender la comisi\xF3n de cada vendedor: de la facturaci\xF3n a la comisi\xF3n liquidable, l\xEDnea por l\xEDnea.",
+      pasos: [
+        ["Elija el vendedor", "Selector arriba a la derecha. El gauge muestra su cumplimiento y el tramo alcanzado."],
+        ["Recorra el ledger", "Nueve l\xEDneas en orden: facturaci\xF3n y base, tramo y devengado, bonos, liberado del mes, liberado de cartera, retenido y caducado, clawback, ajustes y comisi\xF3n liquidable. Haga clic en una l\xEDnea para ver las facturas que la componen."],
+        ["Lea la explicaci\xF3n", "El texto de la derecha narra el c\xE1lculo con las reglas citadas; sirve para responder al vendedor."],
+        ["Pruebe escenarios", "Los deslizadores del simulador responden \xAB\xBFqu\xE9 pasa si factura m\xE1s, cobra antes o cambia el mix?\xBB sin tocar los datos reales."]
+      ]
+    },
+    liquidacion: {
+      proposito: "Cerrar el mes: rol de comisiones, ajustes, controles, aprobaci\xF3n, exportaci\xF3n y auditor\xEDa.",
+      pasos: [
+        ["Revise el rol", "Una fila por vendedor con todas las l\xEDneas. Haga clic en un vendedor para ver su detalle."],
+        ["Registre ajustes si corresponde", "Solo con motivo. Quedan en el ledger y en la bit\xE1cora."],
+        ["Verifique los controles del cierre", "Cuadre del rol con el detalle, cobros conciliados, notas de cr\xE9dito aplicadas, meses anteriores aprobados y alertas cr\xEDticas."],
+        ["Valide, apruebe y genere el rol", "Finanzas valida; Gerencia Financiera aprueba y bloquea el mes; luego se genera el rol. Reabrir exige motivo."],
+        ["Exporte y archive", "\xABExportar Excel\xBB entrega rol y detalle por factura; \xABImprimir rol\xBB usa una vista limpia. La bit\xE1cora registra todo."],
+        ["Contraste con el Excel anterior", "Cargue el rol hist\xF3rico para ver, vendedor por mes, las diferencias con la herramienta y su explicaci\xF3n."]
+      ]
+    },
+    asistente: {
+      proposito: "Preguntar en lenguaje natural sobre el per\xEDodo seleccionado. Solo responde lo que puede calcular y cita las reglas.",
+      pasos: [
+        ["Pruebe un ejemplo", "Haga clic en una de las preguntas sugeridas."],
+        ["Pregunte por un vendedor", "Por ejemplo \xAB\xBFpor qu\xE9 Carolina cobra menos de lo devengado?\xBB o \xABcartera vencida de Sebasti\xE1n\xBB."],
+        ["Simule", "\xAB\xBFCu\xE1nto costar\xEDa si Juan Pablo factura 5.000 m\xE1s?\xBB ejecuta el simulador y explica el cambio de tramo."],
+        ["Salte a la pantalla", "Cada respuesta trae un bot\xF3n \xABVer en la herramienta\xBB que abre el c\xE1lculo correspondiente."]
+      ]
+    }
+  };
+  var GUION_DEMO = [
+    { titulo: "Carolina Mera supera el tope", que: "Cumplimiento de 240 % con Retail Media por encima del 60 %: gana el bono mix y dos bonos por cliente nuevo, pero el neto supera el tope de USD 1.500 y el excedente queda visible como pendiente.", reglas: "R-02, R-05", vendedorId: "V07", pestana: "motor", mirar: "L\xEDnea L9 del ledger y alerta A-05." },
+    { titulo: "Diego C\xE1rdenas queda con saldo negativo", que: "Con 64 % de cumplimiento no devenga comisi\xF3n, y una nota de cr\xE9dito de agosto anula gran parte de una factura de julio ya pagada: el clawback supera lo liberado y el saldo pasa a septiembre.", reglas: "R-01, R-03", vendedorId: "V04", pestana: "motor", mirar: "L\xEDneas L2, L7 y L9; alertas A-01, A-06 y A-11." },
+    { titulo: "Sebasti\xE1n Andrade: caducidades y cartera en riesgo", que: "Su cobranza se deterior\xF3 desde mayo: tres facturas caducaron en agosto y otras est\xE1n a pocos d\xEDas de caducar. Es el caso para presionar la cobranza.", reglas: "R-04", vendedorId: "V08", pestana: "politica", mirar: "Cartera de comisiones pendientes ordenada por d\xEDas restantes; alertas A-03 y A-04." },
+    { titulo: "Juan Pablo Ortiz a medio punto del Acelerador", que: "Cumplimiento de 99,5 %: le faltaron USD 250 de base para pasar al tramo Acelerador. La herramienta lo se\xF1ala para que el vendedor sepa qu\xE9 tan cerca estuvo.", reglas: "R-01", vendedorId: "V06", pestana: "motor", mirar: "Gauge, l\xEDnea L2 y alerta A-07." },
+    { titulo: "Mar\xEDa Fernanda Salazar con clawback por nota de cr\xE9dito", que: "Una factura de julio cobrada y pagada recibe en agosto una nota de cr\xE9dito de USD 2.200: la comisi\xF3n pagada sobre el valor anulado se descuenta en agosto.", reglas: "R-03", vendedorId: "V01", pestana: "motor", mirar: "L\xEDnea L7 del ledger y alerta A-06." }
+  ];
+  function pestanasVisitadas() {
+    try {
+      return new Set(JSON.parse(sessionStorage.getItem("kam.visitadas") || "[]"));
+    } catch (e) {
+      return /* @__PURE__ */ new Set();
+    }
+  }
+  function marcarVisitada(id) {
+    try {
+      const v = pestanasVisitadas();
+      v.add(id);
+      sessionStorage.setItem("kam.visitadas", JSON.stringify([...v]));
+    } catch (e) {
+    }
+  }
+  function pasosCierre() {
+    const visitadas = pestanasVisitadas();
+    const per = resultadoPeriodo();
+    const conDatos = hayDatos();
+    const parametrosReales = (estado.dataset?.esquemas || []).some((e) => e.autor !== AUTOR_DEMO) || (estado.dataset?.politicas || []).some((p) => p.autor !== AUTOR_DEMO);
+    const vendedores2 = per ? Object.keys(per.vendedores) : [];
+    const estados = vendedores2.map((v) => estadoLiquidacion(estado.periodo, v));
+    const aprobado = periodoAprobado();
+    const enRol = estados.length > 0 && estados.every((e) => e === "en_rol");
+    const validados = estados.filter((e) => e !== "calculada").length;
+    const criticas = per ? estado.resultado.alertas.filter((a) => a.periodo === estado.periodo && a.severidad === "critico").length : 0;
+    const pasos = [
+      { id: "datos", titulo: "Cargar datos", pestana: "datos", hecho: conDatos, instruccion: conDatos ? esDemo() ? "Datos ficticios cargados. Para un mes real, importe la plantilla en Datos." : `${estado.dataset.facturas.length} facturas cargadas.` : "Importe la plantilla Excel o cargue los datos de demostraci\xF3n en la pesta\xF1a Datos." },
+      { id: "parametros", titulo: "Revisar par\xE1metros", pestana: "tabla", hecho: parametrosReales || visitadas.has("tabla") && visitadas.has("politica"), instruccion: parametrosReales ? "Par\xE1metros propios registrados." : "Confirme la matriz de porcentajes (Tabla de determinaci\xF3n) y la pol\xEDtica de cobranza (Pol\xEDtica de cobranza). En la demostraci\xF3n basta con revisarlas." },
+      { id: "calculo", titulo: "Revisar c\xE1lculo y alertas", pestana: "motor", hecho: visitadas.has("motor") && visitadas.has("panel"), instruccion: criticas ? `Hay ${criticas} alerta${criticas === 1 ? "" : "s"} cr\xEDtica${criticas === 1 ? "" : "s"}: rev\xEDselas en el Panel y en el Motor de c\xE1lculo antes de aprobar.` : "Recorra el ledger de cada vendedor en Motor de c\xE1lculo y las alertas del Panel." },
+      { id: "aprobar", titulo: "Validar y aprobar", pestana: "liquidacion", hecho: aprobado, instruccion: aprobado ? "Per\xEDodo aprobado y bloqueado." : per?.enCurso ? "El mes est\xE1 en curso: se aprueba despu\xE9s del corte." : validados < vendedores2.length ? `Valide las liquidaciones (${validados} de ${vendedores2.length}) en Liquidaci\xF3n y auditor\xEDa; luego Gerencia aprueba.` : "Todas validadas: Gerencia Financiera puede aprobar y bloquear el mes." },
+      { id: "rol", titulo: "Generar y exportar el rol", pestana: "liquidacion", hecho: enRol, instruccion: enRol ? "Rol generado. Exporte a Excel o imprima." : aprobado ? "Pulse \xABGenerar rol\xBB y luego \xABExportar Excel\xBB." : "Disponible despu\xE9s de aprobar el per\xEDodo." }
+    ];
+    const actual = pasos.find((p) => !p.hecho) || null;
+    for (const p of pasos) p.actual = p === actual;
+    return pasos;
+  }
+  var PAGINAS = () => [
+    {
+      titulo: "1 \xB7 Qu\xE9 hace esta herramienta",
+      cuerpo: [
+        h("p", null, "Calcula la comisi\xF3n de cada vendedor a partir de las facturas y los cobros, aplica la pol\xEDtica de cobranza vigente y produce el rol mensual con trazabilidad completa: cada cifra se puede abrir hasta la factura y la regla que la explica."),
+        h("p", null, "El cierre de un mes sigue siempre cinco pasos, que ver\xE1 como una barra de progreso encima del contenido:"),
+        h("ol", { class: "lista-pasos" }, ["Cargar datos (plantilla Excel).", "Revisar par\xE1metros (matriz de porcentajes y pol\xEDtica de cobranza).", "Revisar c\xE1lculo y alertas (Panel y Motor de c\xE1lculo).", "Validar y aprobar (Liquidaci\xF3n y auditor\xEDa).", "Generar y exportar el rol."].map((t) => h("li", null, t)))
+      ]
+    },
+    {
+      titulo: "2 \xB7 Las siete pesta\xF1as",
+      cuerpo: h("dl", { class: "glosario" }, Object.entries(AYUDA_PESTANAS).map(([id, a]) => [h("dt", null, { panel: "Panel ejecutivo", datos: "Datos", tabla: "Tabla de determinaci\xF3n", politica: "Pol\xEDtica de cobranza", motor: "Motor de c\xE1lculo", liquidacion: "Liquidaci\xF3n y auditor\xEDa", asistente: "Asistente" }[id]), h("dd", null, a.proposito)]))
+    },
+    {
+      titulo: "3 \xB7 C\xF3mo leer una comisi\xF3n",
+      cuerpo: [
+        h("p", null, "De la factura a la comisi\xF3n liquidable hay cuatro conceptos que conviene distinguir:"),
+        h("dl", { class: "glosario" }, ["baseComisionable", "devengado", "liberado", "retenido", "caducado", "liquidable"].map((k) => [h("dt", null, GLOSARIO[k].t), h("dd", null, GLOSARIO[k].d)])),
+        h("p", { class: "ayuda" }, "Los t\xE9rminos subrayados con puntos en cualquier pantalla muestran su definici\xF3n al pasar el rat\xF3n; el bot\xF3n \xABGlosario\xBB de la cabecera los re\xFAne todos.")
+      ]
+    },
+    {
+      titulo: "4 \xB7 Por d\xF3nde empezar",
+      cuerpo: hayDatos() ? [
+        h("p", null, esDemo() ? "Est\xE1n cargados los datos ficticios de demostraci\xF3n (enero a septiembre 2026). El Panel ejecutivo trae un \xABGuion de la demostraci\xF3n\xBB con cinco casos de control del cierre de agosto; rec\xF3rralos en orden." : "Ya hay datos cargados. Siga la barra de pasos del cierre: le indica qu\xE9 falta y a d\xF3nde ir."),
+        h("p", null, "Cada pesta\xF1a empieza con una tarjeta \xABC\xF3mo usar esta pesta\xF1a\xBB con los pasos numerados. Puede plegarla y volver a abrirla cuando quiera.")
+      ] : [
+        h("p", null, "Todav\xEDa no hay datos. Tiene dos caminos:"),
+        h("ol", { class: "lista-pasos" }, [h("li", null, h("b", null, "Ver la demostraci\xF3n: "), "en la pesta\xF1a Datos pulse \xABCargar datos de demostraci\xF3n\xBB. Son datos ficticios con casos preparados para entender cada regla."), h("li", null, h("b", null, "Cargar un mes real: "), "descargue la plantilla, compl\xE9tela e imp\xF3rtela. La herramienta valida cada fila antes de cargar.")]),
+        h("p", null, "Cada pesta\xF1a empieza con una tarjeta \xABC\xF3mo usar esta pesta\xF1a\xBB con los pasos numerados.")
+      ]
+    }
+  ];
+  function mostrarRecorrido({ alCerrar = null } = {}) {
+    let indice = 0;
+    const paginas = PAGINAS();
+    const contenido = h("div", { class: "recorrido" });
+    const noMostrar = h("input", { type: "checkbox", id: "no-mostrar-recorrido" });
+    const m = modal({ titulo: "Gu\xEDa paso a paso", cuerpo: contenido, ancho: "760px", acciones: [] });
+    const pintar = () => {
+      const p = paginas[indice];
+      contenido.replaceChildren(
+        h("div", { class: "recorrido-progreso" }, paginas.map((_, i) => h("span", { class: `punto ${i === indice ? "activo" : i < indice ? "hecho" : ""}` }))),
+        h("h3", { class: "recorrido-titulo" }, p.titulo),
+        h("div", { class: "recorrido-cuerpo" }, p.cuerpo),
+        h(
+          "div",
+          { class: "modal-acciones" },
+          h("label", { class: "interruptor ayuda", style: { marginRight: "auto" } }, noMostrar, " No volver a mostrar al abrir"),
+          indice > 0 ? boton("Anterior", () => {
+            indice -= 1;
+            pintar();
+          }) : null,
+          indice < paginas.length - 1 ? boton("Siguiente", () => {
+            indice += 1;
+            pintar();
+          }, { tipo: "primario" }) : null,
+          indice === paginas.length - 1 && !hayDatos() ? boton("Ir a Datos", () => {
+            cerrar();
+            irA("datos", { resaltar: "tarjeta-carga" });
+          }, { tipo: "primario" }) : null,
+          boton(indice === paginas.length - 1 ? "Empezar" : "Cerrar", cerrar)
+        )
+      );
+    };
+    const cerrar = () => {
+      try {
+        if (noMostrar.checked) localStorage.setItem("kam.recorridoVisto", "1");
+      } catch (e) {
+      }
+      m.cerrar();
+      if (alCerrar) alCerrar();
+    };
+    pintar();
+    return m;
+  }
+  function recorridoVisto() {
+    try {
+      return localStorage.getItem("kam.recorridoVisto") === "1";
+    } catch (e) {
+      return true;
+    }
+  }
+
+  // src/ui/componentes/ayuda.js
+  var TITULOS = { panel: "Panel ejecutivo", datos: "Datos", tabla: "Tabla de determinaci\xF3n", politica: "Pol\xEDtica de cobranza", motor: "Motor de c\xE1lculo", liquidacion: "Liquidaci\xF3n y auditor\xEDa", asistente: "Asistente" };
+  function leerPreferencia(clave2, porDefecto) {
+    try {
+      const v = localStorage.getItem(clave2);
+      return v === null ? porDefecto : v === "1";
+    } catch (e) {
+      return porDefecto;
+    }
+  }
+  function guardarPreferencia(clave2, valor) {
+    try {
+      localStorage.setItem(clave2, valor ? "1" : "0");
+    } catch (e) {
+    }
+  }
+  function tarjetaAyuda(id) {
+    const a = AYUDA_PESTANAS[id];
+    if (!a) return null;
+    const clave2 = `kam.ayuda.${id}`;
+    let abierta = leerPreferencia(clave2, true);
+    const cuerpo = h("ol", { class: "lista-pasos" }, a.pasos.map(([t, d]) => h("li", null, h("b", null, `${t}. `), d)));
+    const alternar = boton(abierta ? "Plegar" : "Ver pasos", () => {
+      abierta = !abierta;
+      guardarPreferencia(clave2, abierta);
+      cuerpo.classList.toggle("oculto", !abierta);
+      alternar.textContent = abierta ? "Plegar" : "Ver pasos";
+      alternar.setAttribute("aria-expanded", abierta ? "true" : "false");
+    }, { mini: true });
+    alternar.setAttribute("aria-expanded", abierta ? "true" : "false");
+    cuerpo.classList.toggle("oculto", !abierta);
+    return h(
+      "section",
+      { class: "tarjeta ayuda-tarjeta", "aria-label": `C\xF3mo usar ${TITULOS[id]}` },
+      h("div", { class: "tarjeta-cab", style: { marginBottom: abierta ? "6px" : 0 } }, h("div", null, h("div", { class: "eyebrow" }, `C\xF3mo usar \xB7 ${TITULOS[id]}`), h("div", null, a.proposito)), alternar),
+      cuerpo
+    );
+  }
+  function stepper() {
+    const el = h("nav", { class: "stepper", "aria-label": "Pasos del cierre mensual" });
+    const actualizar7 = () => {
+      limpiar(el);
+      if (!estado.dataset) return;
+      const pasos = pasosCierre();
+      const actual = pasos.find((p) => p.actual);
+      el.append(
+        h("div", { class: "stepper-pasos" }, pasos.map((p, i) => h(
+          "button",
+          { type: "button", class: `paso ${p.hecho ? "paso-hecho" : ""} ${p.actual ? "paso-actual" : ""}`, title: p.instruccion, "aria-current": p.actual ? "step" : null, onClick: () => irA(p.pestana) },
+          h("span", { class: "paso-num" }, p.hecho ? "\u2713" : String(i + 1)),
+          h("span", { class: "paso-titulo" }, p.titulo)
+        ))),
+        h(
+          "div",
+          { class: "stepper-instruccion" },
+          actual ? [h("b", null, `Paso ${pasos.indexOf(actual) + 1} \xB7 ${actual.titulo}: `), actual.instruccion, " ", boton("Ir", () => irA(actual.pestana), { mini: true, tipo: "primario" })] : [h("b", null, `Cierre de ${periodoLargo(estado.periodo)} completado. `), "Puede exportar el rol, revisar la bit\xE1cora o cambiar de per\xEDodo."]
+        )
+      );
+    };
+    actualizar7();
+    return { el, actualizar: actualizar7 };
+  }
+  function tarjetaGuionDemo() {
+    const per = resultadoPeriodo("2026-08");
+    const items = GUION_DEMO.map((c, i) => {
+      const led = per?.vendedores?.[c.vendedorId];
+      const t = led?.totales;
+      const resumen2 = led ? `Cumplimiento ${pct(led.tramo?.cumplimiento)} \xB7 devengado ${usd(t.devengado + t.bonos)} \xB7 liquidable ${usd(t.liquidable)}${t.excedente ? ` \xB7 excedente ${usd(t.excedente)}` : ""}${t.saldoSiguiente ? ` \xB7 saldo negativo ${usd(t.saldoSiguiente)}` : ""}` : "";
+      return h(
+        "div",
+        { class: "guion-item" },
+        h("div", { class: "guion-num" }, String(i + 1)),
+        h(
+          "div",
+          null,
+          h("div", { class: "guion-titulo" }, c.titulo, " ", badge(c.reglas, "badge-info")),
+          h("div", null, c.que),
+          h("div", { class: "ayuda" }, "Qu\xE9 mirar: ", c.mirar, resumen2 ? ` \xB7 ${resumen2}` : "")
+        ),
+        boton("Ver", () => irA(c.pestana, { vendedorId: c.vendedorId, periodo: "2026-08" }), { mini: true, tipo: "primario" })
+      );
+    });
+    return h(
+      "section",
+      { class: "tarjeta tarjeta-memorable", id: "tarjeta-guion" },
+      h("div", { class: "tarjeta-cab" }, h("div", null, h("h2", null, "Guion de la demostraci\xF3n \xB7 cierre de agosto 2026"), h("div", { class: "ayuda" }, "Cinco casos preparados para entender cada regla. Rec\xF3rralos en orden; cada bot\xF3n \xABVer\xBB abre el c\xE1lculo del vendedor con el per\xEDodo de agosto seleccionado."))),
+      h("div", { class: "guion" }, items)
+    );
   }
 
   // src/ui/acciones.js
@@ -2511,141 +3020,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     }
   };
 
-  // src/seed/defaults.js
-  var ETIQUETA_DEMO = "Datos ficticios \xB7 modo demostraci\xF3n";
-  var AUTOR_DEMO = "kam-Analytica (demo)";
-  var CONTROL = { cobranzaMinima: 0.7, diasSinCobro: 90, puntosCercaTramo: 0.015 };
-  var TRAMOS = [
-    { id: "t0", nombre: "Sin comisi\xF3n", desde: 0, multiplicador: 0 },
-    { id: "t1", nombre: "Base reducida", desde: 0.7, multiplicador: 0.5 },
-    { id: "t2", nombre: "Base", desde: 0.9, multiplicador: 1 },
-    { id: "t3", nombre: "Acelerador", desde: 1, multiplicador: 1.1 },
-    { id: "t4", nombre: "Sobrecumplimiento", desde: 1.15, multiplicador: 1.25 }
-  ];
-  var TASAS_BASE = {
-    vallas: { directo: 0.012, agencia: 0.01 },
-    led: { directo: 0.014, agencia: 0.012 },
-    retail: { directo: 0.016, agencia: 0.014 }
-  };
-  function esquemaDemo() {
-    return {
-      id: "ESQ-2026-01",
-      version: "1.0",
-      vigenteDesde: "2026-01-01",
-      criterioTramo: "cumplimiento",
-      tramos: TRAMOS.map((t) => ({ ...t })),
-      tasasBase: JSON.parse(JSON.stringify(TASAS_BASE)),
-      celdas: generarCeldas(TASAS_BASE, TRAMOS),
-      bonos: { mix: { activo: true, umbralRetail: 0.2, pct: 0.1 }, clienteNuevo: { activo: true, monto: 150, maximo: 5 } },
-      tope: { activo: true, monto: 1500 },
-      autor: AUTOR_DEMO,
-      fecha: "2026-01-01",
-      comentario: "Esquema de demostraci\xF3n. Celdas entre 0,50 % y 2,00 % generadas desde tasa base \xD7 multiplicador (S-26). Tope de demostraci\xF3n USD 1.500 (S-27)."
-    };
-  }
-  function politicasDemo() {
-    return [
-      {
-        id: "POL-2025-01",
-        version: "1.0",
-        vigenteDesde: "2025-01-01",
-        modo: "emision",
-        tramos: [],
-        caducidadDias: null,
-        reglaTransicion: "emision",
-        pctAnticipo: 0,
-        autor: AUTOR_DEMO,
-        fecha: "2025-01-01",
-        comentario: "Pol\xEDtica anterior: 100 % de la comisi\xF3n pagadera con la emisi\xF3n de la factura, sin condici\xF3n de cobro."
-      },
-      {
-        id: "POL-2026-01",
-        version: "2.0",
-        vigenteDesde: "2026-01-01",
-        modo: "cobro",
-        tramos: [
-          { hastaDias: 30, factor: 1 },
-          { hastaDias: 60, factor: 1 },
-          { hastaDias: 90, factor: 0.8 },
-          { hastaDias: 120, factor: 0.5 }
-        ],
-        caducidadDias: 120,
-        reglaTransicion: "emision",
-        pctAnticipo: 0,
-        autor: AUTOR_DEMO,
-        fecha: "2026-01-01",
-        comentario: "Pol\xEDtica actualizada: la comisi\xF3n se libera con el cobro seg\xFAn d\xEDas emisi\xF3n \u2192 cobro; caduca a los 121 d\xEDas. Vigencia de demostraci\xF3n 01-ene-2026 (S-05); con datos reales, Finanzas fija la vigencia real."
-      }
-    ];
-  }
-  var cuotasAnio = (monto) => Array.from({ length: 12 }, (_, i) => ({ periodo: `2026-${String(i + 1).padStart(2, "0")}`, monto }));
-  function vendedoresDemo() {
-    return [
-      { id: "V01", nombre: "Mar\xEDa Fernanda Salazar", iniciales: "MS", zona: "Quito", cargo: "Ejecutiva senior", activo: true, cuotas: cuotasAnio(6e4) },
-      { id: "V02", nombre: "Andr\xE9s Villac\xEDs", iniciales: "AV", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(5e4) },
-      { id: "V03", nombre: "Gabriela Torres", iniciales: "GT", zona: "Guayaquil", cargo: "Ejecutiva comercial", activo: true, cuotas: cuotasAnio(45e3) },
-      { id: "V04", nombre: "Diego C\xE1rdenas", iniciales: "DC", zona: "Guayaquil", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(45e3) },
-      { id: "V05", nombre: "Valeria Espinoza", iniciales: "VE", zona: "Cuenca", cargo: "Ejecutiva comercial", activo: true, cuotas: cuotasAnio(35e3) },
-      { id: "V06", nombre: "Juan Pablo Ortiz", iniciales: "JO", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(5e4) },
-      { id: "V07", nombre: "Carolina Mera", iniciales: "CM", zona: "Guayaquil", cargo: "Ejecutiva Retail Media", activo: true, cuotas: cuotasAnio(4e4) },
-      { id: "V08", nombre: "Sebasti\xE1n Andrade", iniciales: "SA", zona: "Quito", cargo: "Ejecutivo comercial", activo: true, cuotas: cuotasAnio(4e4) }
-    ];
-  }
-  function agenciasDemo() {
-    const nombres = [
-      ["Agencia C\xF3ndor", 0.15],
-      ["Central de Medios Pichincha", 0.2],
-      ["Ideas 593", 0.1],
-      ["Nexo Publicidad", 0.15],
-      ["Andes Media", 0.15],
-      ["Estudio Guayas", 0.1],
-      ["Ruta Creativa", 0.2],
-      ["Puntoclave", 0.15],
-      ["Marca Sur", 0.1],
-      ["Orbe Comunicaci\xF3n", 0.15],
-      ["V\xE9rtice Medios", 0.2],
-      ["Pixel & Papel", 0.1]
-    ];
-    return nombres.map(([nombre, pct2], i) => ({ id: `AG${String(i + 1).padStart(2, "0")}`, nombre, pctAgencia: pct2 }));
-  }
-  function clientesDemo() {
-    const filas = [
-      ["C01", "L\xE1cteos San Isidro", "V01", "directo", null, "2024-03-11"],
-      ["C02", "Constructora Horizonte", "V01", "agencia", "AG01", "2023-09-02"],
-      ["C03", "Cadena Farma Salud", "V01", "agencia", "AG02", "2024-06-18"],
-      ["C04", "Bebidas Tropical", "V01", "directo", null, "2022-11-05"],
-      ["C05", "Cooperativa Sierra Central", "V01", "directo", null, "2025-02-20"],
-      ["C06", "Automotriz Andina", "V02", "directo", null, "2023-04-14"],
-      ["C07", "Inmobiliaria Cumbre", "V02", "agencia", "AG03", "2024-08-01"],
-      ["C08", "Moda Urbana", "V02", "directo", null, "2025-01-09"],
-      ["C09", "Cl\xEDnica Los Andes", "V02", "agencia", "AG04", "2023-12-12"],
-      ["C10", "Retail La Cesta", "V03", "directo", null, "2022-05-30"],
-      ["C11", "Telecom Andina", "V03", "agencia", "AG06", "2024-02-27"],
-      ["C12", "Aseguradora Sol", "V03", "agencia", "AG07", "2023-07-19"],
-      ["C13", "Universidad del Litoral Ficticia", "V03", "directo", null, "2025-03-03"],
-      ["C14", "Electrodom\xE9sticos Norte", "V04", "directo", null, "2023-10-10"],
-      ["C15", "Restaurantes El Fog\xF3n", "V04", "agencia", "AG08", "2024-11-21"],
-      ["C16", "Banca Ficticia del R\xEDo", "V04", "directo", null, "2022-08-08"],
-      ["C17", "Turismo Cuenca Viva", "V05", "directo", null, "2024-05-15"],
-      ["C18", "Cer\xE1micas del Azuay", "V05", "agencia", "AG09", "2023-03-23"],
-      ["C19", "Panificadora Tomebamba", "V05", "directo", null, "2025-06-02"],
-      ["C20", "Tecnolog\xEDa Nube 593", "V06", "agencia", "AG10", "2024-01-17"],
-      ["C21", "Supermercados La Rueda", "V06", "directo", null, "2022-02-14"],
-      ["C22", "Gimnasios Vital", "V06", "directo", null, "2025-04-28"],
-      ["C23", "Editorial P\xE1ramo", "V06", "directo", null, "2023-06-06"],
-      ["C24", "Cosm\xE9ticos Aurora", "V07", "agencia", "AG12", "2024-09-09"],
-      ["C25", "Snacks Andinos", "V07", "directo", null, "2023-01-31"],
-      ["C26", "Hogar & Deco", "V07", "agencia", "AG01", "2025-05-12"],
-      ["C27", "Beb\xE9s y M\xE1s", "V07", "directo", null, "2024-04-04"],
-      ["C28", "Ferreter\xEDa El Tornillo", "V08", "directo", null, "2023-08-25"],
-      ["C29", "\xD3ptica Mirador", "V08", "agencia", "AG02", "2024-10-30"],
-      ["C30", "Transporte R\xE1pido Express", "V08", "directo", null, "2025-07-07"],
-      ["C31", "Helados Glaciar", "V07", "directo", null, "2026-08-03"],
-      ["C32", "Librer\xEDa Cordillera", "V07", "agencia", "AG05", "2026-08-10"]
-    ];
-    return filas.map(([id, nombre, vendedorId, canal, agenciaId, fechaAlta]) => ({ id, nombre, canal, agenciaId: agenciaId || void 0, vendedorId, fechaAlta }));
-  }
-
   // src/ui/componentes/graficos.js
   var PALETA = { mag: "#F652A0", azul: "#4C5270", gos: "#6D6D7F", gme: "#B8BAC5", gcl: "#F2F2F2", pur: "#8064A2", grn: "#83E9A2", magSuave: "#FDEBF4", tinta: "#23263A" };
   var configurado = false;
@@ -2777,6 +3151,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       poner(refs.veredicto, vacio("Sin datos. Cargue la demostraci\xF3n o una plantilla en la pesta\xF1a Datos."));
       return;
     }
+    limpiar(refs.guion);
+    if (esDemo()) poner(refs.guion, tarjetaGuionDemo());
     const v = veredictoPeriodo();
     refs.veredicto.className = `veredicto veredicto-${v.clase}`;
     poner(refs.veredicto, h("div", null, h("div", { class: "eyebrow" }, `Veredicto del cierre \xB7 ${periodoLargo(estado.periodo)}`), h("div", { class: "veredicto-titulo" }, v.titulo)), h("div", { class: "veredicto-detalle" }, v.detalle), periodoAprobado() ? badge("aprobado", "badge-bloqueado") : per.enCurso ? badge("en curso", "badge-info") : badge("abierto", "badge-info"));
@@ -2844,12 +3220,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if (lista.length > 60) poner(refs.alertas, h("p", { class: "ayuda" }, `${lista.length - 60} alertas m\xE1s; v\xE9alas por vendedor en el Motor de c\xE1lculo.`));
   }
   function montar(cont) {
-    refs = { veredicto: h("div", { class: "veredicto" }), tendencia: h("div"), mix: h("div"), mixTabla: h("div"), ranking: h("div"), alertas: h("div", { class: "alertas-lista" }) };
+    refs = { veredicto: h("div", { class: "veredicto" }), guion: h("div"), tendencia: h("div"), mix: h("div"), mixTabla: h("div"), ranking: h("div"), alertas: h("div", { class: "alertas-lista" }) };
     gTendencia = null;
     gMix = null;
     poner(
       cont,
       refs.veredicto,
+      refs.guion,
       h(
         "div",
         { class: "rejilla rejilla-2" },
@@ -3957,7 +4334,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
           h("p", null, "Descargue la plantilla, complete las seis hojas (Vendedores, Agencias, Clientes, Facturas, Cobros, NotasCredito) e imp\xF3rtela. Cada fila se valida antes de cargar."),
           h("div", { class: "acciones" }, boton("Descargar plantilla", descargarPlantilla), boton("Importar archivo\u2026", abrirImportar, { tipo: "primario", deshabilitado: !puede("datos") }), boton("Exportar datos actuales a Excel", exportarDatosExcel, { deshabilitado: !hayDatos() })),
           refs2.informe
-        ], { memorable: true }),
+        ], { memorable: true, id: "tarjeta-carga" }),
         tarjeta("Demostraci\xF3n, respaldo y borrado", [
           h(
             "div",
@@ -4810,6 +5187,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
 
   // src/ui/componentes/ledger.js
+  var TERMINO_LINEA = { L1: "baseComisionable", L2: "tramo", L3: "bonoMix", L4: "liberado", L5: "cartera", L6: "retenido", L7: "clawback", L8: "ajuste", L9: "liquidable" };
   var COLUMNAS_FACTURA = [
     { clave: "numero", titulo: "Factura", formato: (v, f) => h("span", { class: "mono" }, v, f.extemporanea ? badge("extempor\xE1nea", "badge-advertencia") : null) },
     { clave: "clienteId", titulo: "Cliente", formato: (v) => nombreCliente(v) },
@@ -4936,7 +5314,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         "tr",
         { class: `ledger-fila ${esTotal ? "ledger-total" : ""}`, tabindex: 0, "aria-expanded": abiertas2.has(l.codigo) ? "true" : "false" },
         h("td", { class: "ledger-codigo" }, h("span", { class: "ledger-flecha" }, abiertas2.has(l.codigo) ? "\u25BE" : "\u25B8"), l.codigo, h("span", { class: "regla" }, l.regla)),
-        h("td", null, h("div", { class: "ledger-titulo" }, esTotal ? "Comisi\xF3n liquidable" : l.titulo), h("div", { class: "ledger-formula" }, l.formula)),
+        h("td", null, h("div", { class: "ledger-titulo" }, esTotal ? "Comisi\xF3n liquidable" : l.titulo, " ", TERMINO_LINEA[l.codigo] ? termino(TERMINO_LINEA[l.codigo], "\u24D8") : null), h("div", { class: "ledger-formula" }, l.formula)),
         h("td", { class: `ledger-monto ${l.informativa ? "informativa" : ""}` }, l.informativa ? moneda(l.monto) : monedaSigno(l.monto))
       );
       const det = h("tr", { class: `ledger-detalle ${abiertas2.has(l.codigo) ? "" : "oculto"}` }, h("td", { colspan: 3 }));
@@ -5576,7 +5954,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     }, { placeholder: "Buscar en la bit\xE1cora", "aria-label": "Buscar" });
     poner(
       cont,
-      h("section", { class: "tarjeta imprimible" }, refs6.estadoPeriodo, refs6.flujo, h("div", { style: { marginTop: "10px" } }, refs6.rol)),
+      h("section", { class: "tarjeta imprimible", id: "tarjeta-flujo" }, refs6.estadoPeriodo, refs6.flujo, h("div", { style: { marginTop: "10px" } }, refs6.rol)),
       h(
         "div",
         { class: "rejilla rejilla-2" },
@@ -5804,9 +6182,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function marca() {
     return h("div", { class: "marca" }, h("b", null, "kam"), h("span", { class: "punto" }, "."), h("span", { class: "analytica" }, " Analytica"), h("span", { class: "producto" }, `Comisiones IA \xB7 INDUVALLAS \xB7 V.${estado.version}`));
   }
-  function esDemo() {
-    return /demostraci/i.test(estado.origen?.origen || "");
-  }
   function renderCabecera() {
     limpiar(ui.cabeceraMeta);
     poner(
@@ -5814,6 +6189,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       esDemo() ? h("span", { class: "demo" }, "Datos ficticios \xB7 modo demostraci\xF3n") : null,
       h("span", null, `Referencia ${fecha(estado.hoy)}`),
       h("span", { class: "rol" }, estado.rol || "Sin rol"),
+      h("button", { type: "button", onClick: () => mostrarRecorrido() }, "Gu\xEDa paso a paso"),
+      h("button", { type: "button", onClick: () => mostrarGlosario() }, "Glosario"),
       h("button", { type: "button", onClick: cambiarRol }, "Cambiar rol")
     );
   }
@@ -5832,11 +6209,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const pctBasePrev = tp?.base ? (tp.devengado + tp.bonos) / tp.base : null;
     return [
       { etiqueta: "Facturaci\xF3n neta", valor: usd(t.valorNeto), delta: variacion(t.valorNeto, tp?.valorNeto) },
-      { etiqueta: "Base comisionable", valor: usd(t.base), delta: variacion(t.base, tp?.base) },
-      { etiqueta: "Devengado", valor: usd(t.devengado + t.bonos), delta: variacion(t.devengado + t.bonos, tp ? tp.devengado + tp.bonos : null) },
-      { etiqueta: "Liberado", valor: usd(t.liberadoPeriodo + t.liberadoCartera), delta: variacion(t.liberadoPeriodo + t.liberadoCartera, tp ? tp.liberadoPeriodo + tp.liberadoCartera : null), protagonista: true },
-      { etiqueta: "Retenido", valor: usd(t.retenido), delta: variacion(t.retenido, tp?.retenido), invertido: true },
-      { etiqueta: "Caducado", valor: usd(t.caducadoPeriodo), delta: variacion(t.caducadoPeriodo, tp?.caducadoPeriodo), invertido: true },
+      { etiqueta: termino("baseComisionable"), valor: usd(t.base), delta: variacion(t.base, tp?.base) },
+      { etiqueta: termino("devengado"), valor: usd(t.devengado + t.bonos), delta: variacion(t.devengado + t.bonos, tp ? tp.devengado + tp.bonos : null) },
+      { etiqueta: termino("liberado"), valor: usd(t.liberadoPeriodo + t.liberadoCartera), delta: variacion(t.liberadoPeriodo + t.liberadoCartera, tp ? tp.liberadoPeriodo + tp.liberadoCartera : null), protagonista: true },
+      { etiqueta: termino("retenido"), valor: usd(t.retenido), delta: variacion(t.retenido, tp?.retenido), invertido: true },
+      { etiqueta: termino("caducado"), valor: usd(t.caducadoPeriodo), delta: variacion(t.caducadoPeriodo, tp?.caducadoPeriodo), invertido: true },
       { etiqueta: "% comisi\xF3n / base", valor: pct(pctBase, 2), delta: pctBase != null && pctBasePrev != null ? pctBase - pctBasePrev : null, puntos: true },
       { etiqueta: "Vendedores en meta", valor: `${enMeta} / ${vend.length}`, delta: enMetaPrev != null ? enMeta - enMetaPrev : null, absoluto: true },
       { etiqueta: "Alertas", valor: entero(alertas), delta: alertasPrev != null ? alertas - alertasPrev : null, absoluto: true, invertido: true }
@@ -5898,21 +6275,33 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if (typeof Chart === "undefined") return;
     for (const c of cont.querySelectorAll("canvas")) Chart.getChart(c)?.destroy();
   }
-  function montarPestana() {
+  function montarPestana(extra = {}) {
     const p = PESTANAS.find((x) => x.id === estado.pestana) || panel_default;
     if (pestanaActiva && pestanaActiva !== p) pestanaActiva.desmontar?.();
-    destruirGraficos(ui.contenido);
-    limpiar(ui.contenido);
+    destruirGraficos(ui.panelPestana);
+    limpiar(ui.panelPestana);
     const cont = h("div", { class: "pestana-panel", id: `panel-${p.id}`, role: "tabpanel", "aria-labelledby": `tab-${p.id}` });
-    poner(ui.contenido, cont);
+    poner(ui.panelPestana, cont);
+    poner(cont, tarjetaAyuda(p.id));
     if (!hayDatos() && p.id !== "datos") {
-      poner(cont, h("div", { class: "vacio" }, h("p", null, "No hay datos cargados."), boton("Ir a Datos", () => irA("datos"), { tipo: "primario" })));
+      poner(cont, h("div", { class: "vacio" }, h("p", null, "No hay datos cargados."), boton("Ir a Datos", () => irA("datos", { resaltar: "tarjeta-carga" }), { tipo: "primario" })));
       pestanaActiva = null;
+      ui.stepper.actualizar();
       return;
     }
     p.montar(cont);
     pestanaActiva = p;
+    marcarVisitada(p.id);
     renderPestanas();
+    ui.stepper.actualizar();
+    if (extra.resaltar) {
+      const objetivo = document.getElementById(extra.resaltar);
+      if (objetivo) {
+        objetivo.classList.add("resaltar");
+        objetivo.scrollIntoView({ block: "center", behavior: "auto" });
+        setTimeout(() => objetivo.classList.remove("resaltar"), 3500);
+      }
+    }
   }
   function renderPie() {
     limpiar(ui.pie);
@@ -5959,7 +6348,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     ui.kpiFila = h("div", { class: "kpi-fila" });
     ui.scope = h("div", { class: "scope-strip" });
     ui.pestanas = h("div", { class: "pestanas-int", role: "tablist", "aria-label": "Secciones" });
-    ui.contenido = h("main", { class: "contenido" });
+    ui.stepper = stepper();
+    ui.panelPestana = h("div");
+    ui.contenido = h("main", { class: "contenido" }, ui.stepper.el, ui.panelPestana);
     ui.pie = h("footer", { class: "pie" });
     app.append(
       h("header", { class: "cabecera" }, h("div", { class: "cabecera-int" }, marca(), ui.cabeceraMeta)),
@@ -5999,24 +6390,30 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     renderTodo();
     montarPestana();
     if (estado.almacen?.advertencia) toast(estado.almacen.advertencia, "advertencia", 8e3);
+    if (!recorridoVisto()) mostrarRecorrido();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "?" && !/input|textarea|select/i.test(e.target?.tagName || "")) mostrarRecorrido();
+    });
   }
   on("resultado", () => {
     renderCabecera();
     renderHeaderStrip();
     renderPestanas();
     renderPie();
+    ui.stepper.actualizar();
     if (!pestanaActiva || !hayDatos()) montarPestana();
   });
   on("periodo", () => {
     renderHeaderStrip();
     renderPestanas();
+    ui.stepper.actualizar();
   });
   on("referencia", () => {
     renderCabecera();
     renderHeaderStrip();
   });
-  on("pestana", () => {
-    montarPestana();
+  on("pestana", ({ extra } = {}) => {
+    montarPestana(extra || {});
     if (estado.pestana !== "motor" && estado.pestana !== "panel") return;
     window.scrollTo({ top: 0, behavior: "auto" });
   });

@@ -71,9 +71,9 @@ export function badge(texto, clase = 'badge-neutro', titulo = null) {
   return h('span', { class: `badge ${clase}`, title: titulo }, texto);
 }
 
-export function tarjeta(titulo, contenido, { clase = '', acciones = null, memorable = false, subtitulo = null } = {}) {
+export function tarjeta(titulo, contenido, { clase = '', acciones = null, memorable = false, subtitulo = null, id = null } = {}) {
   const cab = titulo || acciones ? h('div', { class: 'tarjeta-cab' }, h('div', null, titulo ? h('h2', null, titulo) : null, subtitulo ? h('div', { class: 'ayuda' }, subtitulo) : null), acciones ? h('div', { class: 'acciones' }, acciones) : null) : null;
-  return h('section', { class: `tarjeta ${memorable ? 'tarjeta-memorable' : ''} ${clase}`.trim() }, cab, contenido);
+  return h('section', { class: `tarjeta ${memorable ? 'tarjeta-memorable' : ''} ${clase}`.trim(), id }, cab, contenido);
 }
 
 export function vacio(mensaje) {

@@ -5,6 +5,9 @@
 import { h, tabla, badge } from '../dom.js';
 import { usd, moneda, monedaSigno, pct, pctCelda, fecha, dias, nombreLinea, nombreCanal, ESTADO_FACTURA } from '../format.js';
 import { nombreCliente } from '../estado.js';
+import { termino } from '../guia.js';
+
+const TERMINO_LINEA = { L1: 'baseComisionable', L2: 'tramo', L3: 'bonoMix', L4: 'liberado', L5: 'cartera', L6: 'retenido', L7: 'clawback', L8: 'ajuste', L9: 'liquidable' };
 
 export const COLUMNAS_FACTURA = [
   { clave: 'numero', titulo: 'Factura', formato: (v, f) => h('span', { class: 'mono' }, v, f.extemporanea ? badge('extemporánea', 'badge-advertencia') : null) },
@@ -116,7 +119,7 @@ export function ledger(led, { abiertas = new Set() } = {}) {
     const esTotal = l.codigo === 'L9';
     const fila = h('tr', { class: `ledger-fila ${esTotal ? 'ledger-total' : ''}`, tabindex: 0, 'aria-expanded': abiertas.has(l.codigo) ? 'true' : 'false' },
       h('td', { class: 'ledger-codigo' }, h('span', { class: 'ledger-flecha' }, abiertas.has(l.codigo) ? '▾' : '▸'), l.codigo, h('span', { class: 'regla' }, l.regla)),
-      h('td', null, h('div', { class: 'ledger-titulo' }, esTotal ? 'Comisión liquidable' : l.titulo), h('div', { class: 'ledger-formula' }, l.formula)),
+      h('td', null, h('div', { class: 'ledger-titulo' }, esTotal ? 'Comisión liquidable' : l.titulo, ' ', TERMINO_LINEA[l.codigo] ? termino(TERMINO_LINEA[l.codigo], 'ⓘ') : null), h('div', { class: 'ledger-formula' }, l.formula)),
       h('td', { class: `ledger-monto ${l.informativa ? 'informativa' : ''}` }, l.informativa ? moneda(l.monto) : monedaSigno(l.monto))
     );
     const det = h('tr', { class: `ledger-detalle ${abiertas.has(l.codigo) ? '' : 'oculto'}` }, h('td', { colspan: 3 }));

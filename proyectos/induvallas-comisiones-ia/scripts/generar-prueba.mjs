@@ -6,7 +6,7 @@
  * 4. Instrucciones con los resultados esperados, calculados aquí mismo.
  * El script verifica el ciclo completo (importar → calcular → contrastar) antes de escribir las instrucciones.
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { cargarXLSX } from '../src/data/xlsx.js';
@@ -21,6 +21,7 @@ import { computeTodo } from '../src/engine/index.js';
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const carpeta = join(raiz, 'dist', 'pruebas');
 mkdirSync(carpeta, { recursive: true });
+const VERSION = JSON.parse(readFileSync(join(raiz, 'package.json'), 'utf8')).versionEntregable;
 const CLAVE = 'prueba-kam-2026';
 const PERIODOS = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08'];
 const usd = (n) => new Intl.NumberFormat('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
@@ -104,7 +105,7 @@ Nota: en esta prueba todos los períodos quedan abiertos (una plantilla no trae 
 
 ## Prueba A · lado kam: importar la copia anonimizada y contrastar
 
-1. Abra \`ComisionesIA_Induvallas_V.1.1.html\` en un navegador sin datos previos (o pestaña Datos → Borrar todos los datos). Rol: Finanzas.
+1. Abra \`ComisionesIA_Induvallas_V.${VERSION}.html\` en un navegador sin datos previos (o pestaña Datos → Borrar todos los datos). Rol: Finanzas.
 2. Datos → Importar archivo… → \`Prueba_02_Datos_anonimizados.xlsx\` → debe indicar **archivo válido** → Reemplazar todos los datos.
 3. Fecha de referencia del cálculo: ${HOY_DEMO}. Período: agosto 2026.
 4. Liquidación y auditoría → Cargar rol histórico… → \`Prueba_03_Rol_historico_contraste.xlsx\`.

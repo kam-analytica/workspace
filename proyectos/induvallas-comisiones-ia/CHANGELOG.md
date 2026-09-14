@@ -2,6 +2,18 @@
 
 Nomenclatura `V.mayor.menor`. Fechas dd-mmm-aaaa.
 
+## V.1.2 · 14-sep-2026
+
+Capa didáctica para que el usuario sepa qué hacer paso a paso.
+
+- Recorrido inicial de cuatro páginas al abrir por primera vez (reabrible con «Guía paso a paso» o la tecla «?»): qué hace la herramienta, las siete pestañas, cómo leer una comisión y por dónde empezar.
+- Barra de pasos del cierre mensual encima del contenido: Cargar datos → Revisar parámetros → Revisar cálculo y alertas → Validar y aprobar → Generar y exportar el rol; marca lo hecho, señala el paso actual con la instrucción concreta y lleva a la pestaña correspondiente.
+- Tarjeta «Cómo usar esta pestaña» al inicio de cada pestaña con propósito y pasos numerados (plegable; recuerda su estado).
+- Glosario de 26 términos con definición y regla; los términos aparecen subrayados en KPI y ledger, con definición al pasar el ratón y clic para abrir el glosario.
+- Guion de la demostración en el Panel ejecutivo: los cinco casos de control de agosto 2026 con qué mirar, reglas y botón «Ver» que abre el cálculo del vendedor.
+- Humo Playwright ampliado con recorrido, barra de pasos, guion y glosario.
+- `dist/` conserva solo el entregable vigente (V.1.1 queda en el historial de git); el kit de prueba toma la versión desde `package.json`.
+
 ## V.1.1 · 14-sep-2026
 
 Preparación para la validación con datos reales anonimizados de INDUVALLAS.

@@ -247,7 +247,7 @@ function montar(cont) {
         h('p', null, 'Descargue la plantilla, complete las seis hojas (Vendedores, Agencias, Clientes, Facturas, Cobros, NotasCredito) e impórtela. Cada fila se valida antes de cargar.'),
         h('div', { class: 'acciones' }, boton('Descargar plantilla', descargarPlantilla), boton('Importar archivo…', abrirImportar, { tipo: 'primario', deshabilitado: !puede('datos') }), boton('Exportar datos actuales a Excel', exportarDatosExcel, { deshabilitado: !hayDatos() })),
         refs.informe,
-      ], { memorable: true }),
+      ], { memorable: true, id: 'tarjeta-carga' }),
       tarjeta('Demostración, respaldo y borrado', [
         h('div', { class: 'acciones' },
           boton('Cargar datos de demostración', cargarDemo, { deshabilitado: !puede('datos') }),

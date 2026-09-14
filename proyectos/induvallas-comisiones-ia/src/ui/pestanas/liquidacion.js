@@ -277,7 +277,7 @@ function montar(cont) {
   const entidad = select([{ valor: '', texto: 'Todas las entidades' }, ...['Datos', 'Liquidacion', 'EsquemaComisiones', 'PoliticaCobranza', 'Control', 'Sesión'].map((e) => ({ valor: e, texto: e }))], '', (v) => { filtroBitacora.entidad = v; renderBitacora(); }, { 'aria-label': 'Entidad' });
   const texto = input('search', '', (v) => { filtroBitacora.texto = v; renderBitacora(); }, { placeholder: 'Buscar en la bitácora', 'aria-label': 'Buscar' });
   poner(cont, 
-    h('section', { class: 'tarjeta imprimible' }, refs.estadoPeriodo, refs.flujo, h('div', { style: { marginTop: '10px' } }, refs.rol)),
+    h('section', { class: 'tarjeta imprimible', id: 'tarjeta-flujo' }, refs.estadoPeriodo, refs.flujo, h('div', { style: { marginTop: '10px' } }, refs.rol)),
     h('div', { class: 'rejilla rejilla-2' },
       tarjeta('Ajustes manuales (R-06)', refs.ajustes, { subtitulo: 'Motivo, autor y fecha obligatorios; aparecen en el ledger y en la bitácora' }),
       tarjeta('Controles del cierre', refs.controles, { memorable: true })

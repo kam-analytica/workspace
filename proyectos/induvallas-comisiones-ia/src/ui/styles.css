@@ -263,3 +263,38 @@ input[type="file"] { font-size: var(--f11); }
   .tabla tr.fila-total td { background: var(--gcl) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .pie { border-top: 1px solid var(--gme); }
 }
+
+/* Capa didáctica: barra de pasos, ayuda por pestaña, glosario, recorrido, guion */
+.stepper { background: var(--blanco); border: var(--borde); border-radius: var(--radio); padding: 10px 14px; margin-bottom: 14px; }
+.stepper-pasos { display: flex; flex-wrap: wrap; gap: 6px; }
+.paso { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gme); background: var(--blanco); border-radius: 999px; padding: 4px 12px 4px 4px; cursor: pointer; color: var(--gos); font-size: var(--f13); }
+.paso:hover { border-color: var(--azul); color: var(--azul); }
+.paso-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--gcl); color: var(--gos); font-weight: 600; font-size: var(--f11); }
+.paso-hecho { color: var(--azul); }
+.paso-hecho .paso-num { background: var(--grn-suave); color: var(--ok); }
+.paso-actual { border-color: var(--mag); color: var(--azul); font-weight: 600; background: var(--mag-suave); }
+.paso-actual .paso-num { background: var(--mag); color: var(--blanco); }
+.stepper-instruccion { margin-top: 8px; font-size: var(--f13); color: var(--tinta); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ayuda-tarjeta { border-left: 4px solid var(--pur); background: #FBFAFD; }
+.lista-pasos { margin: 4px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.lista-pasos li { line-height: 1.45; }
+.termino { border-bottom: 1px dotted var(--pur); cursor: help; color: inherit; }
+.termino:hover { color: var(--pur); }
+.glosario { margin: 0; display: grid; gap: 2px 14px; grid-template-columns: max-content 1fr; }
+.glosario dt { font-weight: 600; color: var(--azul); padding: 4px 0; }
+.glosario dd { margin: 0; padding: 4px 0; border-bottom: 1px solid var(--gcl); }
+.glosario dt.glos-activo, .glosario dt.glos-activo + dd { background: var(--mag-suave); }
+.recorrido-progreso { display: flex; gap: 6px; margin-bottom: 6px; }
+.recorrido-progreso .punto { width: 28px; height: 4px; border-radius: 2px; background: var(--gcl); }
+.recorrido-progreso .punto.hecho { background: var(--gme); }
+.recorrido-progreso .punto.activo { background: var(--mag); }
+.recorrido-titulo { font-size: var(--f15); color: var(--azul); text-transform: none; letter-spacing: 0; margin: 4px 0 8px; }
+.recorrido-cuerpo { min-height: 180px; }
+.guion { display: grid; gap: 8px; }
+.guion-item { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: start; padding: 8px 10px; border: var(--borde); border-radius: 4px; }
+.guion-num { width: 28px; height: 28px; border-radius: 50%; background: var(--azul); color: var(--blanco); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+.guion-titulo { font-weight: 600; color: var(--azul); }
+.resaltar { outline: 3px solid var(--mag); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { .resaltar { animation: pulso 1.2s ease-in-out 2; } @keyframes pulso { 0%, 100% { outline-color: var(--mag); } 50% { outline-color: transparent; } } }
+@media (max-width: 1024px) { .glosario { grid-template-columns: 1fr; } .guion-item { grid-template-columns: 32px 1fr; } }
+@media print { .stepper, .ayuda-tarjeta { display: none !important; } }

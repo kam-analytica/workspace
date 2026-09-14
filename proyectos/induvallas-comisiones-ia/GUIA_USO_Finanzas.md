@@ -1,6 +1,12 @@
 # Guía de uso · kam. Comisiones IA · INDUVALLAS
 
-**Para el Departamento Financiero · V.1.1 · una página**
+**Para el Departamento Financiero · V.1.2 · una página**
+
+## Ayuda dentro de la herramienta
+- Al abrir por primera vez aparece la **Guía paso a paso** (cuatro páginas); se reabre con el botón de la cabecera o la tecla «?».
+- La **barra de pasos del cierre** encima del contenido dice qué falta y a dónde ir; cada pestaña empieza con «Cómo usar esta pestaña».
+- Los términos subrayados con puntos muestran su definición; el botón **Glosario** los reúne.
+- Con la demostración cargada, el Panel ejecutivo trae el **Guion de la demostración** con cinco casos para recorrer en orden.
 
 ## Abrir y elegir rol
 1. Haga doble clic en `ComisionesIA_Induvallas_V.1.0.html` (Chrome o Edge). No requiere internet.

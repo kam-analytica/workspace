@@ -27,12 +27,35 @@ test('humo · demo, pestañas, importación, exportación, sin errores de consol
   await page.getByRole('button', { name: /^Finanzas/ }).click();
   await expect(page.locator('.marca')).toContainText('Comisiones IA');
 
+  // Recorrido inicial (primera apertura): cuatro páginas y cierre
+  await expect(page.getByRole('dialog', { name: 'Guía paso a paso' })).toBeVisible();
+  await page.screenshot({ path: join(capturas, '00-recorrido.png') });
+  await page.getByRole('button', { name: 'Siguiente' }).click();
+  await page.getByRole('button', { name: 'Siguiente' }).click();
+  await page.getByRole('button', { name: 'Siguiente' }).click();
+  await expect(page.locator('.recorrido-titulo')).toContainText('Por dónde empezar');
+  await page.getByRole('button', { name: 'Empezar' }).click();
+  await expect(page.locator('.stepper .paso-actual')).toContainText('Cargar datos');
+  await expect(page.locator('.ayuda-tarjeta').first()).toContainText('Cómo usar · Datos');
+
   // Sin datos: la pestaña Datos con el botón de demostración
   await page.getByRole('button', { name: 'Cargar datos de demostración' }).click();
   await expect(page.locator('.header-strip .kpi-fila .kpi')).toHaveCount(9, { timeout: 30000 });
   await expect(page.locator('.cabecera-meta .demo')).toContainText('demostración');
   await expect(page.locator('.scope-strip select')).toHaveValue('2026-08');
   await page.screenshot({ path: join(capturas, '01-datos.png'), fullPage: true });
+  await expect(page.locator('.stepper .paso-hecho')).toHaveCount(1);
+  await expect(page.locator('.stepper .paso-actual')).toContainText('Revisar parámetros');
+
+  // Guion de la demostración en el Panel y salto al cálculo de Carolina
+  await page.getByRole('tab', { name: 'Panel ejecutivo' }).click();
+  await expect(page.locator('#tarjeta-guion .guion-item')).toHaveCount(5);
+  await page.locator('#tarjeta-guion .guion-item').first().getByRole('button', { name: 'Ver' }).click();
+  await expect(page.getByRole('tab', { name: 'Motor de cálculo' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('.tarjeta-cab h2').first()).toContainText('Carolina Mera');
+  await page.getByRole('button', { name: 'Glosario' }).click();
+  await expect(page.getByRole('dialog', { name: 'Glosario de términos' })).toBeVisible();
+  await page.getByRole('button', { name: 'Cerrar' }).click();
 
   const pestanas = ['Panel ejecutivo', 'Tabla de determinación', 'Política de cobranza', 'Motor de cálculo', 'Liquidación y auditoría', 'Asistente'];
   for (const [i, nombre] of pestanas.entries()) {

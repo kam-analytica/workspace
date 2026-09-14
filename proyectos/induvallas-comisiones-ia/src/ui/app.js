@@ -5,7 +5,9 @@
  */
 import { h, limpiar, badge, boton, select, input, toast, modal, campo, poner } from './dom.js';
 import { usd, moneda, pct, fecha, periodoLargo, periodoCorto, entero, variacion, ahoraISO } from './format.js';
-import { estado, on, ROLES, puede, hayDatos, periodos, resultadoPeriodo, recalcular, seleccionarPeriodo, irA, periodoAprobado } from './estado.js';
+import { estado, on, ROLES, puede, hayDatos, esDemo, periodos, resultadoPeriodo, recalcular, seleccionarPeriodo, irA, periodoAprobado } from './estado.js';
+import { termino, mostrarGlosario, mostrarRecorrido, recorridoVisto, marcarVisitada } from './guia.js';
+import { tarjetaAyuda, stepper } from './componentes/ayuda.js';
 import { cambiarFechaReferencia } from './acciones.js';
 import { abrirAlmacen } from '../data/db.js';
 import { Repositorio } from '../data/repositorio.js';
@@ -27,16 +29,14 @@ function marca() {
   return h('div', { class: 'marca' }, h('b', null, 'kam'), h('span', { class: 'punto' }, '.'), h('span', { class: 'analytica' }, ' Analytica'), h('span', { class: 'producto' }, `Comisiones IA · INDUVALLAS · V.${estado.version}`));
 }
 
-function esDemo() {
-  return /demostraci/i.test(estado.origen?.origen || '');
-}
-
 function renderCabecera() {
   limpiar(ui.cabeceraMeta);
   poner(ui.cabeceraMeta, 
     esDemo() ? h('span', { class: 'demo' }, 'Datos ficticios · modo demostración') : null,
     h('span', null, `Referencia ${fecha(estado.hoy)}`),
     h('span', { class: 'rol' }, estado.rol || 'Sin rol'),
+    h('button', { type: 'button', onClick: () => mostrarRecorrido() }, 'Guía paso a paso'),
+    h('button', { type: 'button', onClick: () => mostrarGlosario() }, 'Glosario'),
     h('button', { type: 'button', onClick: cambiarRol }, 'Cambiar rol')
   );
 }
@@ -56,11 +56,11 @@ function kpis() {
   const pctBasePrev = tp?.base ? (tp.devengado + tp.bonos) / tp.base : null;
   return [
     { etiqueta: 'Facturación neta', valor: usd(t.valorNeto), delta: variacion(t.valorNeto, tp?.valorNeto) },
-    { etiqueta: 'Base comisionable', valor: usd(t.base), delta: variacion(t.base, tp?.base) },
-    { etiqueta: 'Devengado', valor: usd(t.devengado + t.bonos), delta: variacion(t.devengado + t.bonos, tp ? tp.devengado + tp.bonos : null) },
-    { etiqueta: 'Liberado', valor: usd(t.liberadoPeriodo + t.liberadoCartera), delta: variacion(t.liberadoPeriodo + t.liberadoCartera, tp ? tp.liberadoPeriodo + tp.liberadoCartera : null), protagonista: true },
-    { etiqueta: 'Retenido', valor: usd(t.retenido), delta: variacion(t.retenido, tp?.retenido), invertido: true },
-    { etiqueta: 'Caducado', valor: usd(t.caducadoPeriodo), delta: variacion(t.caducadoPeriodo, tp?.caducadoPeriodo), invertido: true },
+    { etiqueta: termino('baseComisionable'), valor: usd(t.base), delta: variacion(t.base, tp?.base) },
+    { etiqueta: termino('devengado'), valor: usd(t.devengado + t.bonos), delta: variacion(t.devengado + t.bonos, tp ? tp.devengado + tp.bonos : null) },
+    { etiqueta: termino('liberado'), valor: usd(t.liberadoPeriodo + t.liberadoCartera), delta: variacion(t.liberadoPeriodo + t.liberadoCartera, tp ? tp.liberadoPeriodo + tp.liberadoCartera : null), protagonista: true },
+    { etiqueta: termino('retenido'), valor: usd(t.retenido), delta: variacion(t.retenido, tp?.retenido), invertido: true },
+    { etiqueta: termino('caducado'), valor: usd(t.caducadoPeriodo), delta: variacion(t.caducadoPeriodo, tp?.caducadoPeriodo), invertido: true },
     { etiqueta: '% comisión / base', valor: pct(pctBase, 2), delta: pctBase != null && pctBasePrev != null ? pctBase - pctBasePrev : null, puntos: true },
     { etiqueta: 'Vendedores en meta', valor: `${enMeta} / ${vend.length}`, delta: enMetaPrev != null ? enMeta - enMetaPrev : null, absoluto: true },
     { etiqueta: 'Alertas', valor: entero(alertas), delta: alertasPrev != null ? alertas - alertasPrev : null, absoluto: true, invertido: true },
@@ -124,21 +124,33 @@ function destruirGraficos(cont) {
   for (const c of cont.querySelectorAll('canvas')) Chart.getChart(c)?.destroy();
 }
 
-function montarPestana() {
+function montarPestana(extra = {}) {
   const p = PESTANAS.find((x) => x.id === estado.pestana) || panel;
   if (pestanaActiva && pestanaActiva !== p) pestanaActiva.desmontar?.();
-  destruirGraficos(ui.contenido);
-  limpiar(ui.contenido);
+  destruirGraficos(ui.panelPestana);
+  limpiar(ui.panelPestana);
   const cont = h('div', { class: 'pestana-panel', id: `panel-${p.id}`, role: 'tabpanel', 'aria-labelledby': `tab-${p.id}` });
-  poner(ui.contenido, cont);
+  poner(ui.panelPestana, cont);
+  poner(cont, tarjetaAyuda(p.id));
   if (!hayDatos() && p.id !== 'datos') {
-    poner(cont, h('div', { class: 'vacio' }, h('p', null, 'No hay datos cargados.'), boton('Ir a Datos', () => irA('datos'), { tipo: 'primario' })));
+    poner(cont, h('div', { class: 'vacio' }, h('p', null, 'No hay datos cargados.'), boton('Ir a Datos', () => irA('datos', { resaltar: 'tarjeta-carga' }), { tipo: 'primario' })));
     pestanaActiva = null;
+    ui.stepper.actualizar();
     return;
   }
   p.montar(cont);
   pestanaActiva = p;
+  marcarVisitada(p.id);
   renderPestanas();
+  ui.stepper.actualizar();
+  if (extra.resaltar) {
+    const objetivo = document.getElementById(extra.resaltar);
+    if (objetivo) {
+      objetivo.classList.add('resaltar');
+      objetivo.scrollIntoView({ block: 'center', behavior: 'auto' });
+      setTimeout(() => objetivo.classList.remove('resaltar'), 3500);
+    }
+  }
 }
 
 function renderPie() {
@@ -183,7 +195,9 @@ function shell() {
   ui.kpiFila = h('div', { class: 'kpi-fila' });
   ui.scope = h('div', { class: 'scope-strip' });
   ui.pestanas = h('div', { class: 'pestanas-int', role: 'tablist', 'aria-label': 'Secciones' });
-  ui.contenido = h('main', { class: 'contenido' });
+  ui.stepper = stepper();
+  ui.panelPestana = h('div');
+  ui.contenido = h('main', { class: 'contenido' }, ui.stepper.el, ui.panelPestana);
   ui.pie = h('footer', { class: 'pie' });
   app.append(
     h('header', { class: 'cabecera' }, h('div', { class: 'cabecera-int' }, marca(), ui.cabeceraMeta)),
@@ -225,6 +239,10 @@ async function iniciar() {
   renderTodo();
   montarPestana();
   if (estado.almacen?.advertencia) toast(estado.almacen.advertencia, 'advertencia', 8000);
+  if (!recorridoVisto()) mostrarRecorrido();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '?' && !/input|textarea|select/i.test(e.target?.tagName || '')) mostrarRecorrido();
+  });
 }
 
 on('resultado', () => {
@@ -232,18 +250,20 @@ on('resultado', () => {
   renderHeaderStrip();
   renderPestanas();
   renderPie();
+  ui.stepper.actualizar();
   if (!pestanaActiva || !hayDatos()) montarPestana();
 });
 on('periodo', () => {
   renderHeaderStrip();
   renderPestanas();
+  ui.stepper.actualizar();
 });
 on('referencia', () => {
   renderCabecera();
   renderHeaderStrip();
 });
-on('pestana', () => {
-  montarPestana();
+on('pestana', ({ extra } = {}) => {
+  montarPestana(extra || {});
   if (estado.pestana !== 'motor' && estado.pestana !== 'panel') return;
   window.scrollTo({ top: 0, behavior: 'auto' });
 });

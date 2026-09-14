@@ -5,7 +5,8 @@
  */
 import { h, limpiar, tarjeta, tabla, badge, vacio, poner } from '../dom.js';
 import { usd, moneda, pct, periodoLargo, periodoCorto, nombreLinea, nombreCanal } from '../format.js';
-import { estado, on, nombreVendedor, resultadoPeriodo, irA, periodoAprobado } from '../estado.js';
+import { estado, on, nombreVendedor, resultadoPeriodo, irA, periodoAprobado, esDemo } from '../estado.js';
+import { tarjetaGuionDemo } from '../componentes/ayuda.js';
 import { barras, PALETA } from '../componentes/graficos.js';
 import { CATALOGO_ALERTAS } from '../../engine/alertas.js';
 
@@ -38,6 +39,8 @@ function actualizar() {
     poner(refs.veredicto, vacio('Sin datos. Cargue la demostración o una plantilla en la pestaña Datos.'));
     return;
   }
+  limpiar(refs.guion);
+  if (esDemo()) poner(refs.guion, tarjetaGuionDemo());
   const v = veredictoPeriodo();
   refs.veredicto.className = `veredicto veredicto-${v.clase}`;
   poner(refs.veredicto, h('div', null, h('div', { class: 'eyebrow' }, `Veredicto del cierre · ${periodoLargo(estado.periodo)}`), h('div', { class: 'veredicto-titulo' }, v.titulo)), h('div', { class: 'veredicto-detalle' }, v.detalle), periodoAprobado() ? badge('aprobado', 'badge-bloqueado') : per.enCurso ? badge('en curso', 'badge-info') : badge('abierto', 'badge-info'));
@@ -110,11 +113,12 @@ function actualizar() {
 }
 
 function montar(cont) {
-  refs = { veredicto: h('div', { class: 'veredicto' }), tendencia: h('div'), mix: h('div'), mixTabla: h('div'), ranking: h('div'), alertas: h('div', { class: 'alertas-lista' }) };
+  refs = { veredicto: h('div', { class: 'veredicto' }), guion: h('div'), tendencia: h('div'), mix: h('div'), mixTabla: h('div'), ranking: h('div'), alertas: h('div', { class: 'alertas-lista' }) };
   gTendencia = null;
   gMix = null;
-  poner(cont, 
+  poner(cont,
     refs.veredicto,
+    refs.guion,
     h('div', { class: 'rejilla rejilla-2' },
       tarjeta('Tendencia mensual: devengado frente a liberado', refs.tendencia, { subtitulo: 'Todos los vendedores, en USD' }),
       tarjeta('Mix por línea y canal', [refs.mix, refs.mixTabla], { subtitulo: 'Base comisionable del período' })
