@@ -11,6 +11,7 @@ Versión de demostración con los datos del ejercicio dentro de la herramienta.
 - Guion de la demostración con un sexto paso (el contraste) que abre la pantalla con el ejercicio ya cargado; notas «Versión de demostración» en las tarjetas «Cómo usar» de Datos y Liquidación; recorrido y barra de pasos actualizados.
 - Humo Playwright: autocarga, sexto paso del guion, contraste embebido y borrado con recarga sin autocarga. `dist/` conserva solo V.1.3.
 - Corrección: tras «Borrar todos los datos» el recálculo ya no invoca al motor con un dataset vacío (evitaba errores de consola «Parámetros inválidos»).
+- Guía rápida de la versión DEMO en Word (`dist/GUIA_Induvallas_2026_V_1_3.docx`), con identidad kam.
 
 ## V.1.2 · 14-sep-2026
 

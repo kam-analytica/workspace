@@ -12,6 +12,7 @@ Desarrollada por kam-Analytica S.A.S. (RUC 1793220761001) conforme a `PROMPT.md`
 | `PROTOCOLO_DATOS_ANONIMIZADOS.md` | Cómo compartir datos reales seudonimizados con kam y qué parámetros acompañan a los datos |
 | `dist/pruebas/` | Kit de prueba con datos ficticios del flujo anonimizado: plantilla rellena, copia anonimizada, mapa, rol histórico de contraste e instrucciones con resultados esperados (`npm run prueba`) |
 | `dist/Plantilla_Datos_Induvallas.xlsx` | Plantilla de carga con 6 hojas de datos más Instrucciones; también se descarga desde la pestaña Datos |
+| `dist/GUIA_Induvallas_2026_V_1_3.docx` | Guía rápida de la versión DEMO en formato Word (identidad kam): apertura, recorrido de seis pasos, cierre del mes, ficha de los datos ficticios y paso a datos reales |
 | `GUIA_USO_Finanzas.md` | Guía de uso de una página para Finanzas (la herramienta incluye además recorrido inicial, barra de pasos, ayuda por pestaña, glosario y guion de la demostración) |
 | `CHANGELOG.md` | Historial de versiones |
 
