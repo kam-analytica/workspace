@@ -6,7 +6,7 @@ Guía operativa de este proyecto para Claude Code. Léela completa antes de toca
 
 Herramienta web local de un solo archivo (`dist/ComisionesIA_Induvallas_V.1.0.html`) que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS (publicidad exterior, Quito). Usuario: Departamento Financiero. Sin servidor, sin red, sin CDN; datos en IndexedDB del navegador. Jurisdicción Ecuador, moneda USD, idioma español ecuatoriano, formato `es-EC`.
 
-Referencia visual y funcional obligatoria: `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html` (pendiente de carga, ver `ref/README.md`). Se evoluciona, no se reescribe.
+Referencia visual prevista: `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html`. No estuvo disponible; el sistema visual se reconstruyó desde `<design_system>` con autorización de Pablo (S-01). Si aparece, hacer revisión de paridad.
 
 ## 2. Estructura del proyecto
 
@@ -30,18 +30,18 @@ proyectos/induvallas-comisiones-ia/
 └── dist/                ComisionesIA_Induvallas_V.1.0.html · Plantilla_Datos_Induvallas.xlsx
 ```
 
-Existen hoy: gobierno (Fase 0), `src/engine/` (Fase 1), `src/data/`, `src/seed/`, `vendor/`, `scripts/` y `dist/Plantilla_Datos_Induvallas.xlsx` (Fase 2). Falta `src/ui/`, `build.mjs` y el HTML único (Fases 3 a 5).
+Todo existe (Fases 0 a 5). `src/ui/` contiene `app.js` (arranque), `estado.js`, `acciones.js`, `dom.js`, `format.js`, `explicar.js`, `simulador.js`, `componentes/` (gauge, ledger, graficos), `pestanas/` (una por pestaña) y `asistente/intents.js`.
 
 ## 3. Comandos
 
 ```
 npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10) y seed (9): 56 casos en verde
 npm run plantilla  # node scripts/generar-plantilla.mjs   regenera dist/Plantilla_Datos_Induvallas.xlsx
-npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (Fase 5)
-npm run e2e        # playwright test tests/e2e             humo sobre dist/ (Fase 5; Chromium preinstalado)
+npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (≈ 1,4 MB)
+npm run e2e        # playwright test                       humo en Chromium sobre dist/ (usa /opt/pw-browsers/chromium si existe)
 ```
 
-Dependencias de desarrollo: `chart.js@4.5.1` y `xlsx@0.18.5` (SheetJS CE), copiadas a `vendor/` con licencia y hash (D-23). `npm install` las trae; el motor y las pruebas corren con Node 22.
+Dependencias de desarrollo: `chart.js@4.5.1` y `xlsx@0.18.5` (SheetJS CE, copiadas a `vendor/` con licencia y hash, D-23), `esbuild@0.28.2` y `@playwright/test@1.63.0`. `npm install` las trae; el motor y las pruebas unitarias corren con Node 22. Tras cualquier cambio en `src/`: `npm test && npm run build && npm run e2e`.
 
 Regla: nunca cerrar una sesión con `dist/` roto. Si el build falla, se corrige o se revierte antes de terminar.
 
@@ -85,5 +85,5 @@ Ledger por vendedor y período, en este orden: (1) facturación y base, (2) tram
 - Fase 0 cerrada el 14-sep-2026. Respuestas de Pablo: Q1 default, Q2 "variable, entre 0,5 % y 2 %" (S-26), Q3 default. P-02 opción A aplicada como default sin objeción.
 - Fase 1 cerrada el 14-sep-2026: motor puro en `src/engine/` con 37 casos de oro en verde y 5.000 facturas en ≈ 70 ms en caliente.
 - Fase 2 cerrada el 14-sep-2026: `src/data/` (validación, plantilla, importador, exportaciones, respaldo, IndexedDB y repositorio), `src/seed/` (demo determinista con la narrativa de agosto 2026 y cierres enero a julio), 19 pruebas adicionales.
-- Bloqueo abierto: demo de referencia ausente en `ref/` (P-01); la Fase 3 no arranca sin ella ("evolucionar, no reescribir").
-- Siguiente: Fase 3 (interfaz) en cuanto exista `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html`.
+- Fases 3, 4 y 5 cerradas el 14-sep-2026 con autorización de Pablo para reconstruir el sistema visual sin la demo: `src/ui/` completo, asistente por reglas, `build.mjs`, humo Playwright en verde, `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`. Entregable V.1.0 en `dist/`.
+- Pendientes de validación con Pablo o INDUVALLAS: S-26, S-27, S-35, S-37, S-38 y paridad con la demo si aparece. Modo API del asistente no implementado (S-37).

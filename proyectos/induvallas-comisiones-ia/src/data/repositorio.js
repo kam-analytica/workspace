@@ -3,7 +3,7 @@
  * cierres, ajustes, bitácora, respaldo). Toda mutación pasa por aquí y deja rastro en la bitácora.
  * @module data/repositorio
  */
-import { COLECCIONES_DATASET, VERSION_ESQUEMA_DATOS, migrarDataset } from './migrations.js';
+import { COLECCIONES_DATASET, VERSION_ESQUEMA_DATOS, STORES, migrarDataset } from './migrations.js';
 import { crearRespaldo, leerRespaldo } from './respaldo.js';
 import { validarEsquema, validarPolitica } from '../engine/parametros.js';
 
@@ -66,7 +66,7 @@ export class Repositorio {
   /** Reemplaza todo el contenido por un dataset (carga inicial, demo o restauración). */
   async reemplazarDataset(dataset, { origen = 'importación', bitacoraAdicional = [], meta = {} } = {}) {
     const d = migrarDataset(dataset);
-    await this.almacen.vaciarTodo();
+    for (const s of Object.keys(STORES)) if (s !== 'bitacora') await this.almacen.vaciar(s);
     for (const k of COLECCIONES_DATASET) {
       if (k === 'liquidaciones') await this.almacen.guardarVarios(k, d[k].map((l) => ({ ...l, clave: `${l.periodo}|${l.vendedorId}` })));
       else await this.almacen.guardarVarios(k, d[k]);

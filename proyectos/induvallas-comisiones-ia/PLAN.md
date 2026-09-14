@@ -6,8 +6,8 @@ Fuente de alcance: `PROMPT.md`. Este plan lo operacionaliza; no lo sustituye.
 ## 1. Síntesis ejecutiva
 
 - Objetivo: entregar `dist/ComisionesIA_Induvallas_V.1.0.html`, herramienta local de un solo archivo que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS con reglas versionadas R-00 a R-07, evolucionando la demo aprobada.
-- Estado: Fases 0, 1 y 2 cerradas el 14-sep-2026. Motor, capa de datos y seed con 56 pruebas en verde (`npm test`). Respuestas de Pablo a Q1 a Q3 registradas en §5.
-- Bloqueo vigente: la demo de referencia no está en el repositorio ni se localizó en Drive/Gmail de kam (P-01); afecta a la Fase 3, no a las fases 1 y 2.
+- Estado: Fases 0 a 5 cerradas el 14-sep-2026. Entregable `dist/ComisionesIA_Induvallas_V.1.0.html` construido, 56 pruebas unitarias y humo Playwright en verde. Respuestas de Pablo a Q1 a Q3 en §5; reconstrucción del sistema visual autorizada por Pablo ante la ausencia de la demo (P-01).
+- La demo de referencia (P-01) nunca apareció; Pablo autorizó reconstruir el sistema visual desde `<design_system>`. Si la demo se recupera, corresponde una revisión de paridad (S-01).
 - Hallazgo material: con la política v2.0 vigente desde 01-sep-2026 y la regla de transición por fecha de emisión (default del prompt), el cierre de agosto 2026 no mostraría retención ni caducidad, en contradicción con los casos exigidos en `<demo_data>` (P-02). Resolución propuesta en §6; requiere decisión de Pablo.
 - Esfuerzo estimado: 82 h senior en total (4 h ya consumidas en Fase 0), más 4 h opcionales para el modo API del asistente y 6 h de contingencia si la demo no aparece. Cabe en la ventana de 3 semanas.
 
@@ -110,8 +110,9 @@ Hecho: `src/data/` (xlsx, validacion, plantilla, importar, exportar, respaldo, m
 Tareas previstas: modelo y wrapper IndexedDB con migraciones; plantilla Excel de 6 hojas más hoja "Instrucciones" con listas desplegables y ejemplo; importador con informe por fila (duplicados, fechas inválidas, vendedor o cliente inexistente, cobro mayor que la factura, % de agencia fuera de rango, NC mayor que la factura, período aprobado afectado); conciliación mensual contra totales contables ingresados a mano; respaldo y restauración JSON; borrado con confirmación; generador determinista de datos demo con la narrativa de agosto 2026; exportación de rol y detalle a Excel (formato es-EC) y CSV.
 Aceptación: la plantilla generada se reimporta sin errores (ida y vuelta); cada regla de validación tiene un caso que la dispara; restaurar un respaldo y recalcular reproduce el mismo hash que la Fase 1; el dataset demo cumple los casos de `<demo_data>` (verificados por test).
 
-### Fase 3 · Interfaz · 32 h
-Orden: Motor de cálculo (8 h) → Liquidación y auditoría (6 h) → Panel ejecutivo (6 h) → Datos (4 h) → Tabla de determinación (4 h) → Política de cobranza (4 h).
+### Fase 3 · Interfaz · 32 h · cerrada 14-sep-2026
+Hecho: siete pestañas en `src/ui/pestanas/`, componentes (gauge SVG, ledger desplegable, gráficos Chart.js con paleta kam), simulador, explicación en lenguaje natural, formato es-EC centralizado, roles y permisos, impresión, accesibilidad básica (tablist con teclado, focus-visible, reduced-motion). Decisiones D-27 a D-31; supuestos S-35 y S-36.
+Orden previsto: Motor de cálculo (8 h) → Liquidación y auditoría (6 h) → Panel ejecutivo (6 h) → Datos (4 h) → Tabla de determinación (4 h) → Política de cobranza (4 h).
 Aceptación por pestaña:
 - Motor de cálculo: gauge, ledger con fórmula y código de regla por línea, detalle por factura al clic, cascada, simulador con sliders que no altera datos, explicación en lenguaje natural con citas a reglas.
 - Liquidación y auditoría: rol por vendedor, ajustes con motivo, flujo Validar → Aprobar → Generar rol, bloqueo, exportación Excel y CSV, controles de cierre, bitácora filtrable, impresión.
@@ -121,12 +122,14 @@ Aceptación por pestaña:
 - Política de cobranza: editor de tramos, versiones, regla de transición, simulador anterior vs. actualizada con gráfico, cartera de comisiones pendientes ordenable y exportable.
 - Transversal: gráficos creados al mostrar la pestaña y actualizados con `update('none')`; formato es-EC en todas las cifras; teclado y `focus-visible`.
 
-### Fase 4 · Asistente · 6 h (+ 4 h opcionales)
-Intents basados en reglas: por qué, cuánto costaría si, retención mayor a, tope, límite de tramo, resumen ejecutivo, cartera vencida de X, impacto de la nueva política en X. El asistente solo afirma lo que calcula. Modo API desactivado por defecto; se implementa solo si queda tiempo, tras verificar en la documentación vigente de Anthropic el mecanismo soportado para llamadas desde navegador, con aviso de envío de datos a un tercero y clave guardada únicamente en el navegador.
+### Fase 4 · Asistente · 6 h (+ 4 h opcionales) · cerrada 14-sep-2026
+Hecho: `src/ui/asistente/intents.js` con ocho intents por reglas (resumen ejecutivo, por qué, cuánto costaría si, retención mayor a, tope, límite de tramo, cartera vencida, impacto de la nueva política) y respuesta explícita de "no puedo calcularlo". Modo API no implementado (S-37).
+Intents previstos: basados en reglas: por qué, cuánto costaría si, retención mayor a, tope, límite de tramo, resumen ejecutivo, cartera vencida de X, impacto de la nueva política en X. El asistente solo afirma lo que calcula. Modo API desactivado por defecto; se implementa solo si queda tiempo, tras verificar en la documentación vigente de Anthropic el mecanismo soportado para llamadas desde navegador, con aviso de envío de datos a un tercero y clave guardada únicamente en el navegador.
 Aceptación: cada intent responde con cifras trazables al ledger; consulta fuera de alcance recibe respuesta explícita de "no puedo calcularlo".
 
-### Fase 5 · QA y empaquetado · 10 h
-Tareas: `build.mjs` (esbuild, código propio legible, vendors embebidos); Playwright de humo (abrir por `file://`, cargar demo, recorrer pestañas, importar plantilla, exportar rol, cero errores de consola); revisión es-EC pantalla por pantalla; prueba en Firefox; `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`; pie institucional; aviso LOPDP; test del socio final.
+### Fase 5 · QA y empaquetado · 10 h · cerrada 14-sep-2026
+Hecho: `build.mjs` (esbuild, vendors embebidos, CSP sin red), `playwright.config.mjs` y `tests/e2e/humo.spec.mjs` en verde (rol, demo, siete pestañas, ledger, simulador, asistente, exportación, importación, cambio de rol, cero errores de consola), `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`. Pendiente: verificación manual en Firefox (S-38) y revisión de paridad con la demo si aparece.
+Tareas previstas: `build.mjs` (esbuild, código propio legible, vendors embebidos); Playwright de humo (abrir por `file://`, cargar demo, recorrer pestañas, importar plantilla, exportar rol, cero errores de consola); revisión es-EC pantalla por pantalla; prueba en Firefox; `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`; pie institucional; aviso LOPDP; test del socio final.
 Aceptación: `npm run build && npm test && npm run e2e` en verde; el archivo abre con doble clic sin red; tamaño y tiempo de carga documentados.
 
 ### Resumen de horas

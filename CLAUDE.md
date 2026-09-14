@@ -6,7 +6,7 @@ Repositorio multi-proyecto de kam-Analytica S.A.S. Cada proyecto vive en su carp
 
 | Carpeta | Proyecto | Estado |
 |---|---|---|
-| `proyectos/induvallas-comisiones-ia/` | kam. Comisiones IA · INDUVALLAS (herramienta local de liquidación de comisiones) | Fase 0 cerrada 14-sep-2026 |
+| `proyectos/induvallas-comisiones-ia/` | kam. Comisiones IA · INDUVALLAS (herramienta local de liquidación de comisiones) | V.1.0 construida 14-sep-2026 (fases 0 a 5); pendientes de validación en `ASSUMPTIONS.md` |
 
 ## Convenciones del workspace
 
