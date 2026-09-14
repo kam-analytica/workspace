@@ -12,6 +12,8 @@ import { importarPlantilla } from '../../data/importar.js';
 import { crearRespaldo, serializarRespaldo } from '../../data/respaldo.js';
 import { generarDatosDemo, HOY_DEMO } from '../../seed/demo.js';
 import { CONTROL } from '../../seed/defaults.js';
+import { anonimizarDataset, serializarMapa } from '../../data/anonimizar.js';
+import { modal } from '../dom.js';
 import { ahoraISO } from '../format.js';
 
 let refs = null;
@@ -122,6 +124,41 @@ async function cargarDemo() {
   recalcular({ conservarPeriodo: false });
 }
 
+function exportarAnonimizado() {
+  const clave = input('password', '', null, { placeholder: 'Frase secreta (mínimo 8 caracteres)', 'aria-label': 'Clave de anonimización', autocomplete: 'off' });
+  const escala = input('number', '1', null, { step: '0.05', min: '0.05', max: '10', 'aria-label': 'Escala de montos' });
+  modal({
+    titulo: 'Exportar copia anonimizada',
+    cuerpo: [
+      h('p', null, 'Genera dos archivos: la plantilla Excel con datos seudonimizados (para compartir con kam) y el mapa de reidentificación en JSON (custodia exclusiva de INDUVALLAS, no se comparte). Se conservan fechas, montos, líneas, canales, porcentajes y cuotas; se eliminan nombres, códigos reales, cargos, motivos y autores. Los cierres aprobados no se exportan: se recalculan.'),
+      campo('Clave de anonimización', clave, 'La misma clave produce los mismos seudónimos en exportaciones futuras. No se guarda en ningún archivo.'),
+      campo('Escala de montos (1 = sin cambio)', escala, 'Opcional: multiplica facturas, cobros, notas de crédito, cuotas y tope para no revelar cifras reales. El cálculo es proporcional.'),
+    ],
+    acciones: [
+      { texto: 'Cancelar' },
+      {
+        texto: 'Generar y descargar',
+        tipo: 'primario',
+        onClick: async () => {
+          try {
+            const XLSX = await cargarXLSX();
+            const { dataset, mapa, informe } = anonimizarDataset(estado.dataset, { clave: clave.value, escala: Number(escala.value) || 1 });
+            const sello = estado.hoy;
+            descargar(`Datos_Anonimizados_${sello}.xlsx`, libroABytes(XLSX, datasetAPlantilla(XLSX, dataset)), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            setTimeout(() => descargar(`Mapa_Anonimizacion_${sello}_NO_COMPARTIR.json`, serializarMapa(mapa, { generado: ahoraISO() }), 'application/json'), 400);
+            await estado.repo.registrar('Exportación de copia anonimizada', 'Datos', `${informe.conteos.facturas} facturas, ${informe.conteos.cobros} cobros · escala ${informe.escala} · mapa descargado aparte (sin clave)`);
+            toast('Copia anonimizada y mapa generados', 'ok');
+            return true;
+          } catch (e) {
+            toast(e.message, 'error');
+            return false;
+          }
+        },
+      },
+    ],
+  });
+}
+
 async function exportarRespaldo() {
   const respaldo = await estado.repo.exportarRespaldo({ usuario: estado.rol, fechaReferencia: estado.hoy });
   descargar(`Respaldo_ComisionesIA_${ahoraISO().replace(/[:T]/g, '-').slice(0, 16)}.json`, serializarRespaldo(respaldo), 'application/json');
@@ -215,6 +252,7 @@ function montar(cont) {
         h('div', { class: 'acciones' },
           boton('Cargar datos de demostración', cargarDemo, { deshabilitado: !puede('datos') }),
           boton('Exportar respaldo JSON', exportarRespaldo, { deshabilitado: !hayDatos() }),
+          boton('Exportar copia anonimizada…', exportarAnonimizado, { deshabilitado: !hayDatos() }),
           boton('Restaurar respaldo…', abrirRestaurar, { deshabilitado: !puede('datos') }),
           boton('Borrar todos los datos', borrarTodo, { tipo: 'peligro', deshabilitado: !puede('datos') || !hayDatos() })
         ),

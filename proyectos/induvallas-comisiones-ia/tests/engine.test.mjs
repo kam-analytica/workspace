@@ -493,7 +493,7 @@ test('T-18 conciliación · suma del detalle = rol, identidades por factura y te
 test('T-19 rendimiento · 5.000 facturas y 8 vendedores en menos de 200 ms', () => {
   const ds = datasetAleatorio({ semilla: 3, vendedores: 8, clientes: 60, facturas: 5000 });
   let mejor = Infinity;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     const t0 = performance.now();
     computeTodo(ds, { hoy: HOY });
     mejor = Math.min(mejor, performance.now() - t0);

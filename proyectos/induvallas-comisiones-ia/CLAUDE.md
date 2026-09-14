@@ -4,7 +4,7 @@ Guía operativa de este proyecto para Claude Code. Léela completa antes de toca
 
 ## 1. Qué es este proyecto
 
-Herramienta web local de un solo archivo (`dist/ComisionesIA_Induvallas_V.1.0.html`) que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS (publicidad exterior, Quito). Usuario: Departamento Financiero. Sin servidor, sin red, sin CDN; datos en IndexedDB del navegador. Jurisdicción Ecuador, moneda USD, idioma español ecuatoriano, formato `es-EC`.
+Herramienta web local de un solo archivo (`dist/ComisionesIA_Induvallas_V.1.1.html`) que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS (publicidad exterior, Quito). Usuario: Departamento Financiero. Sin servidor, sin red, sin CDN; datos en IndexedDB del navegador. Jurisdicción Ecuador, moneda USD, idioma español ecuatoriano, formato `es-EC`.
 
 Referencia visual prevista: `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html`. No estuvo disponible; el sistema visual se reconstruyó desde `<design_system>` con autorización de Pablo (S-01). Si aparece, hacer revisión de paridad.
 
@@ -27,7 +27,7 @@ proyectos/induvallas-comisiones-ia/
 ├── tests/               engine.test.mjs (node --test) y e2e/ (Playwright)
 ├── build.mjs            produce el archivo único en dist/
 ├── package.json         scripts build · test · e2e
-└── dist/                ComisionesIA_Induvallas_V.1.0.html · Plantilla_Datos_Induvallas.xlsx
+└── dist/                ComisionesIA_Induvallas_V.1.1.html · Plantilla_Datos_Induvallas.xlsx
 ```
 
 Todo existe (Fases 0 a 5). `src/ui/` contiene `app.js` (arranque), `estado.js`, `acciones.js`, `dom.js`, `format.js`, `explicar.js`, `simulador.js`, `componentes/` (gauge, ledger, graficos), `pestanas/` (una por pestaña) y `asistente/intents.js`.
@@ -35,9 +35,10 @@ Todo existe (Fases 0 a 5). `src/ui/` contiene `app.js` (arranque), `estado.js`, 
 ## 3. Comandos
 
 ```
-npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10) y seed (9): 56 casos en verde
+npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10), seed (9), anonimización y contraste (6): 62 casos
 npm run plantilla  # node scripts/generar-plantilla.mjs   regenera dist/Plantilla_Datos_Induvallas.xlsx
-npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (≈ 1,4 MB)
+npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.<versionEntregable>.html (≈ 1,4 MB)
+npm run anonimizar # node scripts/anonimizar.mjs           seudonimiza una plantilla rellena (ver PROTOCOLO_DATOS_ANONIMIZADOS.md)
 npm run e2e        # playwright test                       humo en Chromium sobre dist/ (usa /opt/pw-browsers/chromium si existe)
 ```
 
@@ -86,4 +87,5 @@ Ledger por vendedor y período, en este orden: (1) facturación y base, (2) tram
 - Fase 1 cerrada el 14-sep-2026: motor puro en `src/engine/` con 37 casos de oro en verde y 5.000 facturas en ≈ 70 ms en caliente.
 - Fase 2 cerrada el 14-sep-2026: `src/data/` (validación, plantilla, importador, exportaciones, respaldo, IndexedDB y repositorio), `src/seed/` (demo determinista con la narrativa de agosto 2026 y cierres enero a julio), 19 pruebas adicionales.
 - Fases 3, 4 y 5 cerradas el 14-sep-2026 con autorización de Pablo para reconstruir el sistema visual sin la demo: `src/ui/` completo, asistente por reglas, `build.mjs`, humo Playwright en verde, `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`. Entregable V.1.0 en `dist/`.
-- Pendientes de validación con Pablo o INDUVALLAS: S-26, S-27, S-35, S-37, S-38 y paridad con la demo si aparece. Modo API del asistente no implementado (S-37).
+- V.1.1 (14-sep-2026): anonimización determinista con mapa y clave, contraste con la liquidación histórica y protocolo de datos anonimizados (S-39, S-40). La validación se hará con datos reales seudonimizados de INDUVALLAS.
+- Pendientes de validación con Pablo o INDUVALLAS: S-26, S-27, S-35, S-37, S-38, S-39, S-40 y paridad con la demo si aparece. Modo API del asistente no implementado (S-37).

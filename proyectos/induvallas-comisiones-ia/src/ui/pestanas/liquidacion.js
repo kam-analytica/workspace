@@ -11,6 +11,8 @@ import { cargarXLSX } from '../../data/xlsx.js';
 import { libroRol, filasRol, filasDetalle, aCSV } from '../../data/exportar.js';
 import { libroABytes } from '../../data/plantilla.js';
 import { periodoDeFecha } from '../../engine/dates.js';
+import { plantillaContraste, leerContraste, contrastar } from '../../data/contraste.js';
+import { leerArchivo, selectorArchivo } from '../dom.js';
 
 let refs = null;
 let filtroBitacora = { entidad: '', texto: '' };
@@ -211,6 +213,54 @@ async function renderBitacora() {
   poner(refs.bitacora, h('p', { class: 'ayuda' }, `${filas.length} entradas${filas.length > 300 ? ' (se muestran las 300 más recientes)' : ''}`), lista);
 }
 
+let contraste = null;
+
+async function cargarContraste(archivo) {
+  try {
+    const XLSX = await cargarXLSX();
+    const bytes = new Uint8Array(await leerArchivo(archivo));
+    const { filas, errores } = leerContraste(XLSX, bytes);
+    contraste = { nombre: archivo.name, filas, errores };
+    renderContraste();
+    await estado.repo.registrar('Contraste con liquidación histórica', 'Liquidacion', `${archivo.name}: ${filas.length} filas, ${errores.length} con error`);
+  } catch (e) {
+    toast(`No se pudo leer el contraste: ${e.message}`, 'error');
+  }
+}
+
+async function descargarPlantillaContraste() {
+  const XLSX = await cargarXLSX();
+  descargar('Plantilla_Contraste_Comisiones.xlsx', libroABytes(XLSX, plantillaContraste(XLSX, estado.resultado.meta.periodos.filter((p) => !estado.resultado.periodos[p].enCurso), vendedores())), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+
+function renderContraste() {
+  limpiar(refs.contraste);
+  if (!contraste) return poner(refs.contraste, h('p', { class: 'ayuda' }, 'Cargue el rol histórico (periodo, vendedor_id, comision_pagada) para comparar la comisión liquidable de la herramienta con lo que INDUVALLAS pagó. Tolerancia: USD 1,00.'));
+  const r = contrastar(estado.resultado, contraste.filas, { tolerancia: 1, nombres: nombreVendedor });
+  poner(refs.contraste,
+    h('p', null, badge(`${r.totales.ok} coinciden`, 'badge-ok'), ' ', badge(`${r.totales.revisar} por revisar`, r.totales.revisar ? 'badge-advertencia' : 'badge-neutro'), ' ', r.sinCorrespondencia.length ? badge(`${r.sinCorrespondencia.length} sin correspondencia`, 'badge-critico') : null, ' ', contraste.errores.length ? badge(`${contraste.errores.length} filas con error`, 'badge-critico') : null, h('span', { class: 'ayuda' }, ` · ${contraste.nombre}`)),
+    tabla({
+      compacta: true,
+      columnas: [
+        { clave: 'periodo', titulo: 'Período' },
+        { clave: 'vendedor', titulo: 'Vendedor' },
+        { clave: 'historico', titulo: 'Pagado histórico', num: true, formato: (v) => moneda(Math.round(v * 100)) },
+        { clave: 'herramienta', titulo: 'Liquidable herramienta', num: true, formato: (v) => moneda(Math.round(v * 100)) },
+        { clave: 'diferencia', titulo: 'Diferencia', num: true, formato: (v) => monedaSigno(Math.round(v * 100)) },
+        { clave: 'pct', titulo: '%', num: true, formato: (v) => (v == null ? '—' : pct(v)) },
+        { clave: 'devengadoHistorico', titulo: 'Devengado histórico', num: true, formato: (v) => (v == null ? '—' : moneda(Math.round(v * 100))) },
+        { clave: 'devengadoHerramienta', titulo: 'Devengado herramienta', num: true, formato: (v) => moneda(Math.round(v * 100)) },
+        { clave: 'estado', titulo: 'Estado', formato: (v) => badge(v === 'ok' ? 'coincide' : 'revisar', v === 'ok' ? 'badge-ok' : 'badge-advertencia') },
+      ],
+      filas: r.filas,
+      totales: { periodo: 'Total', historico: r.totales.historico, herramienta: r.totales.herramienta, diferencia: r.totales.diferencia },
+      claseFila: (f) => (f.estado === 'revisar' ? 'fila-resaltada' : ''),
+      ordenInicial: { clave: 'diferencia', desc: true },
+    }),
+    r.sinCorrespondencia.length ? h('p', { class: 'ayuda' }, `Sin correspondencia en la herramienta (período o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(', ')}`) : null
+  );
+}
+
 function actualizar() {
   if (!refs) return;
   renderRol();
@@ -218,10 +268,12 @@ function actualizar() {
   renderAjustes();
   renderControles();
   renderBitacora();
+  renderContraste();
 }
 
 function montar(cont) {
-  refs = { estadoPeriodo: h('div', { class: 'tarjeta-cab', style: { marginBottom: 0 } }), rol: h('div'), flujo: h('div'), ajustes: h('div'), controles: h('div'), bitacora: h('div') };
+  refs = { estadoPeriodo: h('div', { class: 'tarjeta-cab', style: { marginBottom: 0 } }), rol: h('div'), flujo: h('div'), ajustes: h('div'), controles: h('div'), bitacora: h('div'), contraste: h('div') };
+  const abrirContraste = selectorArchivo('.xlsx,.xls,.csv', cargarContraste);
   const entidad = select([{ valor: '', texto: 'Todas las entidades' }, ...['Datos', 'Liquidacion', 'EsquemaComisiones', 'PoliticaCobranza', 'Control', 'Sesión'].map((e) => ({ valor: e, texto: e }))], '', (v) => { filtroBitacora.entidad = v; renderBitacora(); }, { 'aria-label': 'Entidad' });
   const texto = input('search', '', (v) => { filtroBitacora.texto = v; renderBitacora(); }, { placeholder: 'Buscar en la bitácora', 'aria-label': 'Buscar' });
   poner(cont, 
@@ -230,6 +282,7 @@ function montar(cont) {
       tarjeta('Ajustes manuales (R-06)', refs.ajustes, { subtitulo: 'Motivo, autor y fecha obligatorios; aparecen en el ledger y en la bitácora' }),
       tarjeta('Controles del cierre', refs.controles, { memorable: true })
     ),
+    tarjeta('Contraste con la liquidación histórica', refs.contraste, { acciones: [boton('Descargar plantilla de contraste', descargarPlantillaContraste, { mini: true }), boton('Cargar rol histórico…', abrirContraste, { mini: true, tipo: 'primario' })], subtitulo: 'Comisión liquidable de la herramienta frente a lo pagado según el Excel actual de INDUVALLAS' }),
     tarjeta('Bitácora', refs.bitacora, { acciones: [entidad, texto], subtitulo: 'Toda acción queda registrada con usuario y fecha' })
   );
   actualizar();

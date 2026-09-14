@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>kam. Comisiones IA · INDUVALLAS · V.1.0</title>
+<title>kam. Comisiones IA · INDUVALLAS · V.1.1</title>
 <style>
 /* kam. Comisiones IA · INDUVALLAS · sistema visual (tokens del prompt <design_system> y kam-house-style §11) */
 :root {
@@ -2008,7 +2008,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     pestana: "panel",
     origen: null,
     errores: null,
-    version: true ? "1.0" : "dev"
+    version: true ? "1.1" : "dev"
   };
   var oyentes = /* @__PURE__ */ new Map();
   function on(evento, fn) {
@@ -3635,6 +3635,107 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     return lista;
   }
 
+  // src/data/anonimizar.js
+  function hash32(texto2, semilla) {
+    let h2 = semilla >>> 0;
+    for (let i = 0; i < texto2.length; i++) {
+      h2 ^= texto2.charCodeAt(i);
+      h2 = Math.imul(h2, 16777619) >>> 0;
+    }
+    h2 ^= h2 >>> 16;
+    h2 = Math.imul(h2, 2146121005) >>> 0;
+    h2 ^= h2 >>> 15;
+    return h2 >>> 0;
+  }
+  var ALFABETO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  function codigoSeudonimo(clave2, tipo, id) {
+    const a = hash32(`${clave2}${tipo}${id}`, 2166136261);
+    const b = hash32(`${id}${tipo}${clave2}`, 461845907);
+    let n = BigInt(a) << 32n | BigInt(b);
+    let out = "";
+    for (let i = 0; i < 6; i++) {
+      out += ALFABETO[Number(n % 32n)];
+      n /= 32n;
+    }
+    return out;
+  }
+  var escalar = (v, escala) => Math.round(Number(v) * escala * 100) / 100;
+  var PREFIJOS = { vendedores: "V", agencias: "AG", clientes: "C", facturas: "F", cobros: "CB", notasCredito: "NC" };
+  function anonimizarDataset(dataset, { clave: clave2, escala = 1, mapaPrevio = null, conservarZona = true, conservarMedio = true } = {}) {
+    if (!clave2 || String(clave2).length < 8) throw new Error("La clave de anonimizaci\xF3n debe tener al menos 8 caracteres");
+    if (!(escala > 0) || escala > 10) throw new Error("La escala debe ser un n\xFAmero mayor que 0 y no mayor que 10");
+    const mapa2 = { tipo: "kam.comisiones-ia.mapa-anonimizacion", version: 1, escala, entidades: {} };
+    const usados = /* @__PURE__ */ new Set();
+    const previos = mapaPrevio?.entidades || {};
+    function asignar(tipo, id, extra = {}) {
+      const prefijo = PREFIJOS[tipo];
+      if (!mapa2.entidades[tipo]) mapa2.entidades[tipo] = {};
+      if (mapa2.entidades[tipo][id]) return mapa2.entidades[tipo][id].seudonimo;
+      let seudonimo = previos[tipo]?.[id]?.seudonimo || null;
+      if (!seudonimo) {
+        let codigo = codigoSeudonimo(clave2, tipo, String(id));
+        let intento = 0;
+        while (usados.has(`${tipo}|${codigo}`)) codigo = codigoSeudonimo(clave2, tipo, `${id}#${++intento}`);
+        seudonimo = `${prefijo}-${codigo}`;
+      }
+      usados.add(`${tipo}|${seudonimo.slice(prefijo.length + 1)}`);
+      mapa2.entidades[tipo][id] = { seudonimo, ...extra };
+      return seudonimo;
+    }
+    const ref = (tipo, id, extra) => mapa2.entidades[tipo]?.[id]?.seudonimo || asignar(tipo, id, extra);
+    const vendedores2 = (dataset.vendedores || []).map((v) => {
+      const id = asignar("vendedores", v.id, { nombre: v.nombre });
+      const codigo = id.slice(2);
+      return { id, nombre: `Vendedor ${codigo}`, iniciales: codigo.slice(0, 2), zona: conservarZona ? v.zona || "" : "", cargo: "Ejecutivo comercial", activo: v.activo !== false, cuotas: (v.cuotas || []).map((c) => ({ periodo: c.periodo, monto: escalar(c.monto, escala) })) };
+    });
+    const agencias = (dataset.agencias || []).map((a) => {
+      const id = asignar("agencias", a.id, { nombre: a.nombre });
+      return { id, nombre: `Agencia ${id.slice(3)}`, pctAgencia: a.pctAgencia };
+    });
+    const clientes = (dataset.clientes || []).map((c) => {
+      const id = asignar("clientes", c.id, { nombre: c.nombre });
+      return { id, nombre: `Cliente ${id.slice(2)}`, canal: c.canal, agenciaId: c.agenciaId ? ref("agencias", c.agenciaId, { nombre: c.agenciaId }) : void 0, vendedorId: ref("vendedores", c.vendedorId, { nombre: c.vendedorId }), fechaAlta: c.fechaAlta };
+    });
+    const facturas = (dataset.facturas || []).map((f) => {
+      const numero = asignar("facturas", f.numero);
+      const out = { numero, fechaEmision: f.fechaEmision, vendedorId: ref("vendedores", f.vendedorId, { nombre: f.vendedorId }), clienteId: ref("clientes", f.clienteId, { nombre: f.clienteId }), linea: f.linea, canal: f.canal, valorFacturado: escalar(f.valorFacturado, escala) };
+      if (f.pctAgencia != null) out.pctAgencia = f.pctAgencia;
+      if (f.fechaAnulacion) out.fechaAnulacion = f.fechaAnulacion;
+      return out;
+    });
+    const valorPorFactura = new Map(facturas.map((f) => [f.numero, f.valorFacturado]));
+    function escalarLigado(lista, campoRef, campoMonto, campoId, tipo, extraSalida) {
+      const acum = /* @__PURE__ */ new Map();
+      return lista.map((x) => {
+        const facturaNumero = ref("facturas", x[campoRef]);
+        let monto = escalar(x[campoMonto], escala);
+        const previo = acum.get(facturaNumero) || 0;
+        const tope = valorPorFactura.get(facturaNumero);
+        if (tope != null && previo + monto > tope) monto = Math.max(0, Math.round((tope - previo) * 100) / 100);
+        acum.set(facturaNumero, previo + monto);
+        return { [campoId]: asignar(tipo, x[campoId]), facturaNumero, monto, ...extraSalida(x) };
+      });
+    }
+    const cobros = escalarLigado(dataset.cobros || [], "facturaNumero", "monto", "id", "cobros", (c) => ({ fechaCobro: c.fechaCobro, medio: conservarMedio ? c.medio || "transferencia" : "transferencia" }));
+    const notasCredito = escalarLigado(dataset.notasCredito || [], "facturaNumero", "valor", "numero", "notasCredito", (n) => ({ fecha: n.fecha, motivo: "Ajuste comercial" })).map(({ monto, ...n }) => ({ ...n, valor: monto }));
+    const ajustes = (dataset.ajustes || []).map((a, i) => ({ id: `AJ-${String(i + 1).padStart(4, "0")}`, periodo: a.periodo, vendedorId: ref("vendedores", a.vendedorId, { nombre: a.vendedorId }), monto: escalar(a.monto, escala), motivo: "Ajuste manual", autor: "Finanzas", fecha: a.fecha }));
+    const esquemas = (dataset.esquemas || []).map((e) => ({ ...e, autor: "Finanzas", tope: e.tope ? { ...e.tope, monto: escalar(e.tope.monto, escala) } : e.tope, bonos: e.bonos?.clienteNuevo ? { ...e.bonos, clienteNuevo: { ...e.bonos.clienteNuevo, monto: escalar(e.bonos.clienteNuevo.monto, escala) } } : e.bonos }));
+    const politicas = (dataset.politicas || []).map((p) => ({ ...p, autor: "Finanzas" }));
+    const salida = { vendedores: vendedores2, agencias, clientes, facturas, cobros, notasCredito, ajustes, esquemas, politicas, cierres: {}, liquidaciones: [], control: { ...dataset.control || {} } };
+    const suma = (lista, campo2) => Math.round(lista.reduce((s, x) => s + Number(x[campo2] || 0), 0) * 100) / 100;
+    const informe = {
+      escala,
+      conteos: { vendedores: vendedores2.length, agencias: agencias.length, clientes: clientes.length, facturas: facturas.length, cobros: cobros.length, notasCredito: notasCredito.length },
+      totales: { facturadoOriginal: suma(dataset.facturas || [], "valorFacturado"), facturadoAnonimizado: suma(facturas, "valorFacturado"), cobradoOriginal: suma(dataset.cobros || [], "monto"), cobradoAnonimizado: suma(cobros, "monto") },
+      eliminado: ["nombres y c\xF3digos reales", "cargos", "motivos de notas de cr\xE9dito y ajustes", "autores de versiones", "cierres aprobados y estados de liquidaci\xF3n (se recalculan)"],
+      conservado: ["fechas", escala !== 1 ? `montos \xD7 ${escala}` : "montos", "l\xEDneas y canales", "porcentajes de agencia", escala !== 1 ? `cuotas \xD7 ${escala}` : "cuotas", "par\xE1metros de esquema y pol\xEDtica", conservarZona ? "zonas" : null, conservarMedio ? "medios de pago" : null].filter(Boolean)
+    };
+    return { dataset: salida, mapa: mapa2, informe };
+  }
+  function serializarMapa(mapa2, extra = {}) {
+    return JSON.stringify({ ...mapa2, ...extra, advertencia: "Este mapa permite reidentificar los datos anonimizados. Custodia exclusiva de INDUVALLAS; no compartir." }, null, 2);
+  }
+
   // src/ui/pestanas/datos.js
   var refs2 = null;
   var importacion = null;
@@ -3735,6 +3836,40 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     estado.origen = await estado.repo.leerMeta("origen");
     recalcular({ conservarPeriodo: false });
   }
+  function exportarAnonimizado() {
+    const clave2 = input("password", "", null, { placeholder: "Frase secreta (m\xEDnimo 8 caracteres)", "aria-label": "Clave de anonimizaci\xF3n", autocomplete: "off" });
+    const escala = input("number", "1", null, { step: "0.05", min: "0.05", max: "10", "aria-label": "Escala de montos" });
+    modal({
+      titulo: "Exportar copia anonimizada",
+      cuerpo: [
+        h("p", null, "Genera dos archivos: la plantilla Excel con datos seudonimizados (para compartir con kam) y el mapa de reidentificaci\xF3n en JSON (custodia exclusiva de INDUVALLAS, no se comparte). Se conservan fechas, montos, l\xEDneas, canales, porcentajes y cuotas; se eliminan nombres, c\xF3digos reales, cargos, motivos y autores. Los cierres aprobados no se exportan: se recalculan."),
+        campo("Clave de anonimizaci\xF3n", clave2, "La misma clave produce los mismos seud\xF3nimos en exportaciones futuras. No se guarda en ning\xFAn archivo."),
+        campo("Escala de montos (1 = sin cambio)", escala, "Opcional: multiplica facturas, cobros, notas de cr\xE9dito, cuotas y tope para no revelar cifras reales. El c\xE1lculo es proporcional.")
+      ],
+      acciones: [
+        { texto: "Cancelar" },
+        {
+          texto: "Generar y descargar",
+          tipo: "primario",
+          onClick: async () => {
+            try {
+              const XLSX = await cargarXLSX();
+              const { dataset, mapa: mapa2, informe } = anonimizarDataset(estado.dataset, { clave: clave2.value, escala: Number(escala.value) || 1 });
+              const sello = estado.hoy;
+              descargar(`Datos_Anonimizados_${sello}.xlsx`, libroABytes(XLSX, datasetAPlantilla(XLSX, dataset)), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+              setTimeout(() => descargar(`Mapa_Anonimizacion_${sello}_NO_COMPARTIR.json`, serializarMapa(mapa2, { generado: ahoraISO() }), "application/json"), 400);
+              await estado.repo.registrar("Exportaci\xF3n de copia anonimizada", "Datos", `${informe.conteos.facturas} facturas, ${informe.conteos.cobros} cobros \xB7 escala ${informe.escala} \xB7 mapa descargado aparte (sin clave)`);
+              toast("Copia anonimizada y mapa generados", "ok");
+              return true;
+            } catch (e) {
+              toast(e.message, "error");
+              return false;
+            }
+          }
+        }
+      ]
+    });
+  }
   async function exportarRespaldo() {
     const respaldo = await estado.repo.exportarRespaldo({ usuario: estado.rol, fechaReferencia: estado.hoy });
     descargar(`Respaldo_ComisionesIA_${ahoraISO().replace(/[:T]/g, "-").slice(0, 16)}.json`, serializarRespaldo(respaldo), "application/json");
@@ -3829,6 +3964,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
             { class: "acciones" },
             boton("Cargar datos de demostraci\xF3n", cargarDemo, { deshabilitado: !puede("datos") }),
             boton("Exportar respaldo JSON", exportarRespaldo, { deshabilitado: !hayDatos() }),
+            boton("Exportar copia anonimizada\u2026", exportarAnonimizado, { deshabilitado: !hayDatos() }),
             boton("Restaurar respaldo\u2026", abrirRestaurar, { deshabilitado: !puede("datos") }),
             boton("Borrar todos los datos", borrarTodo, { tipo: "peligro", deshabilitado: !puede("datos") || !hayDatos() })
           ),
@@ -5084,6 +5220,86 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     graficoSim = null;
   } };
 
+  // src/data/contraste.js
+  var ALIAS2 = { mes: "periodo", period: "periodo", vendedor: "vendedor_id", vendedorid: "vendedor_id", codigo_vendedor: "vendedor_id", comision: "comision_pagada", comision_liquidada: "comision_pagada", pagado: "comision_pagada", comisionpagada: "comision_pagada", devengado: "devengado_historico", comision_devengada: "devengado_historico" };
+  function plantillaContraste(XLSX, periodos2 = [], vendedores2 = []) {
+    const wb = XLSX.utils.book_new();
+    const filas = [["periodo", "vendedor_id", "comision_pagada", "devengado_historico"]];
+    for (const p of periodos2) for (const v of vendedores2) filas.push([p, v.id, "", ""]);
+    if (!periodos2.length) filas.push(["2026-08", "V01", 1234.56, ""]);
+    const ws = XLSX.utils.aoa_to_sheet(filas);
+    ws["!cols"] = [{ wch: 10 }, { wch: 14 }, { wch: 18 }, { wch: 20 }];
+    XLSX.utils.book_append_sheet(wb, ws, "Contraste");
+    const wsI = XLSX.utils.aoa_to_sheet([
+      ["Contraste de comisiones \xB7 kam. Comisiones IA"],
+      ["periodo: AAAA-MM del rol hist\xF3rico."],
+      ["vendedor_id: el mismo c\xF3digo de la hoja Vendedores de la plantilla de datos."],
+      ["comision_pagada: comisi\xF3n liquidada en el rol hist\xF3rico del per\xEDodo (USD)."],
+      ["devengado_historico: opcional, comisi\xF3n devengada seg\xFAn el m\xE9todo anterior (USD)."]
+    ]);
+    XLSX.utils.book_append_sheet(wb, wsI, "Instrucciones");
+    return wb;
+  }
+  function leerContraste(XLSX, datos) {
+    const wb = XLSX.read(datos, { type: typeof datos === "string" ? "binary" : "array", raw: true });
+    const nombre = wb.SheetNames.find((n) => normalizarEncabezado(n) === "contraste") || wb.SheetNames[0];
+    const crudas = XLSX.utils.sheet_to_json(wb.Sheets[nombre], { defval: null, raw: true, blankrows: false });
+    const filas = [];
+    const errores = [];
+    crudas.forEach((c, i) => {
+      const f = {};
+      for (const [k, v] of Object.entries(c)) {
+        let n = normalizarEncabezado(k);
+        n = ALIAS2[n] || n;
+        f[n] = v;
+      }
+      const periodo = String(f.periodo ?? "").trim().slice(0, 7);
+      const vendedorId = String(f.vendedor_id ?? "").trim();
+      const monto = normalizarNumero(f.comision_pagada);
+      const dev = normalizarNumero(f.devengado_historico);
+      if (!/^\d{4}-\d{2}$/.test(periodo) || !vendedorId || monto === null || monto?.error) {
+        errores.push({ fila: i + 2, mensaje: "Fila incompleta o con formato inv\xE1lido (periodo AAAA-MM, vendedor_id, comision_pagada)" });
+        return;
+      }
+      filas.push({ periodo, vendedorId, comisionPagada: Math.round(monto * 100) / 100, devengadoHistorico: dev && !dev.error ? Math.round(dev * 100) / 100 : null });
+    });
+    return { filas, errores };
+  }
+  function contrastar(resultado, filas, { tolerancia = 1, nombres = (id) => id } = {}) {
+    const salida = [];
+    const sinCorrespondencia = [];
+    for (const f of filas) {
+      const led = resultado.periodos[f.periodo]?.vendedores[f.vendedorId];
+      if (!led) {
+        sinCorrespondencia.push(f);
+        continue;
+      }
+      const herramienta = deCentavos(led.totales.liquidable);
+      const devengado = deCentavos(led.totales.devengado + led.totales.bonos);
+      const diferencia = Math.round((herramienta - f.comisionPagada) * 100) / 100;
+      salida.push({
+        periodo: f.periodo,
+        vendedorId: f.vendedorId,
+        vendedor: nombres(f.vendedorId),
+        herramienta,
+        historico: f.comisionPagada,
+        diferencia,
+        pct: f.comisionPagada ? diferencia / Math.abs(f.comisionPagada) : null,
+        devengadoHerramienta: devengado,
+        devengadoHistorico: f.devengadoHistorico,
+        estado: Math.abs(diferencia) <= tolerancia ? "ok" : "revisar"
+      });
+    }
+    const totales = {
+      herramienta: Math.round(salida.reduce((s, x) => s + x.herramienta, 0) * 100) / 100,
+      historico: Math.round(salida.reduce((s, x) => s + x.historico, 0) * 100) / 100,
+      ok: salida.filter((x) => x.estado === "ok").length,
+      revisar: salida.filter((x) => x.estado === "revisar").length
+    };
+    totales.diferencia = Math.round((totales.herramienta - totales.historico) * 100) / 100;
+    return { filas: salida, totales, sinCorrespondencia };
+  }
+
   // src/ui/pestanas/liquidacion.js
   var refs6 = null;
   var filtroBitacora = { entidad: "", texto: "" };
@@ -5293,6 +5509,51 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     for (const f of filas.slice(0, 300)) lista.append(h("div", { class: "bitacora-fila" }, h("div", { class: "cuando" }, `${fechaHora(f.fechaHora)} \xB7 ${f.usuario}`), h("div", null, h("span", { class: "accion" }, `${f.accion} \xB7 ${f.entidad}`), h("div", { class: "silencioso" }, f.detalle))));
     poner(refs6.bitacora, h("p", { class: "ayuda" }, `${filas.length} entradas${filas.length > 300 ? " (se muestran las 300 m\xE1s recientes)" : ""}`), lista);
   }
+  var contraste = null;
+  async function cargarContraste(archivo) {
+    try {
+      const XLSX = await cargarXLSX();
+      const bytes = new Uint8Array(await leerArchivo(archivo));
+      const { filas, errores } = leerContraste(XLSX, bytes);
+      contraste = { nombre: archivo.name, filas, errores };
+      renderContraste();
+      await estado.repo.registrar("Contraste con liquidaci\xF3n hist\xF3rica", "Liquidacion", `${archivo.name}: ${filas.length} filas, ${errores.length} con error`);
+    } catch (e) {
+      toast(`No se pudo leer el contraste: ${e.message}`, "error");
+    }
+  }
+  async function descargarPlantillaContraste() {
+    const XLSX = await cargarXLSX();
+    descargar("Plantilla_Contraste_Comisiones.xlsx", libroABytes(XLSX, plantillaContraste(XLSX, estado.resultado.meta.periodos.filter((p) => !estado.resultado.periodos[p].enCurso), vendedores())), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  }
+  function renderContraste() {
+    limpiar(refs6.contraste);
+    if (!contraste) return poner(refs6.contraste, h("p", { class: "ayuda" }, "Cargue el rol hist\xF3rico (periodo, vendedor_id, comision_pagada) para comparar la comisi\xF3n liquidable de la herramienta con lo que INDUVALLAS pag\xF3. Tolerancia: USD 1,00."));
+    const r = contrastar(estado.resultado, contraste.filas, { tolerancia: 1, nombres: nombreVendedor });
+    poner(
+      refs6.contraste,
+      h("p", null, badge(`${r.totales.ok} coinciden`, "badge-ok"), " ", badge(`${r.totales.revisar} por revisar`, r.totales.revisar ? "badge-advertencia" : "badge-neutro"), " ", r.sinCorrespondencia.length ? badge(`${r.sinCorrespondencia.length} sin correspondencia`, "badge-critico") : null, " ", contraste.errores.length ? badge(`${contraste.errores.length} filas con error`, "badge-critico") : null, h("span", { class: "ayuda" }, ` \xB7 ${contraste.nombre}`)),
+      tabla({
+        compacta: true,
+        columnas: [
+          { clave: "periodo", titulo: "Per\xEDodo" },
+          { clave: "vendedor", titulo: "Vendedor" },
+          { clave: "historico", titulo: "Pagado hist\xF3rico", num: true, formato: (v) => moneda(Math.round(v * 100)) },
+          { clave: "herramienta", titulo: "Liquidable herramienta", num: true, formato: (v) => moneda(Math.round(v * 100)) },
+          { clave: "diferencia", titulo: "Diferencia", num: true, formato: (v) => monedaSigno(Math.round(v * 100)) },
+          { clave: "pct", titulo: "%", num: true, formato: (v) => v == null ? "\u2014" : pct(v) },
+          { clave: "devengadoHistorico", titulo: "Devengado hist\xF3rico", num: true, formato: (v) => v == null ? "\u2014" : moneda(Math.round(v * 100)) },
+          { clave: "devengadoHerramienta", titulo: "Devengado herramienta", num: true, formato: (v) => moneda(Math.round(v * 100)) },
+          { clave: "estado", titulo: "Estado", formato: (v) => badge(v === "ok" ? "coincide" : "revisar", v === "ok" ? "badge-ok" : "badge-advertencia") }
+        ],
+        filas: r.filas,
+        totales: { periodo: "Total", historico: r.totales.historico, herramienta: r.totales.herramienta, diferencia: r.totales.diferencia },
+        claseFila: (f) => f.estado === "revisar" ? "fila-resaltada" : "",
+        ordenInicial: { clave: "diferencia", desc: true }
+      }),
+      r.sinCorrespondencia.length ? h("p", { class: "ayuda" }, `Sin correspondencia en la herramienta (per\xEDodo o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(", ")}`) : null
+    );
+  }
   function actualizar6() {
     if (!refs6) return;
     renderRol();
@@ -5300,9 +5561,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     renderAjustes();
     renderControles();
     renderBitacora();
+    renderContraste();
   }
   function montar6(cont) {
-    refs6 = { estadoPeriodo: h("div", { class: "tarjeta-cab", style: { marginBottom: 0 } }), rol: h("div"), flujo: h("div"), ajustes: h("div"), controles: h("div"), bitacora: h("div") };
+    refs6 = { estadoPeriodo: h("div", { class: "tarjeta-cab", style: { marginBottom: 0 } }), rol: h("div"), flujo: h("div"), ajustes: h("div"), controles: h("div"), bitacora: h("div"), contraste: h("div") };
+    const abrirContraste = selectorArchivo(".xlsx,.xls,.csv", cargarContraste);
     const entidad = select([{ valor: "", texto: "Todas las entidades" }, ...["Datos", "Liquidacion", "EsquemaComisiones", "PoliticaCobranza", "Control", "Sesi\xF3n"].map((e) => ({ valor: e, texto: e }))], "", (v) => {
       filtroBitacora.entidad = v;
       renderBitacora();
@@ -5320,6 +5583,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         tarjeta("Ajustes manuales (R-06)", refs6.ajustes, { subtitulo: "Motivo, autor y fecha obligatorios; aparecen en el ledger y en la bit\xE1cora" }),
         tarjeta("Controles del cierre", refs6.controles, { memorable: true })
       ),
+      tarjeta("Contraste con la liquidaci\xF3n hist\xF3rica", refs6.contraste, { acciones: [boton("Descargar plantilla de contraste", descargarPlantillaContraste, { mini: true }), boton("Cargar rol hist\xF3rico\u2026", abrirContraste, { mini: true, tipo: "primario" })], subtitulo: "Comisi\xF3n liquidable de la herramienta frente a lo pagado seg\xFAn el Excel actual de INDUVALLAS" }),
       tarjeta("Bit\xE1cora", refs6.bitacora, { acciones: [entidad, texto2], subtitulo: "Toda acci\xF3n queda registrada con usuario y fecha" })
     );
     actualizar6();

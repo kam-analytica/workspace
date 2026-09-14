@@ -2,6 +2,16 @@
 
 Nomenclatura `V.mayor.menor`. Fechas dd-mmm-aaaa.
 
+## V.1.1 · 14-sep-2026
+
+Preparación para la validación con datos reales anonimizados de INDUVALLAS.
+
+- Anonimización determinista (`src/data/anonimizar.js`): seudónimos estables por clave para vendedores, agencias, clientes, facturas, cobros y notas de crédito; conserva fechas, montos (con escala opcional), líneas, canales, porcentajes y cuotas; elimina nombres, cargos, motivos y autores; el motor produce el mismo resultado sobre los datos seudonimizados (prueba AN-03). Botón "Exportar copia anonimizada…" en Datos y script `npm run anonimizar`. El mapa de reidentificación se descarga aparte y nunca contiene la clave.
+- Contraste con la liquidación histórica (`src/data/contraste.js`): plantilla `Plantilla_Contraste_Comisiones.xlsx`, carga del rol histórico y tabla de diferencias por vendedor y período con tolerancia de USD 1,00, en Liquidación y auditoría.
+- `PROTOCOLO_DATOS_ANONIMIZADOS.md`: qué se comparte, pasos para Finanzas, ficha de parámetros reales y consideraciones LOPDP.
+- 6 pruebas nuevas (AN-01 a AN-05, CT-01); humo Playwright ampliado con la exportación anonimizada y la plantilla de contraste.
+- Reemplazar datos conserva la bitácora (D-28).
+
 ## V.1.0 · 14-sep-2026
 
 Primera versión completa del archivo único `dist/ComisionesIA_Induvallas_V.1.0.html`.

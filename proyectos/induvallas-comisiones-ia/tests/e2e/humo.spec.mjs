@@ -5,15 +5,16 @@
 import { test, expect } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const html = join(raiz, 'dist', 'ComisionesIA_Induvallas_V.1.0.html');
+const version = JSON.parse(readFileSync(join(raiz, 'package.json'), 'utf8')).versionEntregable;
+const html = join(raiz, 'dist', `ComisionesIA_Induvallas_V.${version}.html`);
 const plantilla = join(raiz, 'dist', 'Plantilla_Datos_Induvallas.xlsx');
 const capturas = join(raiz, 'tests', 'e2e', 'capturas');
 
 test('humo · demo, pestañas, importación, exportación, sin errores de consola', async ({ page }) => {
-  expect(existsSync(html), 'dist/ComisionesIA_Induvallas_V.1.0.html debe existir (npm run build)').toBe(true);
+  expect(existsSync(html), `${html} debe existir (npm run build)`).toBe(true);
   mkdirSync(capturas, { recursive: true });
   const errores = [];
   page.on('pageerror', (e) => errores.push(`pageerror: ${e.message}`));
@@ -73,6 +74,22 @@ test('humo · demo, pestañas, importación, exportación, sin errores de consol
   await selector.setFiles(plantilla);
   await expect(page.locator('.badge-ok', { hasText: 'archivo válido' })).toBeVisible({ timeout: 20000 });
   await page.screenshot({ path: join(capturas, '08-importacion.png'), fullPage: true });
+
+  // Exportación anonimizada: dos descargas (xlsx y mapa)
+  await page.getByRole('button', { name: 'Exportar copia anonimizada…' }).click();
+  await page.getByLabel('Clave de anonimización').fill('clave-de-prueba-2026');
+  const descargaAn = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Generar y descargar' }).click();
+  expect((await descargaAn).suggestedFilename()).toMatch(/Datos_Anonimizados_.*\.xlsx/);
+  const descargaMapa = await page.waitForEvent('download');
+  expect(descargaMapa.suggestedFilename()).toMatch(/NO_COMPARTIR\.json/);
+
+  // Contraste con liquidación histórica: plantilla descargable
+  await page.getByRole('tab', { name: 'Liquidación y auditoría' }).click();
+  const descargaContraste = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Descargar plantilla de contraste' }).click();
+  expect((await descargaContraste).suggestedFilename()).toBe('Plantilla_Contraste_Comisiones.xlsx');
+  await page.getByRole('tab', { name: 'Datos' }).click();
 
   // Cambio de rol a Consulta deshabilita acciones
   await page.getByRole('button', { name: 'Cambiar rol' }).click();

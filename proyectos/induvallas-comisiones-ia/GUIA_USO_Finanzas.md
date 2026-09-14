@@ -1,6 +1,6 @@
 # Guía de uso · kam. Comisiones IA · INDUVALLAS
 
-**Para el Departamento Financiero · V.1.0 · una página**
+**Para el Departamento Financiero · V.1.1 · una página**
 
 ## Abrir y elegir rol
 1. Haga doble clic en `ComisionesIA_Induvallas_V.1.0.html` (Chrome o Edge). No requiere internet.
@@ -22,6 +22,11 @@
 - **Política de cobranza**: edite tramos de días, factores, caducidad, regla de transición y anticipo; **Simular esta versión** compara la política anterior con la nueva sobre el período seleccionado; **Guardar como nueva versión** la deja vigente desde la fecha indicada. Las versiones anteriores nunca se modifican.
 - **Tabla de determinación**: cambie tasas base y multiplicadores, genere la matriz con un clic o edite celda a celda; **Vista previa del impacto** muestra el devengado por vendedor con la versión editada frente a la vigente.
 - **Cartera de comisiones pendientes** (en Política de cobranza): facturas con comisión retenida, antigüedad, tramo actual y fecha de caducidad. Es la lista para presionar la cobranza; se exporta a Excel o CSV.
+
+## Validar con kam sin compartir datos personales
+- Pestaña Datos → **Exportar copia anonimizada…**: escriba una clave y, si quiere, una escala de montos. Envíe a kam solo el Excel anonimizado; guarde el mapa JSON (permite reidentificar) y la clave en INDUVALLAS.
+- Pestaña Liquidación y auditoría → **Descargar plantilla de contraste**: complete la comisión pagada por vendedor y mes según su Excel actual y cárguela con **Cargar rol histórico…** para ver las diferencias con la herramienta.
+- Detalle en `PROTOCOLO_DATOS_ANONIMIZADOS.md`.
 
 ## Respaldo y confidencialidad
 - Los datos viven solo en este navegador. **Exporte un respaldo JSON** al cerrar cada período y antes de cambiar de equipo; **Restaurar respaldo** lo recupera en cualquier navegador.
