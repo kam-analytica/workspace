@@ -1,12 +1,17 @@
 {
   "name": "comisiones-ia-induvallas",
-  "version": "1.0.0-fase1",
+  "version": "1.0.0-fase2",
   "private": true,
   "description": "kam. Comisiones IA · INDUVALLAS · herramienta local de cálculo, liquidación y auditoría de comisiones",
   "type": "module",
   "scripts": {
-    "test": "node --test \"tests/**/*.test.mjs\""
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "plantilla": "node scripts/generar-plantilla.mjs"
   },
   "license": "UNLICENSED",
-  "author": "kam-Analytica S.A.S."
+  "author": "kam-Analytica S.A.S.",
+  "devDependencies": {
+    "chart.js": "^4.5.1",
+    "xlsx": "^0.18.5"
+  }
 }

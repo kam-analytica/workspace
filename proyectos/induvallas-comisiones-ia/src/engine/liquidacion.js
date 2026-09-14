@@ -79,6 +79,8 @@ export function computePeriodo(ctx, periodo, estadoPrev) {
   const corte = fechaCorte(periodo, diaCorte);
   const cortePrev = fechaCorte(anteriorPeriodo(periodo), diaCorte);
   const fechaDatos = maxFecha(hoy, corte);
+  // Período en curso (hoy anterior al corte): antigüedad y caducidad se evalúan a hoy, no al corte futuro (D-22)
+  const fechaEvaluacion = hoy < corte ? hoy : corte;
   const esquema = versionVigente(esquemas, corte);
   const politicasConocidas = versionesConocidas(politicas, corte);
   const alertas = [];
@@ -225,7 +227,7 @@ export function computePeriodo(ctx, periodo, estadoPrev) {
     const ncs = ncPorFactura.get(numero) || [];
     const periodoLedger = prev ? prev.periodo : periodo;
     const hastaNC = prev ? maxFecha(prev.hastaNC, corte) : fechaDatos;
-    const diasCorte = diasEntre(f.fechaEmision, corte);
+    const diasCorte = diasEntre(f.fechaEmision, fechaEvaluacion);
     const hayNC = prev
       ? ncs.some((n) => n.fecha > prev.hastaNC && n.fecha <= hastaNC) || !!(f.fechaAnulacion && f.fechaAnulacion > prev.hastaNC && f.fechaAnulacion <= hastaNC)
       : false;
@@ -293,7 +295,7 @@ export function computePeriodo(ctx, periodo, estadoPrev) {
       S1a = hayNC || prevEsSnapshot ? estadoFactura({ ...args, politica: politicaPrev, hastaCobros: cortePrev, fechaEvaluacion: cortePrev }) : S0;
       S1b = cambioPolitica ? estadoFactura({ ...args, politica, hastaCobros: cortePrev, fechaEvaluacion: cortePrev }) : S1a;
     }
-    const S2 = estadoFactura({ ...args, politica, hastaCobros: corte, fechaEvaluacion: corte });
+    const S2 = estadoFactura({ ...args, politica, hastaCobros: corte, fechaEvaluacion });
     const diasAnt = S2.diasAntiguedad;
     const cobrosDetalle = S2.cobros;
 
@@ -644,6 +646,8 @@ export function computePeriodo(ctx, periodo, estadoPrev) {
     periodo,
     fechaCorte: corte,
     fechaDatos,
+    fechaEvaluacion,
+    enCurso: hoy < corte,
     bloqueado: false,
     esquemaId: esquema?.id ?? null,
     esquemaVersion: esquema?.version ?? null,

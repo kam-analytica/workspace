@@ -30,17 +30,18 @@ proyectos/induvallas-comisiones-ia/
 └── dist/                ComisionesIA_Induvallas_V.1.0.html · Plantilla_Datos_Induvallas.xlsx
 ```
 
-Existen hoy: gobierno (Fase 0), `src/engine/` y `tests/` (Fase 1). El resto se crea por fases según `PLAN.md`.
+Existen hoy: gobierno (Fase 0), `src/engine/` (Fase 1), `src/data/`, `src/seed/`, `vendor/`, `scripts/` y `dist/Plantilla_Datos_Induvallas.xlsx` (Fase 2). Falta `src/ui/`, `build.mjs` y el HTML único (Fases 3 a 5).
 
 ## 3. Comandos
 
 ```
-npm test         # node --test "tests/**/*.test.mjs"   casos de oro del motor (37 en verde)
-npm run build    # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (Fase 5)
-npm run e2e      # playwright test tests/e2e             humo sobre dist/ (Fase 5; Chromium preinstalado)
+npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10) y seed (9): 56 casos en verde
+npm run plantilla  # node scripts/generar-plantilla.mjs   regenera dist/Plantilla_Datos_Induvallas.xlsx
+npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.1.0.html (Fase 5)
+npm run e2e        # playwright test tests/e2e             humo sobre dist/ (Fase 5; Chromium preinstalado)
 ```
 
-Sin dependencias npm hasta la Fase 5 (esbuild y Playwright). El motor corre con Node 22 sin instalar nada.
+Dependencias de desarrollo: `chart.js@4.5.1` y `xlsx@0.18.5` (SheetJS CE), copiadas a `vendor/` con licencia y hash (D-23). `npm install` las trae; el motor y las pruebas corren con Node 22.
 
 Regla: nunca cerrar una sesión con `dist/` roto. Si el build falla, se corrige o se revierte antes de terminar.
 
@@ -83,5 +84,6 @@ Ledger por vendedor y período, en este orden: (1) facturación y base, (2) tram
 
 - Fase 0 cerrada el 14-sep-2026. Respuestas de Pablo: Q1 default, Q2 "variable, entre 0,5 % y 2 %" (S-26), Q3 default. P-02 opción A aplicada como default sin objeción.
 - Fase 1 cerrada el 14-sep-2026: motor puro en `src/engine/` con 37 casos de oro en verde y 5.000 facturas en ≈ 70 ms en caliente.
-- Bloqueo abierto: demo de referencia ausente en `ref/` (P-01); afecta a la Fase 3.
-- Siguiente: Fase 2 (datos, plantilla Excel, importador, seed con la narrativa de agosto 2026 y la matriz de 0,5 % a 2 %).
+- Fase 2 cerrada el 14-sep-2026: `src/data/` (validación, plantilla, importador, exportaciones, respaldo, IndexedDB y repositorio), `src/seed/` (demo determinista con la narrativa de agosto 2026 y cierres enero a julio), 19 pruebas adicionales.
+- Bloqueo abierto: demo de referencia ausente en `ref/` (P-01); la Fase 3 no arranca sin ella ("evolucionar, no reescribir").
+- Siguiente: Fase 3 (interfaz) en cuanto exista `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html`.

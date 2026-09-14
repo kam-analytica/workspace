@@ -6,7 +6,7 @@ Fuente de alcance: `PROMPT.md`. Este plan lo operacionaliza; no lo sustituye.
 ## 1. Síntesis ejecutiva
 
 - Objetivo: entregar `dist/ComisionesIA_Induvallas_V.1.0.html`, herramienta local de un solo archivo que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS con reglas versionadas R-00 a R-07, evolucionando la demo aprobada.
-- Estado: Fase 0 y Fase 1 cerradas el 14-sep-2026. Motor puro con 37 casos de oro en verde (`npm test`). Respuestas de Pablo a Q1 a Q3 registradas en §5.
+- Estado: Fases 0, 1 y 2 cerradas el 14-sep-2026. Motor, capa de datos y seed con 56 pruebas en verde (`npm test`). Respuestas de Pablo a Q1 a Q3 registradas en §5.
 - Bloqueo vigente: la demo de referencia no está en el repositorio ni se localizó en Drive/Gmail de kam (P-01); afecta a la Fase 3, no a las fases 1 y 2.
 - Hallazgo material: con la política v2.0 vigente desde 01-sep-2026 y la regla de transición por fecha de emisión (default del prompt), el cierre de agosto 2026 no mostraría retención ni caducidad, en contradicción con los casos exigidos en `<demo_data>` (P-02). Resolución propuesta en §6; requiere decisión de Pablo.
 - Esfuerzo estimado: 82 h senior en total (4 h ya consumidas en Fase 0), más 4 h opcionales para el modo API del asistente y 6 h de contingencia si la demo no aparece. Cabe en la ventana de 3 semanas.
@@ -105,8 +105,9 @@ Casos de oro (`tests/engine.test.mjs`, ≥ 15):
 
 Aceptación: 20 tests en verde con `npm test`; sin acceso a DOM ni a IndexedDB desde `engine/`; ninguna constante de negocio en el código.
 
-### Fase 2 · Datos · 14 h
-Tareas: modelo y wrapper IndexedDB con migraciones; plantilla Excel de 6 hojas más hoja "Instrucciones" con listas desplegables y ejemplo; importador con informe por fila (duplicados, fechas inválidas, vendedor o cliente inexistente, cobro mayor que la factura, % de agencia fuera de rango, NC mayor que la factura, período aprobado afectado); conciliación mensual contra totales contables ingresados a mano; respaldo y restauración JSON; borrado con confirmación; generador determinista de datos demo con la narrativa de agosto 2026; exportación de rol y detalle a Excel (formato es-EC) y CSV.
+### Fase 2 · Datos · 14 h · cerrada 14-sep-2026
+Hecho: `src/data/` (xlsx, validacion, plantilla, importar, exportar, respaldo, migrations, db, repositorio), `src/seed/` (defaults con matriz 0,5 % a 2 % y generador determinista con cierres enero a julio), `vendor/` (Chart.js 4.5.1, SheetJS CE 0.18.5), `scripts/generar-plantilla.mjs`, `dist/Plantilla_Datos_Induvallas.xlsx`, `tests/data.test.mjs` (10) y `tests/seed.test.mjs` (9). Decisiones D-22 a D-26; supuestos S-32 a S-34. La persistencia IndexedDB se ejercita en Fase 5 con Playwright; en Node se prueba el repositorio sobre el almacén en memoria.
+Tareas previstas: modelo y wrapper IndexedDB con migraciones; plantilla Excel de 6 hojas más hoja "Instrucciones" con listas desplegables y ejemplo; importador con informe por fila (duplicados, fechas inválidas, vendedor o cliente inexistente, cobro mayor que la factura, % de agencia fuera de rango, NC mayor que la factura, período aprobado afectado); conciliación mensual contra totales contables ingresados a mano; respaldo y restauración JSON; borrado con confirmación; generador determinista de datos demo con la narrativa de agosto 2026; exportación de rol y detalle a Excel (formato es-EC) y CSV.
 Aceptación: la plantilla generada se reimporta sin errores (ida y vuelta); cada regla de validación tiene un caso que la dispara; restaurar un respaldo y recalcular reproduce el mismo hash que la Fase 1; el dataset demo cumple los casos de `<demo_data>` (verificados por test).
 
 ### Fase 3 · Interfaz · 32 h
