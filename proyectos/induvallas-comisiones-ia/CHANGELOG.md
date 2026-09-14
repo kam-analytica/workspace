@@ -2,6 +2,16 @@
 
 Nomenclatura `V.mayor.menor`. Fechas dd-mmm-aaaa.
 
+## V.1.3 · 14-sep-2026
+
+Versión de demostración con los datos del ejercicio dentro de la herramienta.
+
+- Autocarga de la demo: al abrir sin datos se cargan solos los datos ficticios del ejercicio (enero a septiembre 2026, fecha de referencia 14-sep-2026) con registro en la bitácora. Tras «Borrar todos los datos» ya no se recargan solos; el botón «Cargar datos de demostración» sigue disponible. Bandera de build `modoDemo` en `package.json` (D-33).
+- Ejercicio de contraste sin archivos: botón «Rol histórico de la demostración» en Liquidación y auditoría. Carga un «Excel anterior» ficticio (enero a agosto, 64 filas) con cuatro diferencias deliberadas y explicadas (NC no descontada R-03, error de digitación, pago duplicado R-06 y pago sin retención por cobranza R-04), cada una con botón «Ver» al lugar del cálculo. Generador determinista `rolHistoricoDemo` en `src/seed/demo.js`; prueba S-10.
+- Guion de la demostración con un sexto paso (el contraste) que abre la pantalla con el ejercicio ya cargado; notas «Versión de demostración» en las tarjetas «Cómo usar» de Datos y Liquidación; recorrido y barra de pasos actualizados.
+- Humo Playwright: autocarga, sexto paso del guion, contraste embebido y borrado con recarga sin autocarga. `dist/` conserva solo V.1.3.
+- Corrección: tras «Borrar todos los datos» el recálculo ya no invoca al motor con un dataset vacío (evitaba errores de consola «Parámetros inválidos»).
+
 ## V.1.2 · 14-sep-2026
 
 Capa didáctica para que el usuario sepa qué hacer paso a paso.

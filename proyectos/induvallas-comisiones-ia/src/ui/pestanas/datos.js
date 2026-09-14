@@ -5,12 +5,11 @@
 import { h, limpiar, tarjeta, tabla, badge, boton, campo, input, toast, confirmar, descargar, leerArchivo, selectorArchivo, vacio, poner } from '../dom.js';
 import { usd, moneda, monedaSigno, pct, fecha, periodoCorto, entero } from '../format.js';
 import { estado, on, puede, hayDatos, recalcular } from '../estado.js';
-import { mutar, cambiarFechaReferencia } from '../acciones.js';
+import { mutar, cambiarFechaReferencia, cargarDatosDemo, desactivarAutocargaDemo } from '../acciones.js';
 import { cargarXLSX } from '../../data/xlsx.js';
 import { construirPlantilla, libroABytes, datasetAPlantilla } from '../../data/plantilla.js';
 import { importarPlantilla } from '../../data/importar.js';
 import { crearRespaldo, serializarRespaldo } from '../../data/respaldo.js';
-import { generarDatosDemo, HOY_DEMO } from '../../seed/demo.js';
 import { CONTROL } from '../../seed/defaults.js';
 import { anonimizarDataset, serializarMapa } from '../../data/anonimizar.js';
 import { modal } from '../dom.js';
@@ -114,14 +113,7 @@ async function cargarDemo() {
     const ok = await confirmar('Cargar demostración', 'Se reemplazarán los datos actuales por el dataset ficticio de demostración (enero a septiembre 2026, fecha de referencia 14-sep-2026).', { textoConfirmar: 'Cargar demo', peligro: true });
     if (!ok) return;
   }
-  const { dataset, bitacora, meta } = generarDatosDemo();
-  await mutar(async (repo) => {
-    await repo.reemplazarDataset(dataset, { origen: 'datos de demostración (ficticios)', bitacoraAdicional: bitacora, meta: { semilla: meta.semilla } });
-    await repo.guardarMeta('hoy', HOY_DEMO);
-  }, 'Datos de demostración cargados');
-  estado.hoy = HOY_DEMO;
-  estado.origen = await estado.repo.leerMeta('origen');
-  recalcular({ conservarPeriodo: false });
+  await cargarDatosDemo();
 }
 
 function exportarAnonimizado() {
@@ -186,6 +178,7 @@ async function restaurar(archivo) {
 async function borrarTodo() {
   const ok = await confirmar('Borrar todos los datos', 'Esta acción elimina facturas, cobros, parámetros, cierres y bitácora del navegador. No se puede deshacer.', { textoConfirmar: 'Borrar', peligro: true, requerirTexto: 'BORRAR' });
   if (!ok) return;
+  desactivarAutocargaDemo();
   await mutar(async (repo) => repo.borrarTodo('BORRAR'), 'Datos eliminados');
   estado.dataset = await estado.repo.cargarDataset();
   estado.resultado = null;
@@ -256,7 +249,7 @@ function montar(cont) {
           boton('Restaurar respaldo…', abrirRestaurar, { deshabilitado: !puede('datos') }),
           boton('Borrar todos los datos', borrarTodo, { tipo: 'peligro', deshabilitado: !puede('datos') || !hayDatos() })
         ),
-        h('p', { class: 'ayuda', style: { marginTop: '8px' } }, 'Los datos viven solo en este navegador (IndexedDB). Exporte un respaldo al cerrar cada período y antes de cambiar de equipo. Los datos de compensación son datos personales (LOPDP): nada sale del navegador salvo por exportación explícita.'),
+        h('p', { class: 'ayuda', style: { marginTop: '8px' } }, 'Versión de demostración: al abrir la herramienta sin datos se cargan solos los datos ficticios del ejercicio; tras «Borrar todos los datos» ya no se recargan solos y el botón «Cargar datos de demostración» sigue disponible. Los datos viven solo en este navegador (IndexedDB). Exporte un respaldo al cerrar cada período y antes de cambiar de equipo. Los datos de compensación son datos personales (LOPDP): nada sale del navegador salvo por exportación explícita.'),
       ])
     ),
     tarjeta('Conciliación con contabilidad', refs.conciliacion)

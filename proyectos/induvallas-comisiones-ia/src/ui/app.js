@@ -12,6 +12,10 @@ import { cambiarFechaReferencia } from './acciones.js';
 import { abrirAlmacen } from '../data/db.js';
 import { Repositorio } from '../data/repositorio.js';
 import { CONTROL, esquemaDemo, politicasDemo } from '../seed/defaults.js';
+import { cargarDatosDemo, autocargaDemoActiva } from './acciones.js';
+
+/** Bandera de build (package.json → modoDemo): en la versión de demostración los datos ficticios se cargan solos al abrir sin datos. */
+const MODO_DEMO = typeof __MODO_DEMO__ !== 'undefined' ? __MODO_DEMO__ : true;
 import { anteriorPeriodo } from '../engine/dates.js';
 import panel from './pestanas/panel.js';
 import datos from './pestanas/datos.js';
@@ -138,7 +142,7 @@ function montarPestana(extra = {}) {
     ui.stepper.actualizar();
     return;
   }
-  p.montar(cont);
+  p.montar(cont, extra);
   pestanaActiva = p;
   marcarVisitada(p.id);
   renderPestanas();
@@ -230,6 +234,7 @@ async function iniciar() {
     estado.origen = await estado.repo.leerMeta('origen');
     estado.conciliacion = (await estado.repo.leerMeta('conciliacion')) || {};
     await estado.repo.registrar('Inicio de sesión', 'Sesión', `Rol ${estado.rol} · almacén ${estado.almacen.tipo}`);
+    if (MODO_DEMO && !hayDatos() && autocargaDemoActiva()) await cargarDatosDemo({ automatica: true });
   } catch (e) {
     console.error(e);
     toast(`No se pudo abrir el almacén de datos: ${e.message}`, 'error');

@@ -23,7 +23,7 @@ const resultado = await build({
   write: false,
   external: ['node:module'],
   legalComments: 'none',
-  define: { __VERSION__: JSON.stringify(VERSION), __FECHA_BUILD__: JSON.stringify(new Date().toISOString().slice(0, 10)) },
+  define: { __VERSION__: JSON.stringify(VERSION), __MODO_DEMO__: JSON.stringify(pkg.modoDemo !== false), __FECHA_BUILD__: JSON.stringify(new Date().toISOString().slice(0, 10)) },
   logLevel: 'warning',
   logOverride: { 'empty-import-meta': 'silent' },
 });

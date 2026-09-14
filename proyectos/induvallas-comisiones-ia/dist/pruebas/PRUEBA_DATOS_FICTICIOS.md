@@ -15,9 +15,11 @@ Parámetros usados: los defaults de demostración que la herramienta trae al abr
 
 Nota: en esta prueba todos los períodos quedan abiertos (una plantilla no trae cierres), por lo que los totales difieren de los del botón «Cargar datos de demostración», donde enero a julio están aprobados y las notas de crédito de agosto generan clawback en lugar de reducir la base del mes de la factura (R-03).
 
+Nota: la versión DEMO de la herramienta trae el mismo ejercicio embebido, sin archivos: al abrirla se cargan solos los datos ficticios (con enero a julio aprobados) y el botón «Rol histórico de la demostración» de Liquidación y auditoría carga un Excel anterior ficticio con cuatro diferencias explicadas. Este kit de archivos sirve para practicar el flujo real (plantilla → anonimización → contraste) y por eso deja todos los períodos abiertos.
+
 ## Prueba A · lado kam: importar la copia anonimizada y contrastar
 
-1. Abra `ComisionesIA_Induvallas_V.1.2.html` en un navegador sin datos previos (o pestaña Datos → Borrar todos los datos). Rol: Finanzas.
+1. Abra `ComisionesIA_Induvallas_V.1.3.html`, elija el rol Finanzas y, en la pestaña Datos, pulse «Borrar todos los datos» (la versión DEMO abre con los datos ficticios ya cargados).
 2. Datos → Importar archivo… → `Prueba_02_Datos_anonimizados.xlsx` → debe indicar **archivo válido** → Reemplazar todos los datos.
 3. Fecha de referencia del cálculo: 2026-09-14. Período: agosto 2026.
 4. Liquidación y auditoría → Cargar rol histórico… → `Prueba_03_Rol_historico_contraste.xlsx`.

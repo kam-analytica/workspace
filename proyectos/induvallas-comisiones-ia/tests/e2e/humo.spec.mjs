@@ -28,31 +28,40 @@ test('humo · demo, pestañas, importación, exportación, sin errores de consol
   await expect(page.locator('.marca')).toContainText('Comisiones IA');
 
   // Recorrido inicial (primera apertura): cuatro páginas y cierre
-  await expect(page.getByRole('dialog', { name: 'Guía paso a paso' })).toBeVisible();
+  const recorrido = page.getByRole('dialog', { name: 'Guía paso a paso' });
+  await expect(recorrido).toBeVisible();
   await page.screenshot({ path: join(capturas, '00-recorrido.png') });
-  await page.getByRole('button', { name: 'Siguiente' }).click();
-  await page.getByRole('button', { name: 'Siguiente' }).click();
-  await page.getByRole('button', { name: 'Siguiente' }).click();
-  await expect(page.locator('.recorrido-titulo')).toContainText('Por dónde empezar');
-  await page.getByRole('button', { name: 'Empezar' }).click();
-  await expect(page.locator('.stepper .paso-actual')).toContainText('Cargar datos');
-  await expect(page.locator('.ayuda-tarjeta').first()).toContainText('Cómo usar · Datos');
+  await recorrido.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await recorrido.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await recorrido.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await expect(recorrido.locator('.recorrido-titulo')).toContainText('Por dónde empezar');
+  await expect(recorrido.locator('.recorrido-cuerpo')).toContainText('ya están cargados');
+  await recorrido.getByLabel('No volver a mostrar al abrir').check();
+  await recorrido.getByRole('button', { name: 'Empezar', exact: true }).click();
 
-  // Sin datos: la pestaña Datos con el botón de demostración
-  await page.getByRole('button', { name: 'Cargar datos de demostración' }).click();
+  // Versión de demostración: los datos ficticios del ejercicio se cargan solos al abrir sin datos
   await expect(page.locator('.header-strip .kpi-fila .kpi')).toHaveCount(9, { timeout: 30000 });
   await expect(page.locator('.cabecera-meta .demo')).toContainText('demostración');
   await expect(page.locator('.scope-strip select')).toHaveValue('2026-08');
-  await page.screenshot({ path: join(capturas, '01-datos.png'), fullPage: true });
   await expect(page.locator('.stepper .paso-hecho')).toHaveCount(1);
   await expect(page.locator('.stepper .paso-actual')).toContainText('Revisar parámetros');
+  await page.getByRole('tab', { name: 'Datos' }).click();
+  await expect(page.locator('.ayuda-tarjeta').first()).toContainText('Cómo usar · Datos');
+  await expect(page.locator('.ayuda-nota').first()).toContainText('ya están cargados');
+  await page.screenshot({ path: join(capturas, '01-datos.png'), fullPage: true });
 
-  // Guion de la demostración en el Panel y salto al cálculo de Carolina
+  // Guion de la demostración en el Panel: salto al cálculo de Carolina y al contraste con el Excel anterior
   await page.getByRole('tab', { name: 'Panel ejecutivo' }).click();
-  await expect(page.locator('#tarjeta-guion .guion-item')).toHaveCount(5);
+  await expect(page.locator('#tarjeta-guion .guion-item')).toHaveCount(6);
   await page.locator('#tarjeta-guion .guion-item').first().getByRole('button', { name: 'Ver' }).click();
   await expect(page.getByRole('tab', { name: 'Motor de cálculo' })).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('.tarjeta-cab h2').first()).toContainText('Carolina Mera');
+  await page.getByRole('tab', { name: 'Panel ejecutivo' }).click();
+  await page.locator('#tarjeta-guion .guion-item').nth(5).getByRole('button', { name: 'Ver' }).click();
+  await expect(page.getByRole('tab', { name: 'Liquidación y auditoría' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('#tarjeta-contraste')).toContainText('60 coinciden');
+  await expect(page.locator('#tarjeta-contraste')).toContainText('4 por revisar');
+  await expect(page.locator('#tarjeta-contraste .contraste-explicacion li')).toHaveCount(4);
   await page.getByRole('button', { name: 'Glosario' }).click();
   await expect(page.getByRole('dialog', { name: 'Glosario de términos' })).toBeVisible();
   await page.getByRole('button', { name: 'Cerrar' }).click();
@@ -113,6 +122,18 @@ test('humo · demo, pestañas, importación, exportación, sin errores de consol
   await page.getByRole('button', { name: 'Descargar plantilla de contraste' }).click();
   expect((await descargaContraste).suggestedFilename()).toBe('Plantilla_Contraste_Comisiones.xlsx');
   await page.getByRole('tab', { name: 'Datos' }).click();
+
+  // Borrar todos los datos desactiva la autocarga de la demo; el botón «Cargar datos de demostración» sigue disponible
+  await page.getByRole('button', { name: 'Borrar todos los datos' }).click();
+  await page.getByRole('dialog').getByLabel('Escriba BORRAR').fill('BORRAR');
+  await page.getByRole('dialog').getByRole('button', { name: 'Borrar', exact: true }).click();
+  await expect(page.locator('.stepper .paso-actual')).toContainText('Cargar datos');
+  await page.reload();
+  await expect(page.locator('.cabecera-meta .rol')).toHaveText('Finanzas'); // el rol se conserva en la sesión
+  await expect(page.getByRole('dialog', { name: 'Guía paso a paso' })).toHaveCount(0); // preferencia «No volver a mostrar»
+  await expect(page.locator('.vacio').first()).toContainText('Sin datos cargados');
+  await page.getByRole('button', { name: 'Cargar datos de demostración' }).click();
+  await expect(page.locator('.header-strip .kpi-fila .kpi')).toHaveCount(9, { timeout: 30000 });
 
   // Cambio de rol a Consulta deshabilita acciones
   await page.getByRole('button', { name: 'Cambiar rol' }).click();

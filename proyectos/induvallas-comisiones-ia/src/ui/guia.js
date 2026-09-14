@@ -66,6 +66,7 @@ export const AYUDA_PESTANAS = {
   },
   datos: {
     proposito: 'Cargar, respaldar y conciliar la información. Es el primer paso de cada mes.',
+    notaDemo: 'Versión de demostración: los datos ficticios del ejercicio ya están cargados al abrir; no hace falta importar nada. Vaya al Panel ejecutivo y siga el guion. Los pasos de abajo aplican cuando cargue un mes real (primero «Borrar todos los datos»).',
     pasos: [
       ['Descargue la plantilla', 'Botón «Descargar plantilla». Complete las seis hojas: Vendedores (con cuotas), Agencias, Clientes, Facturas (sin IVA), Cobros y NotasCredito.'],
       ['Importe el archivo', 'Botón «Importar archivo…». La herramienta revisa fila por fila y muestra los errores con hoja, fila y columna. Solo carga si no hay errores.'],
@@ -103,13 +104,14 @@ export const AYUDA_PESTANAS = {
   },
   liquidacion: {
     proposito: 'Cerrar el mes: rol de comisiones, ajustes, controles, aprobación, exportación y auditoría.',
+    notaDemo: 'Versión de demostración: en «Contraste con la liquidación histórica», el botón «Rol histórico de la demostración» carga un Excel anterior ficticio con cuatro diferencias deliberadas para practicar el contraste sin archivos.',
     pasos: [
       ['Revise el rol', 'Una fila por vendedor con todas las líneas. Haga clic en un vendedor para ver su detalle.'],
       ['Registre ajustes si corresponde', 'Solo con motivo. Quedan en el ledger y en la bitácora.'],
       ['Verifique los controles del cierre', 'Cuadre del rol con el detalle, cobros conciliados, notas de crédito aplicadas, meses anteriores aprobados y alertas críticas.'],
       ['Valide, apruebe y genere el rol', 'Finanzas valida; Gerencia Financiera aprueba y bloquea el mes; luego se genera el rol. Reabrir exige motivo.'],
       ['Exporte y archive', '«Exportar Excel» entrega rol y detalle por factura; «Imprimir rol» usa una vista limpia. La bitácora registra todo.'],
-      ['Contraste con el Excel anterior', 'Cargue el rol histórico para ver, vendedor por mes, las diferencias con la herramienta y su explicación.'],
+      ['Contraste con el Excel anterior', 'Cargue el rol histórico (en la demostración, «Rol histórico de la demostración») para ver, vendedor por mes, las diferencias con la herramienta y su explicación.'],
     ],
   },
   asistente: {
@@ -130,6 +132,7 @@ export const GUION_DEMO = [
   { titulo: 'Sebastián Andrade: caducidades y cartera en riesgo', que: 'Su cobranza se deterioró desde mayo: tres facturas caducaron en agosto y otras están a pocos días de caducar. Es el caso para presionar la cobranza.', reglas: 'R-04', vendedorId: 'V08', pestana: 'politica', mirar: 'Cartera de comisiones pendientes ordenada por días restantes; alertas A-03 y A-04.' },
   { titulo: 'Juan Pablo Ortiz a medio punto del Acelerador', que: 'Cumplimiento de 99,5 %: le faltaron USD 250 de base para pasar al tramo Acelerador. La herramienta lo señala para que el vendedor sepa qué tan cerca estuvo.', reglas: 'R-01', vendedorId: 'V06', pestana: 'motor', mirar: 'Gauge, línea L2 y alerta A-07.' },
   { titulo: 'María Fernanda Salazar con clawback por nota de crédito', que: 'Una factura de julio cobrada y pagada recibe en agosto una nota de crédito de USD 2.200: la comisión pagada sobre el valor anulado se descuenta en agosto.', reglas: 'R-03', vendedorId: 'V01', pestana: 'motor', mirar: 'Línea L7 del ledger y alerta A-06.' },
+  { titulo: 'Contraste con el Excel anterior', que: 'Un rol histórico ficticio («lo que pagó el Excel») de enero a agosto se compara mes a mes con la herramienta: 60 cifras coinciden al centavo y 4 difieren por causas conocidas (NC no descontada, error de digitación, pago duplicado y pago sin retención por cobranza).', reglas: 'R-03, R-04, R-06', vendedorId: null, pestana: 'liquidacion', mirar: 'Filas resaltadas de la tabla de contraste y la explicación de cada diferencia, con botón «Ver».', extra: { contrasteDemo: true, resaltar: 'tarjeta-contraste' } },
 ];
 
 /* ------------------------------------------------------------------ Pasos del cierre mensual */
@@ -164,7 +167,7 @@ export function pasosCierre() {
   const validados = estados.filter((e) => e !== 'calculada').length;
   const criticas = per ? estado.resultado.alertas.filter((a) => a.periodo === estado.periodo && a.severidad === 'critico').length : 0;
   const pasos = [
-    { id: 'datos', titulo: 'Cargar datos', pestana: 'datos', hecho: conDatos, instruccion: conDatos ? (esDemo() ? 'Datos ficticios cargados. Para un mes real, importe la plantilla en Datos.' : `${estado.dataset.facturas.length} facturas cargadas.`) : 'Importe la plantilla Excel o cargue los datos de demostración en la pestaña Datos.' },
+    { id: 'datos', titulo: 'Cargar datos', pestana: 'datos', hecho: conDatos, instruccion: conDatos ? (esDemo() ? 'Datos ficticios del ejercicio cargados automáticamente (versión de demostración). Para un mes real: Datos → «Borrar todos los datos» → «Importar archivo…».' : `${estado.dataset.facturas.length} facturas cargadas.`) : 'Importe la plantilla Excel o cargue los datos de demostración en la pestaña Datos.' },
     { id: 'parametros', titulo: 'Revisar parámetros', pestana: 'tabla', hecho: parametrosReales || (visitadas.has('tabla') && visitadas.has('politica')), instruccion: parametrosReales ? 'Parámetros propios registrados.' : 'Confirme la matriz de porcentajes (Tabla de determinación) y la política de cobranza (Política de cobranza). En la demostración basta con revisarlas.' },
     { id: 'calculo', titulo: 'Revisar cálculo y alertas', pestana: 'motor', hecho: visitadas.has('motor') && visitadas.has('panel'), instruccion: criticas ? `Hay ${criticas} alerta${criticas === 1 ? '' : 's'} crítica${criticas === 1 ? '' : 's'}: revíselas en el Panel y en el Motor de cálculo antes de aprobar.` : 'Recorra el ledger de cada vendedor en Motor de cálculo y las alertas del Panel.' },
     { id: 'aprobar', titulo: 'Validar y aprobar', pestana: 'liquidacion', hecho: aprobado, instruccion: aprobado ? 'Período aprobado y bloqueado.' : per?.enCurso ? 'El mes está en curso: se aprueba después del corte.' : validados < vendedores.length ? `Valide las liquidaciones (${validados} de ${vendedores.length}) en Liquidación y auditoría; luego Gerencia aprueba.` : 'Todas validadas: Gerencia Financiera puede aprobar y bloquear el mes.' },
@@ -201,8 +204,9 @@ const PAGINAS = () => [
     titulo: '4 · Por dónde empezar',
     cuerpo: hayDatos()
       ? [
-          h('p', null, esDemo() ? 'Están cargados los datos ficticios de demostración (enero a septiembre 2026). El Panel ejecutivo trae un «Guion de la demostración» con cinco casos de control del cierre de agosto; recórralos en orden.' : 'Ya hay datos cargados. Siga la barra de pasos del cierre: le indica qué falta y a dónde ir.'),
+          h('p', null, esDemo() ? 'Versión de demostración: los datos ficticios del ejercicio (enero a septiembre 2026) ya están cargados; no hace falta importar nada. El Panel ejecutivo trae un «Guion de la demostración» con seis pasos: cinco casos de control del cierre de agosto y el contraste con el Excel anterior. Recórralos en orden con el botón «Ver».' : 'Ya hay datos cargados. Siga la barra de pasos del cierre: le indica qué falta y a dónde ir.'),
           h('p', null, 'Cada pestaña empieza con una tarjeta «Cómo usar esta pestaña» con los pasos numerados. Puede plegarla y volver a abrirla cuando quiera.'),
+          esDemo() ? h('p', { class: 'ayuda' }, 'Para cargar un mes real: pestaña Datos → «Borrar todos los datos» → «Importar archivo…» con la plantilla completa. Tras un borrado, la demo ya no se recarga sola.') : null,
         ]
       : [
           h('p', null, 'Todavía no hay datos. Tiene dos caminos:'),

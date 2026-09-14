@@ -1,12 +1,12 @@
 # Guía de uso · kam. Comisiones IA · INDUVALLAS
 
-**Para el Departamento Financiero · V.1.2 · una página**
+**Para el Departamento Financiero · V.1.3 · una página**
 
 ## Ayuda dentro de la herramienta
 - Al abrir por primera vez aparece la **Guía paso a paso** (cuatro páginas); se reabre con el botón de la cabecera o la tecla «?».
 - La **barra de pasos del cierre** encima del contenido dice qué falta y a dónde ir; cada pestaña empieza con «Cómo usar esta pestaña».
 - Los términos subrayados con puntos muestran su definición; el botón **Glosario** los reúne.
-- Con la demostración cargada, el Panel ejecutivo trae el **Guion de la demostración** con cinco casos para recorrer en orden.
+- Versión DEMO: al abrir la herramienta sin datos se cargan solos los datos ficticios del ejercicio. El Panel ejecutivo trae el **Guion de la demostración** con seis pasos para recorrer en orden: cinco casos de control y el contraste con el Excel anterior.
 
 ## Abrir y elegir rol
 1. Haga doble clic en `ComisionesIA_Induvallas_V.1.0.html` (Chrome o Edge). No requiere internet.
@@ -16,7 +16,7 @@
 ## Cargar datos
 1. Pestaña **Datos** → **Descargar plantilla**. Complete las hojas Vendedores (con columnas `cuota_AAAA-MM`), Agencias (`pct_agencia` como 15 = 15 %), Clientes, Facturas (subtotal sin IVA), Cobros (valor aplicado a la factura, sin IVA) y NotasCredito.
 2. **Importar archivo…**: la herramienta valida fila por fila (duplicados, fechas, referencias, cobros mayores que la factura, porcentajes fuera de rango). Solo carga si no hay errores. Elija **Reemplazar** (primera carga) o **Agregar** (cargas mensuales).
-3. Para conocer la herramienta antes de cargar datos reales, use **Cargar datos de demostración** (ficticios).
+3. En la versión DEMO los datos ficticios ya están cargados. Para cargar un mes real: **Borrar todos los datos** (tras esto la demo no se recarga sola) y luego **Importar archivo…**. El botón **Cargar datos de demostración** sigue disponible.
 
 ## Cerrar un mes
 1. Seleccione el período en la barra superior. El **Panel ejecutivo** da el veredicto del cierre y las alertas; cada alerta lleva al cálculo que la origina.
@@ -31,7 +31,7 @@
 
 ## Validar con kam sin compartir datos personales
 - Pestaña Datos → **Exportar copia anonimizada…**: escriba una clave y, si quiere, una escala de montos. Envíe a kam solo el Excel anonimizado; guarde el mapa JSON (permite reidentificar) y la clave en INDUVALLAS.
-- Pestaña Liquidación y auditoría → **Descargar plantilla de contraste**: complete la comisión pagada por vendedor y mes según su Excel actual y cárguela con **Cargar rol histórico…** para ver las diferencias con la herramienta.
+- Pestaña Liquidación y auditoría → **Descargar plantilla de contraste**: complete la comisión pagada por vendedor y mes según su Excel actual y cárguela con **Cargar rol histórico…** para ver las diferencias con la herramienta. En la versión DEMO, **Rol histórico de la demostración** carga un Excel anterior ficticio con cuatro diferencias explicadas para practicar sin archivos.
 - Detalle en `PROTOCOLO_DATOS_ANONIMIZADOS.md`.
 
 ## Respaldo y confidencialidad

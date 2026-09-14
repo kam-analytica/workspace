@@ -109,6 +109,13 @@ export function estadoLiquidacion(p, vendedorId) {
 /** Recalcula todo con el motor. Devuelve true si tuvo éxito. */
 export function recalcular({ conservarPeriodo = true } = {}) {
   if (!estado.dataset) return false;
+  if (!hayDatos()) {
+    // Sin vendedores ni facturas no hay nada que calcular (por ejemplo, tras «Borrar todos los datos»).
+    estado.resultado = null;
+    estado.errores = null;
+    emitir('resultado');
+    return false;
+  }
   try {
     const hastaPeriodo = periodoDeFecha(estado.hoy);
     estado.resultado = computeTodo(estado.dataset, { hoy: estado.hoy, hastaPeriodo });

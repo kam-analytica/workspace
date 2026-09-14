@@ -1,6 +1,6 @@
 {
   "name": "comisiones-ia-induvallas",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "description": "kam. Comisiones IA · INDUVALLAS · herramienta local de cálculo, liquidación y auditoría de comisiones",
   "type": "module",
@@ -20,5 +20,6 @@
     "esbuild": "^0.28.2",
     "xlsx": "^0.18.5"
   },
-  "versionEntregable": "1.2"
+  "versionEntregable": "1.3",
+  "modoDemo": true
 }

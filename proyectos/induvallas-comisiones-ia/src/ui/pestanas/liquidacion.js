@@ -5,7 +5,8 @@
  */
 import { h, limpiar, tarjeta, tabla, badge, boton, campo, input, select, toast, confirmar, pedirMotivo, descargar, vacio, poner } from '../dom.js';
 import { usd, moneda, monedaSigno, pct, periodoLargo, fecha, fechaHora, ESTADO_LIQ } from '../format.js';
-import { estado, on, puede, nombreVendedor, resultadoPeriodo, periodoAprobado, estadoLiquidacion, irA, vendedores } from '../estado.js';
+import { estado, on, puede, nombreVendedor, resultadoPeriodo, periodoAprobado, estadoLiquidacion, irA, vendedores, esDemo } from '../estado.js';
+import { rolHistoricoDemo } from '../../seed/demo.js';
 import { mutar } from '../acciones.js';
 import { cargarXLSX } from '../../data/xlsx.js';
 import { libroRol, filasRol, filasDetalle, aCSV } from '../../data/exportar.js';
@@ -228,6 +229,15 @@ async function cargarContraste(archivo) {
   }
 }
 
+/** Ejercicio de la demo: carga el «Excel anterior» ficticio con cuatro diferencias deliberadas, sin archivos externos. */
+async function cargarContrasteDemo() {
+  if (!estado.resultado) return;
+  const { filas, desviaciones } = rolHistoricoDemo(estado.resultado);
+  contraste = { nombre: 'rol histórico ficticio de la demostración («Excel anterior»)', filas, errores: [], desviaciones };
+  renderContraste();
+  await estado.repo.registrar('Contraste con liquidación histórica', 'Liquidacion', `Rol histórico de la demostración: ${filas.length} filas, ${desviaciones.length} diferencias deliberadas`);
+}
+
 async function descargarPlantillaContraste() {
   const XLSX = await cargarXLSX();
   descargar('Plantilla_Contraste_Comisiones.xlsx', libroABytes(XLSX, plantillaContraste(XLSX, estado.resultado.meta.periodos.filter((p) => !estado.resultado.periodos[p].enCurso), vendedores())), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -235,7 +245,12 @@ async function descargarPlantillaContraste() {
 
 function renderContraste() {
   limpiar(refs.contraste);
-  if (!contraste) return poner(refs.contraste, h('p', { class: 'ayuda' }, 'Cargue el rol histórico (periodo, vendedor_id, comision_pagada) para comparar la comisión liquidable de la herramienta con lo que INDUVALLAS pagó. Tolerancia: USD 1,00.'));
+  if (!contraste) {
+    return poner(refs.contraste,
+      esDemo() ? h('p', { class: 'ayuda-nota' }, 'Ejercicio de la demostración: pulse «Rol histórico de la demostración». Carga un «Excel anterior» ficticio (enero a agosto 2026) con cuatro diferencias deliberadas para practicar el contraste sin archivos externos.') : null,
+      h('p', { class: 'ayuda' }, 'Con datos reales: cargue el rol histórico (periodo, vendedor_id, comision_pagada) para comparar la comisión liquidable de la herramienta con lo que INDUVALLAS pagó. Tolerancia: USD 1,00.')
+    );
+  }
   const r = contrastar(estado.resultado, contraste.filas, { tolerancia: 1, nombres: nombreVendedor });
   poner(refs.contraste,
     h('p', null, badge(`${r.totales.ok} coinciden`, 'badge-ok'), ' ', badge(`${r.totales.revisar} por revisar`, r.totales.revisar ? 'badge-advertencia' : 'badge-neutro'), ' ', r.sinCorrespondencia.length ? badge(`${r.sinCorrespondencia.length} sin correspondencia`, 'badge-critico') : null, ' ', contraste.errores.length ? badge(`${contraste.errores.length} filas con error`, 'badge-critico') : null, h('span', { class: 'ayuda' }, ` · ${contraste.nombre}`)),
@@ -257,7 +272,16 @@ function renderContraste() {
       claseFila: (f) => (f.estado === 'revisar' ? 'fila-resaltada' : ''),
       ordenInicial: { clave: 'diferencia', desc: true },
     }),
-    r.sinCorrespondencia.length ? h('p', { class: 'ayuda' }, `Sin correspondencia en la herramienta (período o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(', ')}`) : null
+    r.sinCorrespondencia.length ? h('p', { class: 'ayuda' }, `Sin correspondencia en la herramienta (período o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(', ')}`) : null,
+    contraste.desviaciones ? h('div', { class: 'contraste-explicacion' },
+      h('h3', null, `Ejercicio: explique las ${contraste.desviaciones.length} diferencias`),
+      h('p', { class: 'ayuda' }, 'Las filas resaltadas difieren en más de USD 1,00. Cada una tiene una causa conocida; compruébela en el lugar indicado con el botón «Ver». Las demás coinciden al centavo: el motor reproduce lo pagado.'),
+      h('ol', { class: 'lista-pasos' }, contraste.desviaciones.map((d) => h('li', null,
+        h('b', null, `${periodoLargo(d.periodo)} · ${nombreVendedor(d.vendedorId)} · ${monedaSigno(d.diferencia)} `), badge(d.regla, 'badge-info'), ' ', d.motivo, ' ',
+        h('span', { class: 'ayuda' }, `Dónde mirar: ${d.mirar}`), ' ',
+        boton('Ver', () => irA('motor', { vendedorId: d.vendedorId, periodo: d.periodo }), { mini: true })
+      )))
+    ) : null
   );
 }
 
@@ -271,7 +295,7 @@ function actualizar() {
   renderContraste();
 }
 
-function montar(cont) {
+function montar(cont, extra = {}) {
   refs = { estadoPeriodo: h('div', { class: 'tarjeta-cab', style: { marginBottom: 0 } }), rol: h('div'), flujo: h('div'), ajustes: h('div'), controles: h('div'), bitacora: h('div'), contraste: h('div') };
   const abrirContraste = selectorArchivo('.xlsx,.xls,.csv', cargarContraste);
   const entidad = select([{ valor: '', texto: 'Todas las entidades' }, ...['Datos', 'Liquidacion', 'EsquemaComisiones', 'PoliticaCobranza', 'Control', 'Sesión'].map((e) => ({ valor: e, texto: e }))], '', (v) => { filtroBitacora.entidad = v; renderBitacora(); }, { 'aria-label': 'Entidad' });
@@ -282,10 +306,11 @@ function montar(cont) {
       tarjeta('Ajustes manuales (R-06)', refs.ajustes, { subtitulo: 'Motivo, autor y fecha obligatorios; aparecen en el ledger y en la bitácora' }),
       tarjeta('Controles del cierre', refs.controles, { memorable: true })
     ),
-    tarjeta('Contraste con la liquidación histórica', refs.contraste, { acciones: [boton('Descargar plantilla de contraste', descargarPlantillaContraste, { mini: true }), boton('Cargar rol histórico…', abrirContraste, { mini: true, tipo: 'primario' })], subtitulo: 'Comisión liquidable de la herramienta frente a lo pagado según el Excel actual de INDUVALLAS' }),
+    tarjeta('Contraste con la liquidación histórica', refs.contraste, { id: 'tarjeta-contraste', acciones: [boton('Descargar plantilla de contraste', descargarPlantillaContraste, { mini: true }), esDemo() ? boton('Rol histórico de la demostración', cargarContrasteDemo, { mini: true, tipo: 'primario' }) : null, boton('Cargar rol histórico…', abrirContraste, { mini: true, tipo: esDemo() ? 'secundario' : 'primario' })].filter(Boolean), subtitulo: 'Comisión liquidable de la herramienta frente a lo pagado según el Excel actual de INDUVALLAS' }),
     tarjeta('Bitácora', refs.bitacora, { acciones: [entidad, texto], subtitulo: 'Toda acción queda registrada con usuario y fecha' })
   );
   actualizar();
+  if (extra.contrasteDemo && esDemo()) cargarContrasteDemo();
 }
 
 on('resultado', () => refs && estado.pestana === 'liquidacion' && actualizar());

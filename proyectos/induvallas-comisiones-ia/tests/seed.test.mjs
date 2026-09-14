@@ -4,7 +4,8 @@
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { generarDatosDemo, HOY_DEMO } from '../src/seed/demo.js';
+import { generarDatosDemo, rolHistoricoDemo, HOY_DEMO } from '../src/seed/demo.js';
+import { contrastar } from '../src/data/contraste.js';
 import { esquemaDemo, politicasDemo } from '../src/seed/defaults.js';
 import { computeTodo, validarEsquema, validarPolitica } from '../src/engine/index.js';
 import { diasEntre } from '../src/engine/dates.js';
@@ -132,4 +133,21 @@ test('S-09 cierres · los snapshots reproducen el cálculo y julio no cambia por
   assert.equal(res.periodos['2026-09'].enCurso, true);
   assert.equal(res.periodos['2026-08'].enCurso, false);
   assert.ok(res.periodos['2026-09'].totales.liberadoCartera > 0, 'septiembre libera cartera de agosto y julio');
+});
+
+test('S-10 ejercicio · el rol histórico ficticio de la demo produce 60 coincidencias y 4 diferencias explicadas', () => {
+  const { filas, desviaciones } = rolHistoricoDemo(res);
+  assert.equal(filas.length, 8 * 8, 'enero a agosto × 8 vendedores; septiembre en curso queda fuera');
+  assert.equal(desviaciones.length, 4);
+  const c = contrastar(res, filas, { tolerancia: 1 });
+  assert.equal(c.totales.ok, 60);
+  assert.equal(c.totales.revisar, 4);
+  assert.equal(c.sinCorrespondencia.length, 0);
+  const d = (v, p) => desviaciones.find((x) => x.vendedorId === v && x.periodo === p);
+  assert.equal(d('V01', '2026-08').diferencia, -L('V01').totales.clawback, 'María: el Excel no descontó el clawback de la NC');
+  assert.ok(L('V01').totales.clawback > 0);
+  assert.equal(d('V02', '2026-08').diferencia, 2550, 'Andrés: error de digitación de USD 25,50');
+  assert.equal(d('V05', '2026-06').diferencia, -10000, 'Valeria: pago duplicado de USD 100,00 en junio (período aprobado)');
+  assert.equal(d('V08', '2026-08').diferencia, L('V08').totales.liquidable - L('V08').totales.devengado - L('V08').totales.bonos, 'Sebastián: pagado el devengado íntegro sin retener');
+  assert.equal(JSON.stringify(rolHistoricoDemo(res)), JSON.stringify({ filas, desviaciones }), 'determinista');
 });

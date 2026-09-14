@@ -258,3 +258,34 @@ function lineasEstratificadas(r, mix, n) {
   return lista;
 }
 
+
+/**
+ * Rol histórico ficticio («lo que pagó el Excel anterior») para el ejercicio de contraste dentro de la demo.
+ * Toma la comisión liquidable calculada por la herramienta para cada vendedor y período cerrado e introduce
+ * cuatro desviaciones deliberadas con causa conocida. Determinista sobre el resultado recibido; no modifica datos.
+ * @param {object} resultado salida de computeTodo sobre el dataset de demostración
+ * @returns {{ filas: Array<{periodo:string, vendedorId:string, comisionPagada:number, devengadoHistorico:number|null}>,
+ *            desviaciones: Array<{periodo:string, vendedorId:string, regla:string, historico:number, herramienta:number, diferencia:number, motivo:string, mirar:string}> }}
+ */
+export function rolHistoricoDemo(resultado) {
+  const periodos = resultado.meta.periodos.filter((p) => !resultado.periodos[p].enCurso);
+  const DESVIACIONES = [
+    { periodo: '2026-08', vendedorId: 'V01', regla: 'R-03', pagado: (t) => t.liquidable + Math.abs(t.clawback), motivo: 'El Excel anterior nunca descontó la nota de crédito de USD 2.200 emitida en agosto sobre una factura de julio ya pagada: pagó la comisión completa sin clawback.', mirar: 'Motor de cálculo, línea L7 del ledger de agosto y alerta A-06.' },
+    { periodo: '2026-08', vendedorId: 'V02', regla: 'Error del Excel', pagado: (t) => t.liquidable - 2550, motivo: 'Error de digitación de USD 25,50 en el rol histórico. La cifra de la herramienta es la correcta: la línea L9 cuadra con el detalle por factura.', mirar: 'Motor de cálculo, ledger de agosto, línea L9 y detalle por factura.' },
+    { periodo: '2026-06', vendedorId: 'V05', regla: 'R-06', pagado: (t) => t.liquidable + 10000, motivo: 'Pago duplicado de USD 100,00 en junio. Un pago en exceso ya realizado se recupera con un ajuste manual negativo, con motivo, en el período abierto.', mirar: 'Liquidación y auditoría, tarjeta «Ajustes manuales (R-06)».' },
+    { periodo: '2026-08', vendedorId: 'V08', regla: 'R-04', pagado: (t) => t.devengado + t.bonos, motivo: 'El Excel anterior pagó el devengado íntegro al emitir la factura (política v1.0) sin retener por cobranza; la política v2.0 libera solo lo cobrado y retiene el resto.', mirar: 'Motor de cálculo, líneas L4 a L6 del ledger de agosto; Política de cobranza, cartera pendiente.' },
+  ];
+  const filas = [];
+  const desviaciones = [];
+  for (const p of periodos) {
+    const per = resultado.periodos[p];
+    for (const v of Object.keys(per.vendedores).sort()) {
+      const t = per.vendedores[v].totales;
+      const d = DESVIACIONES.find((x) => x.periodo === p && x.vendedorId === v);
+      const pagado = Math.round(d ? d.pagado(t) : t.liquidable);
+      filas.push({ periodo: p, vendedorId: v, comisionPagada: pagado / 100, devengadoHistorico: p === '2026-08' ? Math.round(t.devengado + t.bonos) / 100 : null });
+      if (d && pagado !== t.liquidable) desviaciones.push({ periodo: p, vendedorId: v, regla: d.regla, historico: pagado, herramienta: t.liquidable, diferencia: t.liquidable - pagado, motivo: d.motivo, mirar: d.mirar });
+    }
+  }
+  return { filas, desviaciones };
+}

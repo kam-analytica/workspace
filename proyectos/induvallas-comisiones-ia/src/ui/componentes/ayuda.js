@@ -3,7 +3,7 @@
  * @module ui/componentes/ayuda
  */
 import { h, boton, badge, limpiar } from '../dom.js';
-import { estado, irA, nombreVendedor, resultadoPeriodo } from '../estado.js';
+import { estado, irA, nombreVendedor, resultadoPeriodo, esDemo } from '../estado.js';
 import { AYUDA_PESTANAS, GUION_DEMO, pasosCierre } from '../guia.js';
 import { periodoLargo, usd, pct } from '../format.js';
 
@@ -44,6 +44,7 @@ export function tarjetaAyuda(id) {
   cuerpo.classList.toggle('oculto', !abierta);
   return h('section', { class: 'tarjeta ayuda-tarjeta', 'aria-label': `Cómo usar ${TITULOS[id]}` },
     h('div', { class: 'tarjeta-cab', style: { marginBottom: abierta ? '6px' : 0 } }, h('div', null, h('div', { class: 'eyebrow' }, `Cómo usar · ${TITULOS[id]}`), h('div', null, a.proposito)), alternar),
+    a.notaDemo && esDemo() ? h('p', { class: 'ayuda-nota' }, a.notaDemo) : null,
     cuerpo
   );
 }
@@ -84,11 +85,11 @@ export function tarjetaGuionDemo() {
         h('div', null, c.que),
         h('div', { class: 'ayuda' }, 'Qué mirar: ', c.mirar, resumen ? ` · ${resumen}` : ''),
       ),
-      boton('Ver', () => irA(c.pestana, { vendedorId: c.vendedorId, periodo: '2026-08' }), { mini: true, tipo: 'primario' })
+      boton('Ver', () => irA(c.pestana, { vendedorId: c.vendedorId, periodo: '2026-08', ...(c.extra || {}) }), { mini: true, tipo: 'primario' })
     );
   });
   return h('section', { class: 'tarjeta tarjeta-memorable', id: 'tarjeta-guion' },
-    h('div', { class: 'tarjeta-cab' }, h('div', null, h('h2', null, 'Guion de la demostración · cierre de agosto 2026'), h('div', { class: 'ayuda' }, 'Cinco casos preparados para entender cada regla. Recórralos en orden; cada botón «Ver» abre el cálculo del vendedor con el período de agosto seleccionado.'))),
+    h('div', { class: 'tarjeta-cab' }, h('div', null, h('h2', null, 'Guion de la demostración · cierre de agosto 2026'), h('div', { class: 'ayuda' }, 'Seis pasos preparados: cinco casos de control para entender cada regla y el contraste con el Excel anterior. Recórralos en orden; cada botón «Ver» abre la pantalla correspondiente con el período de agosto seleccionado.'))),
     h('div', { class: 'guion' }, items)
   );
 }

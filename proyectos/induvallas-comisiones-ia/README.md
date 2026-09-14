@@ -1,14 +1,14 @@
-# kam. Comisiones IA · INDUVALLAS · V.1.2
+# kam. Comisiones IA · INDUVALLAS · V.1.3
 
 Herramienta web local de un solo archivo para calcular, liberar, liquidar y auditar las comisiones de la fuerza comercial de INDUVALLAS. Se abre con doble clic en el navegador del Departamento Financiero, guarda los datos en el propio navegador (IndexedDB) y no depende de ningún servidor ni conexión.
 
-Desarrollada por kam-Analytica S.A.S. (RUC 1793220761001) conforme a `PROMPT.md`. Datos ficticios en modo demostración.
+Desarrollada por kam-Analytica S.A.S. (RUC 1793220761001) conforme a `PROMPT.md`. Datos ficticios en modo demostración: la versión DEMO se abre con el ejercicio cargado (bandera `modoDemo` en `package.json`; para producción se construye con `false`).
 
 ## Entregables
 
 | Archivo | Contenido |
 |---|---|
-| `dist/ComisionesIA_Induvallas_V.1.2.html` | La herramienta completa (≈ 1,4 MB): interfaz, motor, Chart.js 4.5.1 y SheetJS CE 0.18.5 embebidos |
+| `dist/ComisionesIA_Induvallas_V.1.3.html` | La herramienta completa (≈ 1,4 MB): interfaz, motor, Chart.js 4.5.1 y SheetJS CE 0.18.5 embebidos. Versión DEMO: al abrirla se cargan solos los datos ficticios del ejercicio y el contraste con el Excel anterior está embebido |
 | `PROTOCOLO_DATOS_ANONIMIZADOS.md` | Cómo compartir datos reales seudonimizados con kam y qué parámetros acompañan a los datos |
 | `dist/pruebas/` | Kit de prueba con datos ficticios del flujo anonimizado: plantilla rellena, copia anonimizada, mapa, rol histórico de contraste e instrucciones con resultados esperados (`npm run prueba`) |
 | `dist/Plantilla_Datos_Induvallas.xlsx` | Plantilla de carga con 6 hojas de datos más Instrucciones; también se descarga desde la pestaña Datos |

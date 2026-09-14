@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>kam. Comisiones IA · INDUVALLAS · V.1.2</title>
+<title>kam. Comisiones IA · INDUVALLAS · V.1.3</title>
 <style>
 /* kam. Comisiones IA · INDUVALLAS · sistema visual (tokens del prompt <design_system> y kam-house-style §11) */
 :root {
@@ -286,6 +286,9 @@ input[type="file"] { font-size: var(--f11); }
 .stepper-instruccion { margin-top: 8px; font-size: var(--f13); color: var(--tinta); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .ayuda-tarjeta { border-left: 4px solid var(--pur); background: #FBFAFD; }
 .lista-pasos { margin: 4px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.ayuda-nota { margin: 4px 0 8px; padding: 8px 10px; border-left: 3px solid var(--mag); background: #FFF3F9; font-size: 12px; color: var(--azul); }
+.contraste-explicacion { margin-top: 12px; padding-top: 10px; border-top: var(--borde); }
+.contraste-explicacion h3 { margin: 0 0 4px; font-size: var(--f13); color: var(--azul); }
 .lista-pasos li { line-height: 1.45; }
 .termino { border-bottom: 1px dotted var(--pur); cursor: help; color: inherit; }
 .termino:hover { color: var(--pur); }
@@ -2043,7 +2046,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     pestana: "panel",
     origen: null,
     errores: null,
-    version: true ? "1.2" : "dev"
+    version: true ? "1.3" : "dev"
   };
   var oyentes = /* @__PURE__ */ new Map();
   function on(evento, fn) {
@@ -2105,6 +2108,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   function recalcular({ conservarPeriodo = true } = {}) {
     if (!estado.dataset) return false;
+    if (!hayDatos()) {
+      estado.resultado = null;
+      estado.errores = null;
+      emitir("resultado");
+      return false;
+    }
     try {
       const hastaPeriodo = periodoDeFecha(estado.hoy);
       estado.resultado = computeTodo(estado.dataset, { hoy: estado.hoy, hastaPeriodo });
@@ -2340,6 +2349,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     },
     datos: {
       proposito: "Cargar, respaldar y conciliar la informaci\xF3n. Es el primer paso de cada mes.",
+      notaDemo: "Versi\xF3n de demostraci\xF3n: los datos ficticios del ejercicio ya est\xE1n cargados al abrir; no hace falta importar nada. Vaya al Panel ejecutivo y siga el guion. Los pasos de abajo aplican cuando cargue un mes real (primero \xABBorrar todos los datos\xBB).",
       pasos: [
         ["Descargue la plantilla", "Bot\xF3n \xABDescargar plantilla\xBB. Complete las seis hojas: Vendedores (con cuotas), Agencias, Clientes, Facturas (sin IVA), Cobros y NotasCredito."],
         ["Importe el archivo", "Bot\xF3n \xABImportar archivo\u2026\xBB. La herramienta revisa fila por fila y muestra los errores con hoja, fila y columna. Solo carga si no hay errores."],
@@ -2377,13 +2387,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     },
     liquidacion: {
       proposito: "Cerrar el mes: rol de comisiones, ajustes, controles, aprobaci\xF3n, exportaci\xF3n y auditor\xEDa.",
+      notaDemo: "Versi\xF3n de demostraci\xF3n: en \xABContraste con la liquidaci\xF3n hist\xF3rica\xBB, el bot\xF3n \xABRol hist\xF3rico de la demostraci\xF3n\xBB carga un Excel anterior ficticio con cuatro diferencias deliberadas para practicar el contraste sin archivos.",
       pasos: [
         ["Revise el rol", "Una fila por vendedor con todas las l\xEDneas. Haga clic en un vendedor para ver su detalle."],
         ["Registre ajustes si corresponde", "Solo con motivo. Quedan en el ledger y en la bit\xE1cora."],
         ["Verifique los controles del cierre", "Cuadre del rol con el detalle, cobros conciliados, notas de cr\xE9dito aplicadas, meses anteriores aprobados y alertas cr\xEDticas."],
         ["Valide, apruebe y genere el rol", "Finanzas valida; Gerencia Financiera aprueba y bloquea el mes; luego se genera el rol. Reabrir exige motivo."],
         ["Exporte y archive", "\xABExportar Excel\xBB entrega rol y detalle por factura; \xABImprimir rol\xBB usa una vista limpia. La bit\xE1cora registra todo."],
-        ["Contraste con el Excel anterior", "Cargue el rol hist\xF3rico para ver, vendedor por mes, las diferencias con la herramienta y su explicaci\xF3n."]
+        ["Contraste con el Excel anterior", "Cargue el rol hist\xF3rico (en la demostraci\xF3n, \xABRol hist\xF3rico de la demostraci\xF3n\xBB) para ver, vendedor por mes, las diferencias con la herramienta y su explicaci\xF3n."]
       ]
     },
     asistente: {
@@ -2401,7 +2412,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { titulo: "Diego C\xE1rdenas queda con saldo negativo", que: "Con 64 % de cumplimiento no devenga comisi\xF3n, y una nota de cr\xE9dito de agosto anula gran parte de una factura de julio ya pagada: el clawback supera lo liberado y el saldo pasa a septiembre.", reglas: "R-01, R-03", vendedorId: "V04", pestana: "motor", mirar: "L\xEDneas L2, L7 y L9; alertas A-01, A-06 y A-11." },
     { titulo: "Sebasti\xE1n Andrade: caducidades y cartera en riesgo", que: "Su cobranza se deterior\xF3 desde mayo: tres facturas caducaron en agosto y otras est\xE1n a pocos d\xEDas de caducar. Es el caso para presionar la cobranza.", reglas: "R-04", vendedorId: "V08", pestana: "politica", mirar: "Cartera de comisiones pendientes ordenada por d\xEDas restantes; alertas A-03 y A-04." },
     { titulo: "Juan Pablo Ortiz a medio punto del Acelerador", que: "Cumplimiento de 99,5 %: le faltaron USD 250 de base para pasar al tramo Acelerador. La herramienta lo se\xF1ala para que el vendedor sepa qu\xE9 tan cerca estuvo.", reglas: "R-01", vendedorId: "V06", pestana: "motor", mirar: "Gauge, l\xEDnea L2 y alerta A-07." },
-    { titulo: "Mar\xEDa Fernanda Salazar con clawback por nota de cr\xE9dito", que: "Una factura de julio cobrada y pagada recibe en agosto una nota de cr\xE9dito de USD 2.200: la comisi\xF3n pagada sobre el valor anulado se descuenta en agosto.", reglas: "R-03", vendedorId: "V01", pestana: "motor", mirar: "L\xEDnea L7 del ledger y alerta A-06." }
+    { titulo: "Mar\xEDa Fernanda Salazar con clawback por nota de cr\xE9dito", que: "Una factura de julio cobrada y pagada recibe en agosto una nota de cr\xE9dito de USD 2.200: la comisi\xF3n pagada sobre el valor anulado se descuenta en agosto.", reglas: "R-03", vendedorId: "V01", pestana: "motor", mirar: "L\xEDnea L7 del ledger y alerta A-06." },
+    { titulo: "Contraste con el Excel anterior", que: "Un rol hist\xF3rico ficticio (\xABlo que pag\xF3 el Excel\xBB) de enero a agosto se compara mes a mes con la herramienta: 60 cifras coinciden al centavo y 4 difieren por causas conocidas (NC no descontada, error de digitaci\xF3n, pago duplicado y pago sin retenci\xF3n por cobranza).", reglas: "R-03, R-04, R-06", vendedorId: null, pestana: "liquidacion", mirar: "Filas resaltadas de la tabla de contraste y la explicaci\xF3n de cada diferencia, con bot\xF3n \xABVer\xBB.", extra: { contrasteDemo: true, resaltar: "tarjeta-contraste" } }
   ];
   function pestanasVisitadas() {
     try {
@@ -2430,7 +2442,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const validados = estados.filter((e) => e !== "calculada").length;
     const criticas = per ? estado.resultado.alertas.filter((a) => a.periodo === estado.periodo && a.severidad === "critico").length : 0;
     const pasos = [
-      { id: "datos", titulo: "Cargar datos", pestana: "datos", hecho: conDatos, instruccion: conDatos ? esDemo() ? "Datos ficticios cargados. Para un mes real, importe la plantilla en Datos." : `${estado.dataset.facturas.length} facturas cargadas.` : "Importe la plantilla Excel o cargue los datos de demostraci\xF3n en la pesta\xF1a Datos." },
+      { id: "datos", titulo: "Cargar datos", pestana: "datos", hecho: conDatos, instruccion: conDatos ? esDemo() ? "Datos ficticios del ejercicio cargados autom\xE1ticamente (versi\xF3n de demostraci\xF3n). Para un mes real: Datos \u2192 \xABBorrar todos los datos\xBB \u2192 \xABImportar archivo\u2026\xBB." : `${estado.dataset.facturas.length} facturas cargadas.` : "Importe la plantilla Excel o cargue los datos de demostraci\xF3n en la pesta\xF1a Datos." },
       { id: "parametros", titulo: "Revisar par\xE1metros", pestana: "tabla", hecho: parametrosReales || visitadas.has("tabla") && visitadas.has("politica"), instruccion: parametrosReales ? "Par\xE1metros propios registrados." : "Confirme la matriz de porcentajes (Tabla de determinaci\xF3n) y la pol\xEDtica de cobranza (Pol\xEDtica de cobranza). En la demostraci\xF3n basta con revisarlas." },
       { id: "calculo", titulo: "Revisar c\xE1lculo y alertas", pestana: "motor", hecho: visitadas.has("motor") && visitadas.has("panel"), instruccion: criticas ? `Hay ${criticas} alerta${criticas === 1 ? "" : "s"} cr\xEDtica${criticas === 1 ? "" : "s"}: rev\xEDselas en el Panel y en el Motor de c\xE1lculo antes de aprobar.` : "Recorra el ledger de cada vendedor en Motor de c\xE1lculo y las alertas del Panel." },
       { id: "aprobar", titulo: "Validar y aprobar", pestana: "liquidacion", hecho: aprobado, instruccion: aprobado ? "Per\xEDodo aprobado y bloqueado." : per?.enCurso ? "El mes est\xE1 en curso: se aprueba despu\xE9s del corte." : validados < vendedores2.length ? `Valide las liquidaciones (${validados} de ${vendedores2.length}) en Liquidaci\xF3n y auditor\xEDa; luego Gerencia aprueba.` : "Todas validadas: Gerencia Financiera puede aprobar y bloquear el mes." },
@@ -2464,8 +2476,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     {
       titulo: "4 \xB7 Por d\xF3nde empezar",
       cuerpo: hayDatos() ? [
-        h("p", null, esDemo() ? "Est\xE1n cargados los datos ficticios de demostraci\xF3n (enero a septiembre 2026). El Panel ejecutivo trae un \xABGuion de la demostraci\xF3n\xBB con cinco casos de control del cierre de agosto; rec\xF3rralos en orden." : "Ya hay datos cargados. Siga la barra de pasos del cierre: le indica qu\xE9 falta y a d\xF3nde ir."),
-        h("p", null, "Cada pesta\xF1a empieza con una tarjeta \xABC\xF3mo usar esta pesta\xF1a\xBB con los pasos numerados. Puede plegarla y volver a abrirla cuando quiera.")
+        h("p", null, esDemo() ? "Versi\xF3n de demostraci\xF3n: los datos ficticios del ejercicio (enero a septiembre 2026) ya est\xE1n cargados; no hace falta importar nada. El Panel ejecutivo trae un \xABGuion de la demostraci\xF3n\xBB con seis pasos: cinco casos de control del cierre de agosto y el contraste con el Excel anterior. Rec\xF3rralos en orden con el bot\xF3n \xABVer\xBB." : "Ya hay datos cargados. Siga la barra de pasos del cierre: le indica qu\xE9 falta y a d\xF3nde ir."),
+        h("p", null, "Cada pesta\xF1a empieza con una tarjeta \xABC\xF3mo usar esta pesta\xF1a\xBB con los pasos numerados. Puede plegarla y volver a abrirla cuando quiera."),
+        esDemo() ? h("p", { class: "ayuda" }, "Para cargar un mes real: pesta\xF1a Datos \u2192 \xABBorrar todos los datos\xBB \u2192 \xABImportar archivo\u2026\xBB con la plantilla completa. Tras un borrado, la demo ya no se recarga sola.") : null
       ] : [
         h("p", null, "Todav\xEDa no hay datos. Tiene dos caminos:"),
         h("ol", { class: "lista-pasos" }, [h("li", null, h("b", null, "Ver la demostraci\xF3n: "), "en la pesta\xF1a Datos pulse \xABCargar datos de demostraci\xF3n\xBB. Son datos ficticios con casos preparados para entender cada regla."), h("li", null, h("b", null, "Cargar un mes real: "), "descargue la plantilla, compl\xE9tela e imp\xF3rtela. La herramienta valida cada fila antes de cargar.")]),
@@ -2559,6 +2572,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       "section",
       { class: "tarjeta ayuda-tarjeta", "aria-label": `C\xF3mo usar ${TITULOS[id]}` },
       h("div", { class: "tarjeta-cab", style: { marginBottom: abierta ? "6px" : 0 } }, h("div", null, h("div", { class: "eyebrow" }, `C\xF3mo usar \xB7 ${TITULOS[id]}`), h("div", null, a.proposito)), alternar),
+      a.notaDemo && esDemo() ? h("p", { class: "ayuda-nota" }, a.notaDemo) : null,
       cuerpo
     );
   }
@@ -2603,15 +2617,257 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
           h("div", null, c.que),
           h("div", { class: "ayuda" }, "Qu\xE9 mirar: ", c.mirar, resumen2 ? ` \xB7 ${resumen2}` : "")
         ),
-        boton("Ver", () => irA(c.pestana, { vendedorId: c.vendedorId, periodo: "2026-08" }), { mini: true, tipo: "primario" })
+        boton("Ver", () => irA(c.pestana, { vendedorId: c.vendedorId, periodo: "2026-08", ...c.extra || {} }), { mini: true, tipo: "primario" })
       );
     });
     return h(
       "section",
       { class: "tarjeta tarjeta-memorable", id: "tarjeta-guion" },
-      h("div", { class: "tarjeta-cab" }, h("div", null, h("h2", null, "Guion de la demostraci\xF3n \xB7 cierre de agosto 2026"), h("div", { class: "ayuda" }, "Cinco casos preparados para entender cada regla. Rec\xF3rralos en orden; cada bot\xF3n \xABVer\xBB abre el c\xE1lculo del vendedor con el per\xEDodo de agosto seleccionado."))),
+      h("div", { class: "tarjeta-cab" }, h("div", null, h("h2", null, "Guion de la demostraci\xF3n \xB7 cierre de agosto 2026"), h("div", { class: "ayuda" }, "Seis pasos preparados: cinco casos de control para entender cada regla y el contraste con el Excel anterior. Rec\xF3rralos en orden; cada bot\xF3n \xABVer\xBB abre la pantalla correspondiente con el per\xEDodo de agosto seleccionado."))),
       h("div", { class: "guion" }, items)
     );
+  }
+
+  // src/seed/demo.js
+  var SEMILLA_DEMO = 20260914;
+  var HOY_DEMO = "2026-09-14";
+  function prng(semilla) {
+    let a = semilla >>> 0;
+    return function() {
+      a = a + 1831565813 >>> 0;
+      let t = a;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function normal(r) {
+    const u1 = Math.max(r(), 1e-12);
+    const u2 = r();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+  function elegir(r, pesos) {
+    const total = Object.values(pesos).reduce((s, x) => s + x, 0);
+    let acc = r() * total;
+    for (const [k, w] of Object.entries(pesos)) {
+      acc -= w;
+      if (acc <= 0) return k;
+    }
+    return Object.keys(pesos)[0];
+  }
+  var MIX_ESTANDAR = { vallas: 0.55, led: 0.3, retail: 0.15 };
+  var PERFILES = {
+    V01: { media: 1.08, sd: 0.07, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 1.05 } },
+    V02: { media: 0.96, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.93 } },
+    V03: { media: 1.02, sd: 0.07, mix: { vallas: 0.45, led: 0.4, retail: 0.15 }, lag: 60, meses: { "2026-08": 1.12 } },
+    V04: { media: 0.86, sd: 0.08, mix: MIX_ESTANDAR, lag: 25, meses: { "2026-07": 1.05, "2026-08": 0.64 } },
+    V05: { media: 0.92, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.88 } },
+    V06: { media: 1, sd: 0.06, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.995 }, exacto: ["2026-08"] },
+    V07: { media: 1.35, sd: 0.15, mix: { vallas: 0.17, led: 0.25, retail: 0.58 }, lag: 28, meses: { "2026-08": 2.4 } },
+    V08: { media: 0.85, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, lagDesde: { periodo: "2026-05", lag: 100 }, meses: { "2026-04": 0.92, "2026-05": 0.88, "2026-06": 0.9, "2026-08": 0.78 } }
+  };
+  var GUION = [
+    // María: cobrada rápido en julio (período aprobado) y NC de USD 2.200 en agosto ⇒ clawback
+    { vendedorId: "V01", periodo: "2026-07", dia: 8, clienteId: "C02", linea: "vallas", valor: 14e3, cobroDias: 12, nc: { fecha: "2026-08-12", valor: 2200, motivo: "Diferencia en pauta facturada (ajuste comercial)" } },
+    // Diego: factura grande cobrada en julio y NC posterior en agosto ⇒ saldo negativo con cumplimiento bajo el umbral
+    { vendedorId: "V04", periodo: "2026-07", dia: 6, clienteId: "C16", linea: "vallas", valor: 28e3, cobroDias: 10, nc: { fecha: "2026-08-14", valor: 24500, motivo: "Anulaci\xF3n parcial de campa\xF1a por cambio de alcance" } },
+    // Sebastián: tres facturas sin cobro que caducan en agosto (más de 120 días al 31-ago)
+    { vendedorId: "V08", periodo: "2026-04", dia: 6, clienteId: "C28", linea: "vallas", valor: 6200, sinCobro: true },
+    { vendedorId: "V08", periodo: "2026-04", dia: 20, clienteId: "C30", linea: "led", valor: 5400, sinCobro: true },
+    { vendedorId: "V08", periodo: "2026-05", dia: 1, clienteId: "C29", linea: "vallas", valor: 7300, sinCobro: true },
+    // Sebastián: tres facturas retenidas próximas a caducar al 14-sep-2026
+    { vendedorId: "V08", periodo: "2026-05", dia: 20, clienteId: "C28", linea: "vallas", valor: 6800, sinCobro: true },
+    { vendedorId: "V08", periodo: "2026-05", dia: 28, clienteId: "C30", linea: "retail", valor: 4900, sinCobro: true },
+    { vendedorId: "V08", periodo: "2026-06", dia: 5, clienteId: "C29", linea: "led", valor: 5100, sinCobro: true },
+    // Carolina: clientes nuevos activados en agosto (bono cliente nuevo) y cobro rápido
+    { vendedorId: "V07", periodo: "2026-08", dia: 4, clienteId: "C31", linea: "retail", valor: 9e3, cobroDias: 12 },
+    { vendedorId: "V07", periodo: "2026-08", dia: 11, clienteId: "C32", linea: "retail", valor: 11e3, cobroDias: 9 }
+  ];
+  function generarDatosDemo({ hoy = HOY_DEMO, semilla = SEMILLA_DEMO, aprobarHasta = "2026-07" } = {}) {
+    const r = prng(semilla);
+    const vendedores2 = vendedoresDemo();
+    const agencias = agenciasDemo();
+    const clientes = clientesDemo();
+    const agenciasPorId = new Map(agencias.map((a) => [a.id, a]));
+    const clientesPorVendedor = /* @__PURE__ */ new Map();
+    for (const c of clientes) {
+      if (!clientesPorVendedor.has(c.vendedorId)) clientesPorVendedor.set(c.vendedorId, []);
+      clientesPorVendedor.get(c.vendedorId).push(c);
+    }
+    const pctDe = (c) => c.canal === "agencia" ? agenciasPorId.get(c.agenciaId)?.pctAgencia ?? 0 : 0;
+    const periodos2 = rangoPeriodos("2026-01", hoy.slice(0, 7));
+    const facturas = [];
+    const cobros = [];
+    const notasCredito = [];
+    const guionPorClave = /* @__PURE__ */ new Map();
+    for (const g of GUION) {
+      const k = `${g.vendedorId}|${g.periodo}`;
+      if (!guionPorClave.has(k)) guionPorClave.set(k, []);
+      guionPorClave.get(k).push(g);
+    }
+    for (const v of vendedores2) {
+      const perfil = PERFILES[v.id];
+      const cartera = clientesPorVendedor.get(v.id).filter((c) => c.fechaAlta <= hoy);
+      for (const p of periodos2) {
+        const [anio, mes] = p.split("-").map(Number);
+        const enCurso = p === hoy.slice(0, 7);
+        const ultimoDia = enCurso ? Math.max(1, Number(hoy.slice(8, 10)) - 2) : ultimoDiaMes(anio, mes);
+        const cuota = v.cuotas.find((c) => c.periodo === p)?.monto ?? 0;
+        let cumplimiento = perfil.meses?.[p] ?? Math.max(0.35, perfil.media + perfil.sd * normal(r));
+        if (enCurso) cumplimiento *= ultimoDia / ultimoDiaMes(anio, mes);
+        const objetivo = aCentavos(cuota * cumplimiento);
+        const guion = (guionPorClave.get(`${v.id}|${p}`) || []).filter((g) => !enCurso);
+        const baseGuion = guion.reduce((s, g) => s + redondear(aCentavos(g.valor) * (1 - pctDe(clientes.find((c) => c.id === g.clienteId)))), 0);
+        const restante = Math.max(objetivo - baseGuion, aCentavos(500));
+        const n = enCurso ? 2 + Math.floor(r() * 2) : Math.max(3, 6 + Math.floor(r() * 3) - guion.length);
+        const pesos = Array.from({ length: n }, () => 0.5 + r());
+        const sumaPesos = pesos.reduce((s, x) => s + x, 0);
+        const exacto = perfil.exacto?.includes(p);
+        const lineasMes = lineasEstratificadas(r, perfil.mix, n);
+        const generadas = [];
+        let acumBase = baseGuion;
+        for (let i = 0; i < n; i++) {
+          const esUltima = i === n - 1;
+          let cliente = cartera.filter((c) => c.fechaAlta.slice(0, 7) <= p)[Math.floor(r() * cartera.filter((c) => c.fechaAlta.slice(0, 7) <= p).length)] || cartera[0];
+          if (exacto && esUltima) cliente = cartera.find((c) => c.canal === "directo") || cliente;
+          const pct2 = pctDe(cliente);
+          let base = redondear(restante * pesos[i] / sumaPesos);
+          if (exacto && esUltima) base = objetivo - acumBase;
+          acumBase += base;
+          const valor = pct2 > 0 ? redondear(base / (1 - pct2)) : base;
+          const dia = 1 + Math.floor(r() * ultimoDia);
+          generadas.push({ vendedorId: v.id, clienteId: cliente.id, linea: lineasMes[i], canal: cliente.canal, pctAgencia: pct2, valorCents: valor, fechaEmision: `${p}-${String(dia).padStart(2, "0")}`, lagMediana: lagPara(perfil, p), fast: perfil.lag <= 30 });
+        }
+        for (const g of guion) {
+          const cliente = clientes.find((c) => c.id === g.clienteId);
+          generadas.push({ vendedorId: v.id, clienteId: cliente.id, linea: g.linea, canal: cliente.canal, pctAgencia: pctDe(cliente), valorCents: aCentavos(g.valor), fechaEmision: `${p}-${String(g.dia).padStart(2, "0")}`, guion: g });
+        }
+        for (const f of generadas) facturas.push(f);
+      }
+    }
+    facturas.sort((a, b) => a.fechaEmision < b.fechaEmision ? -1 : a.fechaEmision > b.fechaEmision ? 1 : a.vendedorId < b.vendedorId ? -1 : 1);
+    facturas.forEach((f, i) => {
+      f.numero = `001-001-${String(i + 1).padStart(9, "0")}`;
+    });
+    let idCobro = 0;
+    const medio = () => elegir(r, { transferencia: 0.72, cheque: 0.2, tarjeta: 0.08 });
+    for (const f of facturas) {
+      const g = f.guion;
+      if (g?.sinCobro) continue;
+      if (g?.cobroDias != null) {
+        const fecha2 = sumarDias(f.fechaEmision, g.cobroDias);
+        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents), medio: "transferencia" });
+        continue;
+      }
+      const mediana = f.lagMediana ?? 45;
+      const sigma = mediana >= 90 ? 0.45 : 0.6;
+      let lag = Math.round(Math.exp(Math.log(mediana) + sigma * normal(r)));
+      lag = Math.max(3, Math.min(230, lag));
+      if (f.vendedorId === "V04" && f.fechaEmision >= "2026-08-01" && f.fechaEmision < "2026-09-01") lag = Math.max(lag, 40);
+      if (f.vendedorId === "V07" && f.fechaEmision >= "2026-08-01" && f.fechaEmision < "2026-09-01") lag = Math.min(lag, 18);
+      const parcial = r() < 0.19;
+      if (parcial) {
+        const frac = 0.3 + r() * 0.3;
+        const monto1 = redondear(f.valorCents * frac);
+        const fecha1 = sumarDias(f.fechaEmision, Math.max(2, Math.round(lag * 0.6)));
+        const fecha2 = sumarDias(f.fechaEmision, lag);
+        if (fecha1 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha1, monto: deCentavos(monto1), medio: medio() });
+        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents - monto1), medio: medio() });
+      } else {
+        const fecha2 = sumarDias(f.fechaEmision, lag);
+        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents), medio: medio() });
+      }
+    }
+    let idNC = 0;
+    const motivos = ["Descuento comercial posterior", "Error en tarifa facturada", "D\xEDas no exhibidos", "Cambio de formato acordado"];
+    for (const f of facturas) {
+      const g = f.guion;
+      if (g?.nc) {
+        notasCredito.push({ numero: `NC-001-001-${String(++idNC).padStart(7, "0")}`, facturaNumero: f.numero, fecha: g.nc.fecha, valor: g.nc.valor, motivo: g.nc.motivo });
+        continue;
+      }
+      if (g) continue;
+      if (r() < 0.02) {
+        const fecha2 = sumarDias(f.fechaEmision, 10 + Math.floor(r() * 50));
+        if (fecha2 > hoy) continue;
+        const valor = deCentavos(redondear(f.valorCents * (0.05 + r() * 0.25)));
+        notasCredito.push({ numero: `NC-001-001-${String(++idNC).padStart(7, "0")}`, facturaNumero: f.numero, fecha: fecha2, valor, motivo: motivos[Math.floor(r() * motivos.length)] });
+      }
+    }
+    const dataset = {
+      vendedores: vendedores2,
+      agencias,
+      clientes,
+      facturas: facturas.map((f) => ({ numero: f.numero, fechaEmision: f.fechaEmision, vendedorId: f.vendedorId, clienteId: f.clienteId, linea: f.linea, canal: f.canal, valorFacturado: deCentavos(f.valorCents), pctAgencia: f.pctAgencia })),
+      cobros,
+      notasCredito,
+      ajustes: [],
+      esquemas: [esquemaDemo()],
+      politicas: politicasDemo(),
+      cierres: {},
+      liquidaciones: [],
+      control: { ...CONTROL }
+    };
+    const bitacora = [];
+    const registrar = (fechaHora2, usuario, accion, entidad, detalle) => bitacora.push({ fechaHora: fechaHora2, usuario, accion, entidad, detalle });
+    registrar(`${hoy}T08:00:00`, "Finanzas", "Carga de datos de demostraci\xF3n", "Datos", `${facturas.length} facturas, ${cobros.length} cobros, ${notasCredito.length} notas de cr\xE9dito \xB7 ${ETIQUETA_DEMO}`);
+    registrar("2026-01-01T09:00:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "EsquemaComisiones", "v1.0 vigente desde 01-ene-2026");
+    registrar("2025-01-01T09:00:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "PoliticaCobranza", "v1.0 vigente desde 01-ene-2025 (anterior)");
+    registrar("2026-01-01T09:05:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "PoliticaCobranza", "v2.0 vigente desde 01-ene-2026 (actualizada)");
+    for (const p of rangoPeriodos("2026-01", aprobarHasta)) {
+      const fechaAprobacion = sumarDias(fechaCorte(p), 5);
+      const res = computeTodo(dataset, { hoy: fechaAprobacion, hastaPeriodo: p });
+      dataset.cierres[p] = { periodo: p, fecha: fechaAprobacion, autor: "Gerencia Financiera", motivo: null, snapshot: res.periodos[p] };
+      for (const v of vendedores2) dataset.liquidaciones.push({ periodo: p, vendedorId: v.id, estado: "en_rol", fechaEstado: fechaAprobacion, usuario: "Gerencia Financiera" });
+      registrar(`${fechaAprobacion}T10:00:00`, "Gerencia Financiera", "Aprobaci\xF3n de per\xEDodo", "Liquidacion", `Per\xEDodo ${p} aprobado y bloqueado \xB7 rol generado`);
+    }
+    const abiertos = rangoPeriodos(sumarDias(fechaCorte(aprobarHasta), 1).slice(0, 7), hoy.slice(0, 7));
+    for (const p of abiertos) for (const v of vendedores2) dataset.liquidaciones.push({ periodo: p, vendedorId: v.id, estado: "calculada", fechaEstado: hoy, usuario: "Finanzas" });
+    return { dataset, bitacora, meta: { semilla, hoy, etiqueta: ETIQUETA_DEMO, aprobadoHasta: aprobarHasta, facturas: facturas.length, cobros: cobros.length, notasCredito: notasCredito.length } };
+  }
+  function lagPara(perfil, periodo) {
+    if (perfil.lagDesde && periodo >= perfil.lagDesde.periodo) return perfil.lagDesde.lag;
+    return perfil.lag;
+  }
+  function lineasEstratificadas(r, mix, n) {
+    const entradas = Object.entries(mix);
+    const exactos = entradas.map(([l, w]) => [l, w * n / entradas.reduce((s, [, x]) => s + x, 0)]);
+    const conteo = exactos.map(([l, x]) => [l, Math.floor(x), x - Math.floor(x)]);
+    let faltan = n - conteo.reduce((s, [, c]) => s + c, 0);
+    for (const fila of [...conteo].sort((a, b) => b[2] - a[2])) {
+      if (faltan <= 0) break;
+      fila[1] += 1;
+      faltan -= 1;
+    }
+    const lista = [];
+    for (const [l, c] of conteo) for (let i = 0; i < c; i++) lista.push(l);
+    for (let i = lista.length - 1; i > 0; i--) {
+      const j = Math.floor(r() * (i + 1));
+      [lista[i], lista[j]] = [lista[j], lista[i]];
+    }
+    return lista;
+  }
+  function rolHistoricoDemo(resultado) {
+    const periodos2 = resultado.meta.periodos.filter((p) => !resultado.periodos[p].enCurso);
+    const DESVIACIONES = [
+      { periodo: "2026-08", vendedorId: "V01", regla: "R-03", pagado: (t) => t.liquidable + Math.abs(t.clawback), motivo: "El Excel anterior nunca descont\xF3 la nota de cr\xE9dito de USD 2.200 emitida en agosto sobre una factura de julio ya pagada: pag\xF3 la comisi\xF3n completa sin clawback.", mirar: "Motor de c\xE1lculo, l\xEDnea L7 del ledger de agosto y alerta A-06." },
+      { periodo: "2026-08", vendedorId: "V02", regla: "Error del Excel", pagado: (t) => t.liquidable - 2550, motivo: "Error de digitaci\xF3n de USD 25,50 en el rol hist\xF3rico. La cifra de la herramienta es la correcta: la l\xEDnea L9 cuadra con el detalle por factura.", mirar: "Motor de c\xE1lculo, ledger de agosto, l\xEDnea L9 y detalle por factura." },
+      { periodo: "2026-06", vendedorId: "V05", regla: "R-06", pagado: (t) => t.liquidable + 1e4, motivo: "Pago duplicado de USD 100,00 en junio. Un pago en exceso ya realizado se recupera con un ajuste manual negativo, con motivo, en el per\xEDodo abierto.", mirar: "Liquidaci\xF3n y auditor\xEDa, tarjeta \xABAjustes manuales (R-06)\xBB." },
+      { periodo: "2026-08", vendedorId: "V08", regla: "R-04", pagado: (t) => t.devengado + t.bonos, motivo: "El Excel anterior pag\xF3 el devengado \xEDntegro al emitir la factura (pol\xEDtica v1.0) sin retener por cobranza; la pol\xEDtica v2.0 libera solo lo cobrado y retiene el resto.", mirar: "Motor de c\xE1lculo, l\xEDneas L4 a L6 del ledger de agosto; Pol\xEDtica de cobranza, cartera pendiente." }
+    ];
+    const filas = [];
+    const desviaciones = [];
+    for (const p of periodos2) {
+      const per = resultado.periodos[p];
+      for (const v of Object.keys(per.vendedores).sort()) {
+        const t = per.vendedores[v].totales;
+        const d = DESVIACIONES.find((x) => x.periodo === p && x.vendedorId === v);
+        const pagado = Math.round(d ? d.pagado(t) : t.liquidable);
+        filas.push({ periodo: p, vendedorId: v, comisionPagada: pagado / 100, devengadoHistorico: p === "2026-08" ? Math.round(t.devengado + t.bonos) / 100 : null });
+        if (d && pagado !== t.liquidable) desviaciones.push({ periodo: p, vendedorId: v, regla: d.regla, historico: pagado, herramienta: t.liquidable, diferencia: t.liquidable - pagado, motivo: d.motivo, mirar: d.mirar });
+      }
+    }
+    return { filas, desviaciones };
   }
 
   // src/ui/acciones.js
@@ -2637,6 +2893,33 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     await estado.repo?.registrar("Cambio de fecha de referencia", "Control", `${anterior} \u2192 ${fecha2}`);
     recalcular({ conservarPeriodo: false });
     emitir("referencia");
+  }
+  var CLAVE_AUTOCARGA = "kam.demo.autocarga";
+  function autocargaDemoActiva() {
+    try {
+      return localStorage.getItem(CLAVE_AUTOCARGA) !== "0";
+    } catch (e) {
+      return true;
+    }
+  }
+  function desactivarAutocargaDemo() {
+    try {
+      localStorage.setItem(CLAVE_AUTOCARGA, "0");
+    } catch (e) {
+    }
+  }
+  async function cargarDatosDemo({ automatica = false } = {}) {
+    const { dataset, bitacora, meta } = generarDatosDemo();
+    const r = await mutar(async (repo) => {
+      await repo.reemplazarDataset(dataset, { origen: "datos de demostraci\xF3n (ficticios)", bitacoraAdicional: bitacora, meta: { semilla: meta.semilla, automatica } });
+      await repo.guardarMeta("hoy", HOY_DEMO);
+      if (automatica) await repo.registrar("Carga autom\xE1tica de la demostraci\xF3n", "Datos", "Versi\xF3n de demostraci\xF3n: los datos ficticios del ejercicio se cargan al abrir la herramienta sin datos");
+    }, automatica ? "Versi\xF3n de demostraci\xF3n: datos ficticios cargados autom\xE1ticamente" : "Datos de demostraci\xF3n cargados");
+    if (r === null) return null;
+    estado.hoy = HOY_DEMO;
+    estado.origen = await estado.repo.leerMeta("origen");
+    recalcular({ conservarPeriodo: false });
+    return true;
   }
 
   // src/data/migrations.js
@@ -3792,226 +4075,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     return resultado;
   }
 
-  // src/seed/demo.js
-  var SEMILLA_DEMO = 20260914;
-  var HOY_DEMO = "2026-09-14";
-  function prng(semilla) {
-    let a = semilla >>> 0;
-    return function() {
-      a = a + 1831565813 >>> 0;
-      let t = a;
-      t = Math.imul(t ^ t >>> 15, t | 1);
-      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-  function normal(r) {
-    const u1 = Math.max(r(), 1e-12);
-    const u2 = r();
-    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-  }
-  function elegir(r, pesos) {
-    const total = Object.values(pesos).reduce((s, x) => s + x, 0);
-    let acc = r() * total;
-    for (const [k, w] of Object.entries(pesos)) {
-      acc -= w;
-      if (acc <= 0) return k;
-    }
-    return Object.keys(pesos)[0];
-  }
-  var MIX_ESTANDAR = { vallas: 0.55, led: 0.3, retail: 0.15 };
-  var PERFILES = {
-    V01: { media: 1.08, sd: 0.07, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 1.05 } },
-    V02: { media: 0.96, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.93 } },
-    V03: { media: 1.02, sd: 0.07, mix: { vallas: 0.45, led: 0.4, retail: 0.15 }, lag: 60, meses: { "2026-08": 1.12 } },
-    V04: { media: 0.86, sd: 0.08, mix: MIX_ESTANDAR, lag: 25, meses: { "2026-07": 1.05, "2026-08": 0.64 } },
-    V05: { media: 0.92, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.88 } },
-    V06: { media: 1, sd: 0.06, mix: MIX_ESTANDAR, lag: 60, meses: { "2026-08": 0.995 }, exacto: ["2026-08"] },
-    V07: { media: 1.35, sd: 0.15, mix: { vallas: 0.17, led: 0.25, retail: 0.58 }, lag: 28, meses: { "2026-08": 2.4 } },
-    V08: { media: 0.85, sd: 0.08, mix: MIX_ESTANDAR, lag: 60, lagDesde: { periodo: "2026-05", lag: 100 }, meses: { "2026-04": 0.92, "2026-05": 0.88, "2026-06": 0.9, "2026-08": 0.78 } }
-  };
-  var GUION = [
-    // María: cobrada rápido en julio (período aprobado) y NC de USD 2.200 en agosto ⇒ clawback
-    { vendedorId: "V01", periodo: "2026-07", dia: 8, clienteId: "C02", linea: "vallas", valor: 14e3, cobroDias: 12, nc: { fecha: "2026-08-12", valor: 2200, motivo: "Diferencia en pauta facturada (ajuste comercial)" } },
-    // Diego: factura grande cobrada en julio y NC posterior en agosto ⇒ saldo negativo con cumplimiento bajo el umbral
-    { vendedorId: "V04", periodo: "2026-07", dia: 6, clienteId: "C16", linea: "vallas", valor: 28e3, cobroDias: 10, nc: { fecha: "2026-08-14", valor: 24500, motivo: "Anulaci\xF3n parcial de campa\xF1a por cambio de alcance" } },
-    // Sebastián: tres facturas sin cobro que caducan en agosto (más de 120 días al 31-ago)
-    { vendedorId: "V08", periodo: "2026-04", dia: 6, clienteId: "C28", linea: "vallas", valor: 6200, sinCobro: true },
-    { vendedorId: "V08", periodo: "2026-04", dia: 20, clienteId: "C30", linea: "led", valor: 5400, sinCobro: true },
-    { vendedorId: "V08", periodo: "2026-05", dia: 1, clienteId: "C29", linea: "vallas", valor: 7300, sinCobro: true },
-    // Sebastián: tres facturas retenidas próximas a caducar al 14-sep-2026
-    { vendedorId: "V08", periodo: "2026-05", dia: 20, clienteId: "C28", linea: "vallas", valor: 6800, sinCobro: true },
-    { vendedorId: "V08", periodo: "2026-05", dia: 28, clienteId: "C30", linea: "retail", valor: 4900, sinCobro: true },
-    { vendedorId: "V08", periodo: "2026-06", dia: 5, clienteId: "C29", linea: "led", valor: 5100, sinCobro: true },
-    // Carolina: clientes nuevos activados en agosto (bono cliente nuevo) y cobro rápido
-    { vendedorId: "V07", periodo: "2026-08", dia: 4, clienteId: "C31", linea: "retail", valor: 9e3, cobroDias: 12 },
-    { vendedorId: "V07", periodo: "2026-08", dia: 11, clienteId: "C32", linea: "retail", valor: 11e3, cobroDias: 9 }
-  ];
-  function generarDatosDemo({ hoy = HOY_DEMO, semilla = SEMILLA_DEMO, aprobarHasta = "2026-07" } = {}) {
-    const r = prng(semilla);
-    const vendedores2 = vendedoresDemo();
-    const agencias = agenciasDemo();
-    const clientes = clientesDemo();
-    const agenciasPorId = new Map(agencias.map((a) => [a.id, a]));
-    const clientesPorVendedor = /* @__PURE__ */ new Map();
-    for (const c of clientes) {
-      if (!clientesPorVendedor.has(c.vendedorId)) clientesPorVendedor.set(c.vendedorId, []);
-      clientesPorVendedor.get(c.vendedorId).push(c);
-    }
-    const pctDe = (c) => c.canal === "agencia" ? agenciasPorId.get(c.agenciaId)?.pctAgencia ?? 0 : 0;
-    const periodos2 = rangoPeriodos("2026-01", hoy.slice(0, 7));
-    const facturas = [];
-    const cobros = [];
-    const notasCredito = [];
-    const guionPorClave = /* @__PURE__ */ new Map();
-    for (const g of GUION) {
-      const k = `${g.vendedorId}|${g.periodo}`;
-      if (!guionPorClave.has(k)) guionPorClave.set(k, []);
-      guionPorClave.get(k).push(g);
-    }
-    for (const v of vendedores2) {
-      const perfil = PERFILES[v.id];
-      const cartera = clientesPorVendedor.get(v.id).filter((c) => c.fechaAlta <= hoy);
-      for (const p of periodos2) {
-        const [anio, mes] = p.split("-").map(Number);
-        const enCurso = p === hoy.slice(0, 7);
-        const ultimoDia = enCurso ? Math.max(1, Number(hoy.slice(8, 10)) - 2) : ultimoDiaMes(anio, mes);
-        const cuota = v.cuotas.find((c) => c.periodo === p)?.monto ?? 0;
-        let cumplimiento = perfil.meses?.[p] ?? Math.max(0.35, perfil.media + perfil.sd * normal(r));
-        if (enCurso) cumplimiento *= ultimoDia / ultimoDiaMes(anio, mes);
-        const objetivo = aCentavos(cuota * cumplimiento);
-        const guion = (guionPorClave.get(`${v.id}|${p}`) || []).filter((g) => !enCurso);
-        const baseGuion = guion.reduce((s, g) => s + redondear(aCentavos(g.valor) * (1 - pctDe(clientes.find((c) => c.id === g.clienteId)))), 0);
-        const restante = Math.max(objetivo - baseGuion, aCentavos(500));
-        const n = enCurso ? 2 + Math.floor(r() * 2) : Math.max(3, 6 + Math.floor(r() * 3) - guion.length);
-        const pesos = Array.from({ length: n }, () => 0.5 + r());
-        const sumaPesos = pesos.reduce((s, x) => s + x, 0);
-        const exacto = perfil.exacto?.includes(p);
-        const lineasMes = lineasEstratificadas(r, perfil.mix, n);
-        const generadas = [];
-        let acumBase = baseGuion;
-        for (let i = 0; i < n; i++) {
-          const esUltima = i === n - 1;
-          let cliente = cartera.filter((c) => c.fechaAlta.slice(0, 7) <= p)[Math.floor(r() * cartera.filter((c) => c.fechaAlta.slice(0, 7) <= p).length)] || cartera[0];
-          if (exacto && esUltima) cliente = cartera.find((c) => c.canal === "directo") || cliente;
-          const pct2 = pctDe(cliente);
-          let base = redondear(restante * pesos[i] / sumaPesos);
-          if (exacto && esUltima) base = objetivo - acumBase;
-          acumBase += base;
-          const valor = pct2 > 0 ? redondear(base / (1 - pct2)) : base;
-          const dia = 1 + Math.floor(r() * ultimoDia);
-          generadas.push({ vendedorId: v.id, clienteId: cliente.id, linea: lineasMes[i], canal: cliente.canal, pctAgencia: pct2, valorCents: valor, fechaEmision: `${p}-${String(dia).padStart(2, "0")}`, lagMediana: lagPara(perfil, p), fast: perfil.lag <= 30 });
-        }
-        for (const g of guion) {
-          const cliente = clientes.find((c) => c.id === g.clienteId);
-          generadas.push({ vendedorId: v.id, clienteId: cliente.id, linea: g.linea, canal: cliente.canal, pctAgencia: pctDe(cliente), valorCents: aCentavos(g.valor), fechaEmision: `${p}-${String(g.dia).padStart(2, "0")}`, guion: g });
-        }
-        for (const f of generadas) facturas.push(f);
-      }
-    }
-    facturas.sort((a, b) => a.fechaEmision < b.fechaEmision ? -1 : a.fechaEmision > b.fechaEmision ? 1 : a.vendedorId < b.vendedorId ? -1 : 1);
-    facturas.forEach((f, i) => {
-      f.numero = `001-001-${String(i + 1).padStart(9, "0")}`;
-    });
-    let idCobro = 0;
-    const medio = () => elegir(r, { transferencia: 0.72, cheque: 0.2, tarjeta: 0.08 });
-    for (const f of facturas) {
-      const g = f.guion;
-      if (g?.sinCobro) continue;
-      if (g?.cobroDias != null) {
-        const fecha2 = sumarDias(f.fechaEmision, g.cobroDias);
-        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents), medio: "transferencia" });
-        continue;
-      }
-      const mediana = f.lagMediana ?? 45;
-      const sigma = mediana >= 90 ? 0.45 : 0.6;
-      let lag = Math.round(Math.exp(Math.log(mediana) + sigma * normal(r)));
-      lag = Math.max(3, Math.min(230, lag));
-      if (f.vendedorId === "V04" && f.fechaEmision >= "2026-08-01" && f.fechaEmision < "2026-09-01") lag = Math.max(lag, 40);
-      if (f.vendedorId === "V07" && f.fechaEmision >= "2026-08-01" && f.fechaEmision < "2026-09-01") lag = Math.min(lag, 18);
-      const parcial = r() < 0.19;
-      if (parcial) {
-        const frac = 0.3 + r() * 0.3;
-        const monto1 = redondear(f.valorCents * frac);
-        const fecha1 = sumarDias(f.fechaEmision, Math.max(2, Math.round(lag * 0.6)));
-        const fecha2 = sumarDias(f.fechaEmision, lag);
-        if (fecha1 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha1, monto: deCentavos(monto1), medio: medio() });
-        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents - monto1), medio: medio() });
-      } else {
-        const fecha2 = sumarDias(f.fechaEmision, lag);
-        if (fecha2 <= hoy) cobros.push({ id: `CB-${String(++idCobro).padStart(6, "0")}`, facturaNumero: f.numero, fechaCobro: fecha2, monto: deCentavos(f.valorCents), medio: medio() });
-      }
-    }
-    let idNC = 0;
-    const motivos = ["Descuento comercial posterior", "Error en tarifa facturada", "D\xEDas no exhibidos", "Cambio de formato acordado"];
-    for (const f of facturas) {
-      const g = f.guion;
-      if (g?.nc) {
-        notasCredito.push({ numero: `NC-001-001-${String(++idNC).padStart(7, "0")}`, facturaNumero: f.numero, fecha: g.nc.fecha, valor: g.nc.valor, motivo: g.nc.motivo });
-        continue;
-      }
-      if (g) continue;
-      if (r() < 0.02) {
-        const fecha2 = sumarDias(f.fechaEmision, 10 + Math.floor(r() * 50));
-        if (fecha2 > hoy) continue;
-        const valor = deCentavos(redondear(f.valorCents * (0.05 + r() * 0.25)));
-        notasCredito.push({ numero: `NC-001-001-${String(++idNC).padStart(7, "0")}`, facturaNumero: f.numero, fecha: fecha2, valor, motivo: motivos[Math.floor(r() * motivos.length)] });
-      }
-    }
-    const dataset = {
-      vendedores: vendedores2,
-      agencias,
-      clientes,
-      facturas: facturas.map((f) => ({ numero: f.numero, fechaEmision: f.fechaEmision, vendedorId: f.vendedorId, clienteId: f.clienteId, linea: f.linea, canal: f.canal, valorFacturado: deCentavos(f.valorCents), pctAgencia: f.pctAgencia })),
-      cobros,
-      notasCredito,
-      ajustes: [],
-      esquemas: [esquemaDemo()],
-      politicas: politicasDemo(),
-      cierres: {},
-      liquidaciones: [],
-      control: { ...CONTROL }
-    };
-    const bitacora = [];
-    const registrar = (fechaHora2, usuario, accion, entidad, detalle) => bitacora.push({ fechaHora: fechaHora2, usuario, accion, entidad, detalle });
-    registrar(`${hoy}T08:00:00`, "Finanzas", "Carga de datos de demostraci\xF3n", "Datos", `${facturas.length} facturas, ${cobros.length} cobros, ${notasCredito.length} notas de cr\xE9dito \xB7 ${ETIQUETA_DEMO}`);
-    registrar("2026-01-01T09:00:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "EsquemaComisiones", "v1.0 vigente desde 01-ene-2026");
-    registrar("2025-01-01T09:00:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "PoliticaCobranza", "v1.0 vigente desde 01-ene-2025 (anterior)");
-    registrar("2026-01-01T09:05:00", AUTOR_DEMO, "Creaci\xF3n de versi\xF3n", "PoliticaCobranza", "v2.0 vigente desde 01-ene-2026 (actualizada)");
-    for (const p of rangoPeriodos("2026-01", aprobarHasta)) {
-      const fechaAprobacion = sumarDias(fechaCorte(p), 5);
-      const res = computeTodo(dataset, { hoy: fechaAprobacion, hastaPeriodo: p });
-      dataset.cierres[p] = { periodo: p, fecha: fechaAprobacion, autor: "Gerencia Financiera", motivo: null, snapshot: res.periodos[p] };
-      for (const v of vendedores2) dataset.liquidaciones.push({ periodo: p, vendedorId: v.id, estado: "en_rol", fechaEstado: fechaAprobacion, usuario: "Gerencia Financiera" });
-      registrar(`${fechaAprobacion}T10:00:00`, "Gerencia Financiera", "Aprobaci\xF3n de per\xEDodo", "Liquidacion", `Per\xEDodo ${p} aprobado y bloqueado \xB7 rol generado`);
-    }
-    const abiertos = rangoPeriodos(sumarDias(fechaCorte(aprobarHasta), 1).slice(0, 7), hoy.slice(0, 7));
-    for (const p of abiertos) for (const v of vendedores2) dataset.liquidaciones.push({ periodo: p, vendedorId: v.id, estado: "calculada", fechaEstado: hoy, usuario: "Finanzas" });
-    return { dataset, bitacora, meta: { semilla, hoy, etiqueta: ETIQUETA_DEMO, aprobadoHasta: aprobarHasta, facturas: facturas.length, cobros: cobros.length, notasCredito: notasCredito.length } };
-  }
-  function lagPara(perfil, periodo) {
-    if (perfil.lagDesde && periodo >= perfil.lagDesde.periodo) return perfil.lagDesde.lag;
-    return perfil.lag;
-  }
-  function lineasEstratificadas(r, mix, n) {
-    const entradas = Object.entries(mix);
-    const exactos = entradas.map(([l, w]) => [l, w * n / entradas.reduce((s, [, x]) => s + x, 0)]);
-    const conteo = exactos.map(([l, x]) => [l, Math.floor(x), x - Math.floor(x)]);
-    let faltan = n - conteo.reduce((s, [, c]) => s + c, 0);
-    for (const fila of [...conteo].sort((a, b) => b[2] - a[2])) {
-      if (faltan <= 0) break;
-      fila[1] += 1;
-      faltan -= 1;
-    }
-    const lista = [];
-    for (const [l, c] of conteo) for (let i = 0; i < c; i++) lista.push(l);
-    for (let i = lista.length - 1; i > 0; i--) {
-      const j = Math.floor(r() * (i + 1));
-      [lista[i], lista[j]] = [lista[j], lista[i]];
-    }
-    return lista;
-  }
-
   // src/data/anonimizar.js
   function hash32(texto2, semilla) {
     let h2 = semilla >>> 0;
@@ -4204,14 +4267,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       const ok = await confirmar("Cargar demostraci\xF3n", "Se reemplazar\xE1n los datos actuales por el dataset ficticio de demostraci\xF3n (enero a septiembre 2026, fecha de referencia 14-sep-2026).", { textoConfirmar: "Cargar demo", peligro: true });
       if (!ok) return;
     }
-    const { dataset, bitacora, meta } = generarDatosDemo();
-    await mutar(async (repo) => {
-      await repo.reemplazarDataset(dataset, { origen: "datos de demostraci\xF3n (ficticios)", bitacoraAdicional: bitacora, meta: { semilla: meta.semilla } });
-      await repo.guardarMeta("hoy", HOY_DEMO);
-    }, "Datos de demostraci\xF3n cargados");
-    estado.hoy = HOY_DEMO;
-    estado.origen = await estado.repo.leerMeta("origen");
-    recalcular({ conservarPeriodo: false });
+    await cargarDatosDemo();
   }
   function exportarAnonimizado() {
     const clave2 = input("password", "", null, { placeholder: "Frase secreta (m\xEDnimo 8 caracteres)", "aria-label": "Clave de anonimizaci\xF3n", autocomplete: "off" });
@@ -4272,6 +4328,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   async function borrarTodo() {
     const ok = await confirmar("Borrar todos los datos", "Esta acci\xF3n elimina facturas, cobros, par\xE1metros, cierres y bit\xE1cora del navegador. No se puede deshacer.", { textoConfirmar: "Borrar", peligro: true, requerirTexto: "BORRAR" });
     if (!ok) return;
+    desactivarAutocargaDemo();
     await mutar(async (repo) => repo.borrarTodo("BORRAR"), "Datos eliminados");
     estado.dataset = await estado.repo.cargarDataset();
     estado.resultado = null;
@@ -4345,7 +4402,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
             boton("Restaurar respaldo\u2026", abrirRestaurar, { deshabilitado: !puede("datos") }),
             boton("Borrar todos los datos", borrarTodo, { tipo: "peligro", deshabilitado: !puede("datos") || !hayDatos() })
           ),
-          h("p", { class: "ayuda", style: { marginTop: "8px" } }, "Los datos viven solo en este navegador (IndexedDB). Exporte un respaldo al cerrar cada per\xEDodo y antes de cambiar de equipo. Los datos de compensaci\xF3n son datos personales (LOPDP): nada sale del navegador salvo por exportaci\xF3n expl\xEDcita.")
+          h("p", { class: "ayuda", style: { marginTop: "8px" } }, "Versi\xF3n de demostraci\xF3n: al abrir la herramienta sin datos se cargan solos los datos ficticios del ejercicio; tras \xABBorrar todos los datos\xBB ya no se recargan solos y el bot\xF3n \xABCargar datos de demostraci\xF3n\xBB sigue disponible. Los datos viven solo en este navegador (IndexedDB). Exporte un respaldo al cerrar cada per\xEDodo y antes de cambiar de equipo. Los datos de compensaci\xF3n son datos personales (LOPDP): nada sale del navegador salvo por exportaci\xF3n expl\xEDcita.")
         ])
       ),
       tarjeta("Conciliaci\xF3n con contabilidad", refs2.conciliacion)
@@ -5900,13 +5957,26 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       toast(`No se pudo leer el contraste: ${e.message}`, "error");
     }
   }
+  async function cargarContrasteDemo() {
+    if (!estado.resultado) return;
+    const { filas, desviaciones } = rolHistoricoDemo(estado.resultado);
+    contraste = { nombre: "rol hist\xF3rico ficticio de la demostraci\xF3n (\xABExcel anterior\xBB)", filas, errores: [], desviaciones };
+    renderContraste();
+    await estado.repo.registrar("Contraste con liquidaci\xF3n hist\xF3rica", "Liquidacion", `Rol hist\xF3rico de la demostraci\xF3n: ${filas.length} filas, ${desviaciones.length} diferencias deliberadas`);
+  }
   async function descargarPlantillaContraste() {
     const XLSX = await cargarXLSX();
     descargar("Plantilla_Contraste_Comisiones.xlsx", libroABytes(XLSX, plantillaContraste(XLSX, estado.resultado.meta.periodos.filter((p) => !estado.resultado.periodos[p].enCurso), vendedores())), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   }
   function renderContraste() {
     limpiar(refs6.contraste);
-    if (!contraste) return poner(refs6.contraste, h("p", { class: "ayuda" }, "Cargue el rol hist\xF3rico (periodo, vendedor_id, comision_pagada) para comparar la comisi\xF3n liquidable de la herramienta con lo que INDUVALLAS pag\xF3. Tolerancia: USD 1,00."));
+    if (!contraste) {
+      return poner(
+        refs6.contraste,
+        esDemo() ? h("p", { class: "ayuda-nota" }, "Ejercicio de la demostraci\xF3n: pulse \xABRol hist\xF3rico de la demostraci\xF3n\xBB. Carga un \xABExcel anterior\xBB ficticio (enero a agosto 2026) con cuatro diferencias deliberadas para practicar el contraste sin archivos externos.") : null,
+        h("p", { class: "ayuda" }, "Con datos reales: cargue el rol hist\xF3rico (periodo, vendedor_id, comision_pagada) para comparar la comisi\xF3n liquidable de la herramienta con lo que INDUVALLAS pag\xF3. Tolerancia: USD 1,00.")
+      );
+    }
     const r = contrastar(estado.resultado, contraste.filas, { tolerancia: 1, nombres: nombreVendedor });
     poner(
       refs6.contraste,
@@ -5929,7 +5999,25 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         claseFila: (f) => f.estado === "revisar" ? "fila-resaltada" : "",
         ordenInicial: { clave: "diferencia", desc: true }
       }),
-      r.sinCorrespondencia.length ? h("p", { class: "ayuda" }, `Sin correspondencia en la herramienta (per\xEDodo o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(", ")}`) : null
+      r.sinCorrespondencia.length ? h("p", { class: "ayuda" }, `Sin correspondencia en la herramienta (per\xEDodo o vendedor inexistente): ${r.sinCorrespondencia.map((f) => `${f.periodo} ${f.vendedorId}`).join(", ")}`) : null,
+      contraste.desviaciones ? h(
+        "div",
+        { class: "contraste-explicacion" },
+        h("h3", null, `Ejercicio: explique las ${contraste.desviaciones.length} diferencias`),
+        h("p", { class: "ayuda" }, "Las filas resaltadas difieren en m\xE1s de USD 1,00. Cada una tiene una causa conocida; compru\xE9bela en el lugar indicado con el bot\xF3n \xABVer\xBB. Las dem\xE1s coinciden al centavo: el motor reproduce lo pagado."),
+        h("ol", { class: "lista-pasos" }, contraste.desviaciones.map((d) => h(
+          "li",
+          null,
+          h("b", null, `${periodoLargo(d.periodo)} \xB7 ${nombreVendedor(d.vendedorId)} \xB7 ${monedaSigno(d.diferencia)} `),
+          badge(d.regla, "badge-info"),
+          " ",
+          d.motivo,
+          " ",
+          h("span", { class: "ayuda" }, `D\xF3nde mirar: ${d.mirar}`),
+          " ",
+          boton("Ver", () => irA("motor", { vendedorId: d.vendedorId, periodo: d.periodo }), { mini: true })
+        )))
+      ) : null
     );
   }
   function actualizar6() {
@@ -5941,7 +6029,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     renderBitacora();
     renderContraste();
   }
-  function montar6(cont) {
+  function montar6(cont, extra = {}) {
     refs6 = { estadoPeriodo: h("div", { class: "tarjeta-cab", style: { marginBottom: 0 } }), rol: h("div"), flujo: h("div"), ajustes: h("div"), controles: h("div"), bitacora: h("div"), contraste: h("div") };
     const abrirContraste = selectorArchivo(".xlsx,.xls,.csv", cargarContraste);
     const entidad = select([{ valor: "", texto: "Todas las entidades" }, ...["Datos", "Liquidacion", "EsquemaComisiones", "PoliticaCobranza", "Control", "Sesi\xF3n"].map((e) => ({ valor: e, texto: e }))], "", (v) => {
@@ -5961,10 +6049,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         tarjeta("Ajustes manuales (R-06)", refs6.ajustes, { subtitulo: "Motivo, autor y fecha obligatorios; aparecen en el ledger y en la bit\xE1cora" }),
         tarjeta("Controles del cierre", refs6.controles, { memorable: true })
       ),
-      tarjeta("Contraste con la liquidaci\xF3n hist\xF3rica", refs6.contraste, { acciones: [boton("Descargar plantilla de contraste", descargarPlantillaContraste, { mini: true }), boton("Cargar rol hist\xF3rico\u2026", abrirContraste, { mini: true, tipo: "primario" })], subtitulo: "Comisi\xF3n liquidable de la herramienta frente a lo pagado seg\xFAn el Excel actual de INDUVALLAS" }),
+      tarjeta("Contraste con la liquidaci\xF3n hist\xF3rica", refs6.contraste, { id: "tarjeta-contraste", acciones: [boton("Descargar plantilla de contraste", descargarPlantillaContraste, { mini: true }), esDemo() ? boton("Rol hist\xF3rico de la demostraci\xF3n", cargarContrasteDemo, { mini: true, tipo: "primario" }) : null, boton("Cargar rol hist\xF3rico\u2026", abrirContraste, { mini: true, tipo: esDemo() ? "secundario" : "primario" })].filter(Boolean), subtitulo: "Comisi\xF3n liquidable de la herramienta frente a lo pagado seg\xFAn el Excel actual de INDUVALLAS" }),
       tarjeta("Bit\xE1cora", refs6.bitacora, { acciones: [entidad, texto2], subtitulo: "Toda acci\xF3n queda registrada con usuario y fecha" })
     );
     actualizar6();
+    if (extra.contrasteDemo && esDemo()) cargarContrasteDemo();
   }
   on("resultado", () => refs6 && estado.pestana === "liquidacion" && actualizar6());
   on("periodo", () => refs6 && estado.pestana === "liquidacion" && actualizar6());
@@ -6176,6 +6265,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   } };
 
   // src/ui/app.js
+  var MODO_DEMO = true ? true : true;
   var PESTANAS = [panel_default, datos_default, tabla_default, politica_default, motor_default, liquidacion_default, asistente_default];
   var ui = {};
   var pestanaActiva = null;
@@ -6289,7 +6379,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       ui.stepper.actualizar();
       return;
     }
-    p.montar(cont);
+    p.montar(cont, extra);
     pestanaActiva = p;
     marcarVisitada(p.id);
     renderPestanas();
@@ -6381,6 +6471,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       estado.origen = await estado.repo.leerMeta("origen");
       estado.conciliacion = await estado.repo.leerMeta("conciliacion") || {};
       await estado.repo.registrar("Inicio de sesi\xF3n", "Sesi\xF3n", `Rol ${estado.rol} \xB7 almac\xE9n ${estado.almacen.tipo}`);
+      if (MODO_DEMO && !hayDatos() && autocargaDemoActiva()) await cargarDatosDemo({ automatica: true });
     } catch (e) {
       console.error(e);
       toast(`No se pudo abrir el almac\xE9n de datos: ${e.message}`, "error");

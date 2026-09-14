@@ -4,7 +4,7 @@ Guía operativa de este proyecto para Claude Code. Léela completa antes de toca
 
 ## 1. Qué es este proyecto
 
-Herramienta web local de un solo archivo (`dist/ComisionesIA_Induvallas_V.1.2.html`) que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS (publicidad exterior, Quito). Usuario: Departamento Financiero. Sin servidor, sin red, sin CDN; datos en IndexedDB del navegador. Jurisdicción Ecuador, moneda USD, idioma español ecuatoriano, formato `es-EC`.
+Herramienta web local de un solo archivo (`dist/ComisionesIA_Induvallas_V.1.3.html`) que calcula, libera, liquida y audita las comisiones de la fuerza comercial de INDUVALLAS (publicidad exterior, Quito). Usuario: Departamento Financiero. Sin servidor, sin red, sin CDN; datos en IndexedDB del navegador. Jurisdicción Ecuador, moneda USD, idioma español ecuatoriano, formato `es-EC`.
 
 Referencia visual prevista: `ref/DEMO_ComisionesIA_Induvallas_2026_V.1.0.html`. No estuvo disponible; el sistema visual se reconstruyó desde `<design_system>` con autorización de Pablo (S-01). Si aparece, hacer revisión de paridad.
 
@@ -27,7 +27,7 @@ proyectos/induvallas-comisiones-ia/
 ├── tests/               engine.test.mjs (node --test) y e2e/ (Playwright)
 ├── build.mjs            produce el archivo único en dist/
 ├── package.json         scripts build · test · e2e
-└── dist/                ComisionesIA_Induvallas_V.1.2.html · Plantilla_Datos_Induvallas.xlsx
+└── dist/                ComisionesIA_Induvallas_V.1.3.html · Plantilla_Datos_Induvallas.xlsx
 ```
 
 Todo existe (Fases 0 a 5). `src/ui/` contiene `app.js` (arranque), `estado.js`, `acciones.js`, `dom.js`, `format.js`, `explicar.js`, `simulador.js`, `guia.js` (textos didácticos: recorrido, pasos del cierre, ayuda por pestaña, glosario, guion de la demo), `componentes/` (gauge, ledger, graficos, ayuda), `pestanas/` (una por pestaña) y `asistente/intents.js`.
@@ -35,13 +35,15 @@ Todo existe (Fases 0 a 5). `src/ui/` contiene `app.js` (arranque), `estado.js`, 
 ## 3. Comandos
 
 ```
-npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10), seed (9), anonimización y contraste (6): 62 casos
+npm test           # node --test "tests/**/*.test.mjs"   motor (37), datos (10), seed (10), anonimización y contraste (6): 63 casos
 npm run plantilla  # node scripts/generar-plantilla.mjs   regenera dist/Plantilla_Datos_Induvallas.xlsx
 npm run build      # node build.mjs                        genera dist/ComisionesIA_Induvallas_V.<versionEntregable>.html (≈ 1,4 MB)
 npm run anonimizar # node scripts/anonimizar.mjs           seudonimiza una plantilla rellena (ver PROTOCOLO_DATOS_ANONIMIZADOS.md)
 npm run prueba     # node scripts/generar-prueba.mjs       regenera dist/pruebas/ (kit de prueba ficticio autoverificado)
 npm run e2e        # playwright test                       humo en Chromium sobre dist/ (usa /opt/pw-browsers/chromium si existe)
 ```
+
+Bandera `modoDemo` en `package.json` (D-33): con `true`, el HTML carga solos los datos ficticios al abrir sin datos (versión DEMO); para producción se construye con `false`.
 
 Dependencias de desarrollo: `chart.js@4.5.1` y `xlsx@0.18.5` (SheetJS CE, copiadas a `vendor/` con licencia y hash, D-23), `esbuild@0.28.2` y `@playwright/test@1.63.0`. `npm install` las trae; el motor y las pruebas unitarias corren con Node 22. Tras cualquier cambio en `src/`: `npm test && npm run build && npm run e2e`.
 
@@ -90,4 +92,5 @@ Ledger por vendedor y período, en este orden: (1) facturación y base, (2) tram
 - Fases 3, 4 y 5 cerradas el 14-sep-2026 con autorización de Pablo para reconstruir el sistema visual sin la demo: `src/ui/` completo, asistente por reglas, `build.mjs`, humo Playwright en verde, `README.md`, `GUIA_USO_Finanzas.md`, `CHANGELOG.md`. Entregable V.1.0 en `dist/`.
 - V.1.1 (14-sep-2026): anonimización determinista con mapa y clave, contraste con la liquidación histórica y protocolo de datos anonimizados (S-39, S-40). La validación se hará con datos reales seudonimizados de INDUVALLAS.
 - V.1.2 (14-sep-2026): capa didáctica (recorrido inicial, barra de pasos del cierre, ayuda por pestaña, glosario, guion de la demo) en `src/ui/guia.js` y `src/ui/componentes/ayuda.js` (D-32).
-- Pendientes de validación con Pablo o INDUVALLAS: S-26, S-27, S-35, S-37, S-38, S-39, S-40 y paridad con la demo si aparece. Modo API del asistente no implementado (S-37).
+- V.1.3 (14-sep-2026): versión DEMO con los datos del ejercicio dentro de la herramienta: autocarga del dataset ficticio y rol histórico embebido para el contraste (`rolHistoricoDemo`, D-33, S-41).
+- Pendientes de validación con Pablo o INDUVALLAS: S-26, S-27, S-35, S-37, S-38, S-39, S-40, S-41 y paridad con la demo si aparece. Modo API del asistente no implementado (S-37).

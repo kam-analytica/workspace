@@ -277,6 +277,9 @@ input[type="file"] { font-size: var(--f11); }
 .stepper-instruccion { margin-top: 8px; font-size: var(--f13); color: var(--tinta); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .ayuda-tarjeta { border-left: 4px solid var(--pur); background: #FBFAFD; }
 .lista-pasos { margin: 4px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.ayuda-nota { margin: 4px 0 8px; padding: 8px 10px; border-left: 3px solid var(--mag); background: #FFF3F9; font-size: 12px; color: var(--azul); }
+.contraste-explicacion { margin-top: 12px; padding-top: 10px; border-top: var(--borde); }
+.contraste-explicacion h3 { margin: 0 0 4px; font-size: var(--f13); color: var(--azul); }
 .lista-pasos li { line-height: 1.45; }
 .termino { border-bottom: 1px dotted var(--pur); cursor: help; color: inherit; }
 .termino:hover { color: var(--pur); }
