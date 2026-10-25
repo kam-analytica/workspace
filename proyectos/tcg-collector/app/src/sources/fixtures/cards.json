@@ -1,0 +1,127 @@
+{
+ "_fuente": "Registros reales del catálogo TCGdex (paquete npm @tcgdata/tcgdex-offline 0.0.5, datos de tcgdex/cards-database). Solo campos de catálogo; no contiene precios.",
+ "cards": [
+  {
+   "id": "swsh7-49",
+   "localId": "49",
+   "name": {
+    "en": "Pikachu",
+    "es": "Pikachu"
+   },
+   "rarity": "Common",
+   "category": "Pokemon",
+   "serie": "swsh",
+   "set": {
+    "id": "swsh7",
+    "name": {
+     "en": "Evolving Skies",
+     "es": "Cielos Evolutivos"
+    },
+    "cardCount": {
+     "official": 203
+    }
+   },
+   "variants": {
+    "normal": true,
+    "reverse": true
+   }
+  },
+  {
+   "id": "swsh12.5gg-GG30",
+   "localId": "GG30",
+   "name": {
+    "en": "Pikachu",
+    "es": "Pikachu"
+   },
+   "rarity": "Rare",
+   "category": "Pokemon",
+   "serie": "swsh",
+   "set": {
+    "id": "swsh12.5gg",
+    "name": {
+     "en": "Crown Zenith Galarian Gallery",
+     "es": "Cenit Supremo Galería de Galar"
+    },
+    "cardCount": {
+     "official": 70
+    }
+   },
+   "variants": {
+    "holo": true
+   }
+  },
+  {
+   "id": "swsh7-215",
+   "localId": "215",
+   "name": {
+    "en": "Umbreon VMAX",
+    "es": "Umbreon VMAX"
+   },
+   "rarity": "Secret Rare",
+   "category": "Pokemon",
+   "serie": "swsh",
+   "set": {
+    "id": "swsh7",
+    "name": {
+     "en": "Evolving Skies",
+     "es": "Cielos Evolutivos"
+    },
+    "cardCount": {
+     "official": 203
+    }
+   },
+   "variants": {
+    "holo": true
+   }
+  },
+  {
+   "id": "svp-196",
+   "localId": "196",
+   "name": {
+    "en": "Charizard ex",
+    "es": "Charizard ex"
+   },
+   "rarity": "Promo",
+   "category": "Pokemon",
+   "serie": "sv",
+   "set": {
+    "id": "svp",
+    "name": {
+     "en": "SVP Black Star Promos",
+     "es": "SVP Black Star Promos"
+    },
+    "cardCount": {
+     "official": 225
+    }
+   },
+   "variants": {
+    "holo": true
+   }
+  },
+  {
+   "id": "sv01-189",
+   "localId": "189",
+   "name": {
+    "en": "Professor's Research",
+    "es": "Investigación de Profesores"
+   },
+   "rarity": "Rare",
+   "category": "Trainer",
+   "serie": "sv",
+   "set": {
+    "id": "sv01",
+    "name": {
+     "en": "Scarlet & Violet",
+     "es": "Escarlata y Púrpura"
+    },
+    "cardCount": {
+     "official": 198
+    }
+   },
+   "variants": {
+    "reverse": true,
+    "holo": true
+   }
+  }
+ ]
+}
