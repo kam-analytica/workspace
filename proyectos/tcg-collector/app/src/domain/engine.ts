@@ -19,7 +19,7 @@ import {
   type ValuationLevel,
   type WatchItem,
 } from './types';
-import { addDays, roundHalfAway } from './util';
+import { addDays, roundHalfAway, todayLocal } from './util';
 
 export interface EngineInput {
   lots: Lot[];
@@ -268,7 +268,7 @@ export class Engine {
       const p = this.unitPrice({ variantId: w.variantId, condition: w.condition, language: w.language, gradeKey: 'RAW', asOf });
       if (!p) continue;
       const crossed = w.direction === 'above' ? p.unitValueCents >= w.thresholdCents : p.unitValueCents <= w.thresholdCents;
-      const fresh = w.lastTriggeredAt == null || w.lastTriggeredAt.slice(0, 10) < p.observedOn;
+      const fresh = w.lastTriggeredAt == null || todayLocal(new Date(w.lastTriggeredAt)) < p.observedOn;
       if (crossed && fresh) out.push({ watch: w, unitValueCents: p.unitValueCents, observedOn: p.observedOn });
     }
     return out;

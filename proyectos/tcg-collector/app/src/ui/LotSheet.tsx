@@ -78,7 +78,10 @@ export function LotSheet({ lotId, onClose }: { lotId: number; onClose: () => voi
       </dl>
       {position?.valuationLevel && <p className="small muted">{LEVEL_TEXT[position.valuationLevel]}.</p>}
 
-      {!sealed && (
+      {!sealed && lot.grader && bySource.every(({ p }) => p == null) && (
+        <p className="note">TCGdex no publica precios de cartas graduadas. Esta carta se valora con el valor manual que indiques abajo (nivel 3).</p>
+      )}
+      {!sealed && !(lot.grader && bySource.every(({ p }) => p == null)) && (
         <section className="sub">
           <h3>Precio por mercado</h3>
           <ul className="plain">

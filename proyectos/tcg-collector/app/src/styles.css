@@ -312,7 +312,7 @@ legend { font-size: 13px; font-weight: 600; color: var(--muted); padding: 0; mar
 }
 .sheet::backdrop { background: rgb(20 21 30 / 55%); }
 .sheet-body { padding: 16px 20px 24px; display: grid; gap: 12px; }
-.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; position: sticky; top: -16px; background: var(--surface); padding-top: 4px; z-index: 1; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; position: sticky; top: 0; background: var(--surface); padding-block: 8px; margin-top: -8px; z-index: 1; }
 .sheet-head h2 { font-size: 20px; }
 @media (max-width: 560px) {
   .sheet { margin: auto 0 0; width: 100vw; border-radius: 14px 14px 0 0; max-height: 94vh; }

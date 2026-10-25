@@ -15,8 +15,11 @@ export function signedMoney(cents: number | null | undefined): string {
 
 export const pct = (x: number | null | undefined): string => (x == null || !Number.isFinite(x) ? '—' : pctFmt.format(x));
 
-export const shortDate = (d: ISODate | string | null | undefined): string =>
-  d ? dateFmt.format(new Date(`${d.slice(0, 10)}T12:00:00`)) : '—';
+/** Fecha corta. Una fecha 'YYYY-MM-DD' se muestra tal cual; un instante ISO, en la zona horaria del dispositivo */
+export const shortDate = (d: ISODate | string | null | undefined): string => {
+  if (!d) return '—';
+  return dateFmt.format(d.length > 10 ? new Date(d) : new Date(`${d}T12:00:00`));
+};
 
 /** «12,50» o «12.50» → centavos; null si vacío; NaN si no es un número */
 export function parseMoney(input: string): number | null {

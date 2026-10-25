@@ -2,6 +2,16 @@
 
 Aplicación web instalable (PWA) para registrar y valorar una colección de cartas Pokémon TCG. Funciona en el teléfono y en el computador, guarda los datos en el propio dispositivo y no requiere servidor ni cuentas.
 
+## Pantallas
+
+Capturas con datos de demostración: cartas reales del catálogo de TCGdex, precios ilustrativos y arte de carta sustituido por marcadores.
+
+![Pantallas en teléfono](docs/capturas/Carpeta-TCG_pantallas_telefono.png)
+
+![Tema oscuro y primera apertura](docs/capturas/Carpeta-TCG_pantallas_oscuro.png)
+
+Escritorio: [panel](docs/capturas/escritorio-01-panel.png) · [colección](docs/capturas/escritorio-02-coleccion.png). Para regenerarlas: `CAPTURAS_DIR=./capturas npx playwright test capturas`.
+
 ## Qué hace
 
 - **Busca cartas** por nombre en español o inglés, o por su código (`swsh7-215`), en el catálogo abierto de TCGdex.
